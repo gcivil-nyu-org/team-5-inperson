@@ -11,10 +11,6 @@ const manhattanCenter = {
     lng: -74.0067231546892,
 };
 
-const markerPosition = {
-    lat: 40.71516924388475,
-    lng: -74.0067231546892,
-};
 
 export const GoogleMapContainer = () => {
     const [mapCenter, setMapCenter] = useState(manhattanCenter)
