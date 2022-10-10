@@ -3,28 +3,13 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
     width: '100vw',
-    height: '90vh'
-};
-
-const manhattanCenter = {
-    lat: 40.71516924388475,
-    lng: -74.0067231546892,
+    height: '70vh'
 };
 
 
-export const GoogleMapContainer = () => {
-    const [mapCenter, setMapCenter] = useState(manhattanCenter)
-    useEffect(() => {
-        // When component mounts
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(function (position) {
-                setMapCenter({
-                    lat: Number(position.coords.latitude),
-                    lng: Number(position.coords.longitude)
-                })
-            });
-        }
-    }, [])
+export const GoogleMapContainer = (props) => {
+    
+    const { data, mapCenter, waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -37,33 +22,48 @@ export const GoogleMapContainer = () => {
         setIsReallyLoaded(true);
     }, 200);
 
+    const codepoints = {
+        water: "\ue798",
+        wifi: "\ue63e",
+        bench: "\uefee",
+        toilet: "\ue63d",
+        parking: "\ue54f"
+    }
+
 
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
-            zoom={17}
+            zoom={16}
         >
             { /* Child components, such as markers, info windows, etc. */}
             {isReallyLoaded ?
                 <>
+                    {/* User location */}
                     <Marker
-                        // icon={"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"}
                         onLoad={() => { console.log('marker onload') }}
                         position={mapCenter} />
 
+                    {/* Amenities */}
+                    {/* codepoints from https://fonts.google.com/icons */}
+
+                    {/* { waterOn ? null
+
+                    : null } */}
+
                     <Marker
                         label={{
-                            text: "\ue798", // water codepoint from https://fonts.google.com/icons
-                            fontFamily: "Material Icons",
-                            color: "#ffffff",
+                            text: codepoints.water,
+                            fontFamily: "Material Icons", 
+                            color: "#ffffff", 
                             fontSize: "16px",
                         }}
                         position={{ lat: mapCenter.lat - 0.0003, lng: mapCenter.lng - 0.0019 }} />
 
                     <Marker
                         label={{
-                            text: "\ue63d", // bathroom codepoint from https://fonts.google.com/icons
+                            text: codepoints.toilet,
                             fontFamily: "Material Icons",
                             color: "#ffffff",
                             fontSize: "16px",
@@ -72,7 +72,7 @@ export const GoogleMapContainer = () => {
 
                     <Marker
                         label={{
-                            text: "\ue63e", // wifi codepoint from https://fonts.google.com/icons
+                            text: codepoints.wifi,
                             fontFamily: "Material Icons",
                             color: "#ffffff",
                             fontSize: "16px",
@@ -81,7 +81,7 @@ export const GoogleMapContainer = () => {
 
                     <Marker
                         label={{
-                            text: "\ue54f", // parking codepoint from https://fonts.google.com/icons
+                            text: codepoints.parking, 
                             fontFamily: "Material Icons",
                             color: "#ffffff",
                             fontSize: "16px",
@@ -90,7 +90,7 @@ export const GoogleMapContainer = () => {
 
                     <Marker
                         label={{
-                            text: "\uefee", // bench codepoint from https://fonts.google.com/icons
+                            text: codepoints.bench,
                             fontFamily: "Material Icons",
                             color: "#ffffff",
                             fontSize: "16px",
