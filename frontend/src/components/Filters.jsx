@@ -22,7 +22,7 @@ export const Filters = (props) => {
                         colorScheme='green'
                         aria-label='Search For Bathrooms'
                         icon={<FaRestroom />}
-                        isActive={toiletOn}
+                        isActive={!toiletOn}
                         onClick={() => setToiletOn(!toiletOn)}
                     />
 
@@ -32,7 +32,7 @@ export const Filters = (props) => {
                         colorScheme='green'
                         aria-label='Search For Water'
                         icon={<MdWaterDrop />}
-                        isActive={waterOn}
+                        isActive={!waterOn}
                         onClick={() => setWaterOn(!waterOn)}
                     />
 
@@ -42,7 +42,7 @@ export const Filters = (props) => {
                         colorScheme='green'
                         aria-label='Search For Parking'
                         icon={<FaParking />}
-                        isActive={parkingOn}
+                        isActive={!parkingOn}
                         onClick={() => setParkingOn(!parkingOn)}
                     />
 
@@ -51,7 +51,7 @@ export const Filters = (props) => {
                         colorScheme='green'
                         aria-label='Search for Benches'
                         icon={<MdOutlineChairAlt />}
-                        isActive={benchOn}
+                        isActive={!benchOn}
                         onClick={() => setBenchOn(!benchOn)}
                     />
 
@@ -61,7 +61,7 @@ export const Filters = (props) => {
                         colorScheme='green'
                         aria-label='Search for Wifi'
                         icon={<AiOutlineWifi />}
-                        isActive={wifiOn}
+                        isActive={!wifiOn}
                         onClick={() => setWifiOn(!wifiOn)}
                     />
                 </ButtonGroup>

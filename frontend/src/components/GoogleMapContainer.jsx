@@ -8,7 +8,7 @@ const containerStyle = {
 
 
 export const GoogleMapContainer = (props) => {
-    
+
     const { data, mapCenter, waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
 
     const { isLoaded } = useJsApiLoader({
@@ -30,6 +30,7 @@ export const GoogleMapContainer = (props) => {
         parking: "\ue54f"
     }
 
+    // let waterAmenities = []
 
     return isLoaded ? (
         <GoogleMap
@@ -48,54 +49,63 @@ export const GoogleMapContainer = (props) => {
                     {/* Amenities */}
                     {/* codepoints from https://fonts.google.com/icons */}
 
-                    {/* { waterOn ? null
 
-                    : null } */}
 
-                    <Marker
-                        label={{
-                            text: codepoints.water,
-                            fontFamily: "Material Icons", 
-                            color: "#ffffff", 
-                            fontSize: "16px",
-                        }}
-                        position={{ lat: mapCenter.lat - 0.0003, lng: mapCenter.lng - 0.0019 }} />
+                    {waterOn ?
+                        <Marker
+                            label={{
+                                text: codepoints.water,
+                                fontFamily: "Material Icons",
+                                color: "#ffffff",
+                                fontSize: "16px",
+                            }}
+                            position={{ lat: mapCenter.lat - 0.0003, lng: mapCenter.lng - 0.0019 }} />
+                        : null}
 
-                    <Marker
-                        label={{
-                            text: codepoints.toilet,
-                            fontFamily: "Material Icons",
-                            color: "#ffffff",
-                            fontSize: "16px",
-                        }}
-                        position={{ lat: mapCenter.lat + 0.00032, lng: mapCenter.lng + 0.003 }} />
+                    {toiletOn ?
+                        <Marker
+                            label={{
+                                text: codepoints.toilet,
+                                fontFamily: "Material Icons",
+                                color: "#ffffff",
+                                fontSize: "16px",
+                            }}
+                            position={{ lat: mapCenter.lat + 0.00032, lng: mapCenter.lng + 0.003 }} />
+                        : null}
 
-                    <Marker
-                        label={{
-                            text: codepoints.wifi,
-                            fontFamily: "Material Icons",
-                            color: "#ffffff",
-                            fontSize: "16px",
-                        }}
-                        position={{ lat: mapCenter.lat + 0.00088, lng: mapCenter.lng + 0.0016 }} />
+                    {wifiOn ?
+                        <Marker
+                            label={{
+                                text: codepoints.wifi,
+                                fontFamily: "Material Icons",
+                                color: "#ffffff",
+                                fontSize: "16px",
+                            }}
+                            position={{ lat: mapCenter.lat + 0.00088, lng: mapCenter.lng + 0.0016 }} />
+                        : null}
 
-                    <Marker
-                        label={{
-                            text: codepoints.parking, 
-                            fontFamily: "Material Icons",
-                            color: "#ffffff",
-                            fontSize: "16px",
-                        }}
-                        position={{ lat: mapCenter.lat + 0.00098, lng: mapCenter.lng - 0.0016 }} />
+                    {parkingOn ?
+                        <Marker
+                            label={{
+                                text: codepoints.parking,
+                                fontFamily: "Material Icons",
+                                color: "#ffffff",
+                                fontSize: "16px",
+                            }}
+                            position={{ lat: mapCenter.lat + 0.00098, lng: mapCenter.lng - 0.0016 }} />
+                        : null}
 
-                    <Marker
-                        label={{
-                            text: codepoints.bench,
-                            fontFamily: "Material Icons",
-                            color: "#ffffff",
-                            fontSize: "16px",
-                        }}
-                        position={{ lat: mapCenter.lat - 0.0015, lng: mapCenter.lng - 0.0006 }} />
+                    {benchOn ?
+                        <Marker
+                            label={{
+                                text: codepoints.bench,
+                                fontFamily: "Material Icons",
+                                color: "#ffffff",
+                                fontSize: "16px",
+                            }}
+                            position={{ lat: mapCenter.lat - 0.0015, lng: mapCenter.lng - 0.0006 }} />
+                        : null}
+
                 </>
                 : null}
         </GoogleMap>

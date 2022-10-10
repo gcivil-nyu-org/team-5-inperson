@@ -84,7 +84,7 @@ function App() {
 
         />
         <GoogleMapContainer
-          data={dummyData}
+          data={dummyData['data']}
           mapCenter={mapCenter}
           waterOn={waterOn}
           wifiOn={wifiOn}
