@@ -31,6 +31,12 @@
 
     ```npm start```
 
+7. To run front end test
+
+    ```cd frontend```
+
+    ```npm run tests```
+
 ## Prerequisits
 
 1. virtualenv
