@@ -27,7 +27,15 @@
 
     ```cd frontend```
 
+    ```npm install```
+
     ```npm start```
+
+7. To run front end test
+
+    ```cd frontend```
+
+    ```npm run tests```
 
 ## Prerequisits
 
