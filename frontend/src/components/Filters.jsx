@@ -1,8 +1,6 @@
 import React from 'react'
 import { IconButton, Box, ButtonGroup } from '@chakra-ui/react'
-import { FaToilet, FaParking, FaRestroom } from 'react-icons/fa'
-import { IoMdWater } from 'react-icons/io'
-import { GiParkBench } from 'react-icons/gi'
+import { FaParking, FaRestroom } from 'react-icons/fa'
 import { AiOutlineWifi } from 'react-icons/ai'
 import { MdOutlineChairAlt, MdWaterDrop } from 'react-icons/md'
 
