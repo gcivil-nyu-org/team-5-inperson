@@ -9,9 +9,8 @@ function BasicsNavbar() {
       <Container>
         <Navbar.Brand href="#Home">NYC Basics</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#Home">Home</Nav.Link>
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Nav className="ml-auto" >
             <Nav.Link href="#User-Profile">User Profile</Nav.Link>
             <NavDropdown title="Settings" id="basic-nav-dropdown">
               <NavDropdown.Item href="#Settings/Visuals">Visuals</NavDropdown.Item>
