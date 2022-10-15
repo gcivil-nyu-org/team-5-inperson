@@ -6,7 +6,8 @@ from .serializers import bench_modelSerializer, toilet_modelSerializer
 
 from rest_framework import generics
 
-
+latLimit = 0.005
+lngLimit = 0.01
 
 class water_List(generics.ListAPIView):
     
@@ -14,10 +15,10 @@ class water_List(generics.ListAPIView):
     def get_queryset(self):        
         pk1 = -1*self.kwargs['pk1']        
         pk2 = self.kwargs['pk2']
-        bottom_left_lng = pk1 - 0.04
-        bottom_left_lat = pk2 - 0.03
-        top_right_lng = pk1 + 0.04
-        top_right_lat = pk2 + 0.03 
+        bottom_left_lng = pk1 - lngLimit
+        bottom_left_lat = pk2 - latLimit
+        top_right_lng = pk1 + lngLimit
+        top_right_lat = pk2 + latLimit 
 
         water_all = water_model.objects.all()
 
@@ -58,10 +59,10 @@ class wifi_List(generics.ListAPIView):
     def get_queryset(self):        
         pk1 = -1*self.kwargs['pk1']        
         pk2 = self.kwargs['pk2']
-        bottom_left_lng = pk1 - 0.04
-        bottom_left_lat = pk2 - 0.03
-        top_right_lng = pk1 + 0.04
-        top_right_lat = pk2 + 0.03 
+        bottom_left_lng = pk1 - lngLimit
+        bottom_left_lat = pk2 - latLimit
+        top_right_lng = pk1 + lngLimit
+        top_right_lat = pk2 + latLimit 
 
         wifi_all = wifi_model.objects.all()
 
@@ -84,10 +85,10 @@ class parking_List(generics.ListAPIView):
     def get_queryset(self):        
         pk1 = -1*self.kwargs['pk1']        
         pk2 = self.kwargs['pk2']
-        bottom_left_lng = pk1 - 0.04
-        bottom_left_lat = pk2 - 0.03
-        top_right_lng = pk1 + 0.04
-        top_right_lat = pk2 + 0.03 
+        bottom_left_lng = pk1 - lngLimit
+        bottom_left_lat = pk2 - latLimit
+        top_right_lng = pk1 + lngLimit
+        top_right_lat = pk2 + latLimit 
 
         parking_all = parking_model.objects.all()
 
@@ -112,10 +113,10 @@ class bench_List(generics.ListAPIView):
     def get_queryset(self):        
         pk1 = -1*self.kwargs['pk1']        
         pk2 = self.kwargs['pk2']
-        bottom_left_lng = pk1 - 0.04
-        bottom_left_lat = pk2 - 0.03
-        top_right_lng = pk1 + 0.04
-        top_right_lat = pk2 + 0.03 
+        bottom_left_lng = pk1 - lngLimit
+        bottom_left_lat = pk2 - latLimit
+        top_right_lng = pk1 + lngLimit
+        top_right_lat = pk2 + latLimit 
 
         bench_all = bench_model.objects.all()
 
@@ -138,10 +139,10 @@ class toilet_List(generics.ListAPIView):
     def get_queryset(self):        
         pk1 = -1*self.kwargs['pk1']        
         pk2 = self.kwargs['pk2']
-        bottom_left_lng = pk1 - 0.04
-        bottom_left_lat = pk2 - 0.03
-        top_right_lng = pk1 + 0.04
-        top_right_lat = pk2 + 0.03 
+        bottom_left_lng = pk1 - lngLimit
+        bottom_left_lat = pk2 - latLimit
+        top_right_lng = pk1 + lngLimit
+        top_right_lat = pk2 + latLimit 
 
         toilet_all = toilet_model.objects.all()
 

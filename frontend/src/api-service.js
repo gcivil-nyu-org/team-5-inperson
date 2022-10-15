@@ -8,36 +8,36 @@ export class ApiService {
         }
     };
 
-    async getParking() {
-        const res = await fetch(`${this.baseUrl}/parking/`, this.requestConfig);
+    async getParking(mapCenter) {
+        const res = await fetch(`${this.baseUrl}/parking/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
         console.log(process.env);
         return data;
     }
 
-    async getWater() {
-        const res = await fetch(`${this.baseUrl}/water/`, this.requestConfig);
+    async getWater(mapCenter) {
+        const res = await fetch(`${this.baseUrl}/water/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
         console.log(process.env);
         return data;
     }
 
-    async getWifi() {
-        const res = await fetch(`${this.baseUrl}/wifi/`, this.requestConfig);
+    async getWifi(mapCenter) {
+        const res = await fetch(`${this.baseUrl}/wifi/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
         console.log(process.env);
         return data;
     }
 
-    async getToilet() {
-        const res = await fetch(`${this.baseUrl}/toilet/`, this.requestConfig);
+    async getToilet(mapCenter) {
+        const res = await fetch(`${this.baseUrl}/toilet/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
         console.log(process.env);
         return data;
     }
 
-    async getBench() {
-        const res = await fetch(`${this.baseUrl}/bench/`, this.requestConfig);
+    async getBench(mapCenter) {
+        const res = await fetch(`${this.baseUrl}/bench/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
         console.log(process.env);
         return data;

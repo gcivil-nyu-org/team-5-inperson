@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -14,7 +14,7 @@ export const GoogleMapContainer = (props) => {
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyAlY5HyxhDCzErdU_jPO38azUGZkejyeWM'
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     })
 
     const [isReallyLoaded, setIsReallyLoaded] = React.useState(false);
@@ -31,13 +31,11 @@ export const GoogleMapContainer = (props) => {
         parking: "\ue54f"
     }
 
-    // let waterAmenities = []
-
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
-            zoom={15}
+            zoom={16}
         >
             { /* Child components, such as markers, info windows, etc. */}
             {isReallyLoaded ?
@@ -51,7 +49,7 @@ export const GoogleMapContainer = (props) => {
                     {/* codepoints from https://fonts.google.com/icons */}
 
                     {waterOn ?
-                        waterAmenities.slice(0, 100).map((waterAmenity) => (
+                        waterAmenities.map((waterAmenity) => (
                             <Marker
                                 key={waterAmenity.id}
                                 label={{
@@ -65,7 +63,7 @@ export const GoogleMapContainer = (props) => {
                         : null}
 
                     {toiletOn ?
-                        toiletAmenities.slice(0, 10).map((toiletAmenity) => (
+                        toiletAmenities.map((toiletAmenity) => (
                             <Marker
                                 key={toiletAmenity.id}
                                 label={{
@@ -79,7 +77,7 @@ export const GoogleMapContainer = (props) => {
                         : null}
 
                     {wifiOn ?
-                        wifiAmenities.slice(0, 10).map((wifiAmenity) => (
+                        wifiAmenities.map((wifiAmenity) => (
                             <Marker
                                 key={wifiAmenity.id}
                                 label={{
@@ -93,7 +91,7 @@ export const GoogleMapContainer = (props) => {
                         : null}
 
                     {parkingOn ?
-                        parkingAmenities.slice(0, 10).map((parkingAmenity) => (
+                        parkingAmenities.map((parkingAmenity) => (
                             <Marker
                                 key={parkingAmenity.id}
                                 label={{
@@ -107,7 +105,7 @@ export const GoogleMapContainer = (props) => {
                         : null}
 
                     {benchOn ?
-                        benchAmenities.slice(0, 10).map((benchAmenity) => (
+                        benchAmenities.map((benchAmenity) => (
                             <Marker
                                 key={benchAmenity.id}
                                 label={{
