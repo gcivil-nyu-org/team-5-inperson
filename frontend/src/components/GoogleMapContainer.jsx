@@ -9,7 +9,8 @@ const containerStyle = {
 
 export const GoogleMapContainer = (props) => {
 
-    const { data, mapCenter, waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
+    const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities, mapCenter, 
+        waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -36,7 +37,7 @@ export const GoogleMapContainer = (props) => {
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
-            zoom={16}
+            zoom={15}
         >
             { /* Child components, such as markers, info windows, etc. */}
             {isReallyLoaded ?
@@ -49,61 +50,74 @@ export const GoogleMapContainer = (props) => {
                     {/* Amenities */}
                     {/* codepoints from https://fonts.google.com/icons */}
 
-
-
                     {waterOn ?
-                        <Marker
-                            label={{
-                                text: codepoints.water,
-                                fontFamily: "Material Icons",
-                                color: "#ffffff",
-                                fontSize: "16px",
-                            }}
-                            position={{ lat: mapCenter.lat - 0.0003, lng: mapCenter.lng - 0.0019 }} />
+                        waterAmenities.slice(0, 100).map((waterAmenity) => (
+                            <Marker
+                                key={waterAmenity.id}
+                                label={{
+                                    text: codepoints.water,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: waterAmenity.water_latitude, lng: waterAmenity.water_longitude }} />
+                        ))
                         : null}
 
                     {toiletOn ?
-                        <Marker
-                            label={{
-                                text: codepoints.toilet,
-                                fontFamily: "Material Icons",
-                                color: "#ffffff",
-                                fontSize: "16px",
-                            }}
-                            position={{ lat: mapCenter.lat + 0.00032, lng: mapCenter.lng + 0.003 }} />
+                        toiletAmenities.slice(0, 10).map((toiletAmenity) => (
+                            <Marker
+                                key={toiletAmenity.id}
+                                label={{
+                                    text: codepoints.toilet,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: toiletAmenity.toilet_latitude, lng: toiletAmenity.toilet_longitude }} />
+                        ))
                         : null}
 
                     {wifiOn ?
-                        <Marker
-                            label={{
-                                text: codepoints.wifi,
-                                fontFamily: "Material Icons",
-                                color: "#ffffff",
-                                fontSize: "16px",
-                            }}
-                            position={{ lat: mapCenter.lat + 0.00088, lng: mapCenter.lng + 0.0016 }} />
+                        wifiAmenities.slice(0, 10).map((wifiAmenity) => (
+                            <Marker
+                                key={wifiAmenity.id}
+                                label={{
+                                    text: codepoints.wifi,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: wifiAmenity.wifi_latitude, lng: wifiAmenity.wifi_longitude }} />
+                        ))
                         : null}
 
                     {parkingOn ?
-                        <Marker
-                            label={{
-                                text: codepoints.parking,
-                                fontFamily: "Material Icons",
-                                color: "#ffffff",
-                                fontSize: "16px",
-                            }}
-                            position={{ lat: mapCenter.lat + 0.00098, lng: mapCenter.lng - 0.0016 }} />
+                        parkingAmenities.slice(0, 10).map((parkingAmenity) => (
+                            <Marker
+                                key={parkingAmenity.id}
+                                label={{
+                                    text: codepoints.parking,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: parkingAmenity.parking_latitude, lng: parkingAmenity.parking_longitude }} />
+                        ))
                         : null}
 
                     {benchOn ?
-                        <Marker
-                            label={{
-                                text: codepoints.bench,
-                                fontFamily: "Material Icons",
-                                color: "#ffffff",
-                                fontSize: "16px",
-                            }}
-                            position={{ lat: mapCenter.lat - 0.0015, lng: mapCenter.lng - 0.0006 }} />
+                        benchAmenities.slice(0, 10).map((benchAmenity) => (
+                            <Marker
+                                key={benchAmenity.id}
+                                label={{
+                                    text: codepoints.bench,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: benchAmenity.bench_latitude, lng: benchAmenity.bench_longitude }} />
+                        ))
                         : null}
 
                 </>
