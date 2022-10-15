@@ -35,14 +35,13 @@ export const GoogleMapContainer = (props) => {
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
-            zoom={16}
+            zoom={17}
         >
             { /* Child components, such as markers, info windows, etc. */}
             {isReallyLoaded ?
                 <>
                     {/* User location */}
                     <Marker
-                        onLoad={() => { console.log('marker onload') }}
                         position={mapCenter} />
 
                     {/* Amenities */}

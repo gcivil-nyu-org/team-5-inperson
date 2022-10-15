@@ -11,35 +11,30 @@ export class ApiService {
     async getParking(mapCenter) {
         const res = await fetch(`${this.baseUrl}/parking/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
-        console.log(process.env);
         return data;
     }
 
     async getWater(mapCenter) {
         const res = await fetch(`${this.baseUrl}/water/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
-        console.log(process.env);
         return data;
     }
 
     async getWifi(mapCenter) {
         const res = await fetch(`${this.baseUrl}/wifi/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
-        console.log(process.env);
         return data;
     }
 
     async getToilet(mapCenter) {
         const res = await fetch(`${this.baseUrl}/toilet/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
-        console.log(process.env);
         return data;
     }
 
     async getBench(mapCenter) {
         const res = await fetch(`${this.baseUrl}/bench/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);
         const data = await res.json();
-        console.log(process.env);
         return data;
     }
 }
