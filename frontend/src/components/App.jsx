@@ -3,6 +3,8 @@ import { GoogleMapContainer } from './GoogleMapContainer';
 import { Filters } from './Filters';
 import { ChakraProvider, Heading } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import "bootstrap/dist/css/bootstrap.min.css";
+import BasicsNavbar from "./navigation/Navbar.jsx";
 
 const defaultCenter = {
   lat: 40.73122901747168,
@@ -68,6 +70,7 @@ function App() {
 
   return (
     <div className="app">
+      <div> <BasicsNavbar /></div>
       <ChakraProvider>
         <Heading>NYC Basics</Heading>
         <Filters
