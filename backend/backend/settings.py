@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-*s62_zi-k=3ys38hfsh4zi4d(ctav0f6uig7p^mjh7bx5+aq-o
 DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1"]
-
+# add aws cname here after green eb status
 
 # Application definition
 
@@ -127,14 +127,14 @@ USE_TZ = True
 #/home/suyash/team-5-inperson/backend/NycBasics/static
 #STATIC_ROOT = '/home/suyash/team-5-inperson/backend/backend/static'
 #'/home/django/django_project/django_project/static'
-STATIC_ROOT = os.path.join(BASE_DIR, 'backend/static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/build/static/')
 
 STATIC_URL = '/static/'
-
+"""
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/build/static'),
 ]
-
+"""
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -143,3 +143,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
 ]
+#may need to add aws eb cname here above
