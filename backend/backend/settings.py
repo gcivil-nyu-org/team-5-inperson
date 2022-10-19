@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-*s62_zi-k=3ys38hfsh4zi4d(ctav0f6uig7p^mjh7bx5+aq-o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["127.0.0.1","nyc5.ml","nyc5-env.eba-rnrfjpuj.us-west-2.elasticbeanstalk.com"]
+# add aws cname here after green eb status
 
 # Application definition
 
@@ -60,7 +60,9 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'frontend/build'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,17 +127,22 @@ USE_TZ = True
 #/home/suyash/team-5-inperson/backend/NycBasics/static
 #STATIC_ROOT = '/home/suyash/team-5-inperson/backend/backend/static'
 #'/home/django/django_project/django_project/static'
-STATIC_ROOT = os.path.join(BASE_DIR, 'backend/static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/build/static/')
 
-STATIC_URL = '/static/'
-
-
-
+STATIC_URL = 'static/'
+"""
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend/build/static'),
+]
+"""
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+     'http://localhost:3000',
+     "http://nyc5-env.eba-rnrfjpuj.us-west-2.elasticbeanstalk.com",
+     "http://nyc5.ml"
 ]
+#may need to add aws eb cname here above

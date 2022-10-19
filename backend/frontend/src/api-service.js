@@ -1,6 +1,13 @@
 export class ApiService {
     constructor() {
-        this.baseUrl = 'http://127.0.0.1:8000/NycBasics/api'
+        if (window.location.hostname === 'localhost'){
+            this.baseUrl = 'http://127.0.0.1:8000/NycBasics/api'
+        }
+        else{
+            this.baseUrl = window.location.href + 'NycBasics/api'
+        }
+        //this.baseUrl = 'http://127.0.0.1:8000/NycBasics/api'
+        //this.baseUrl = 'http://nycbasic-env.eba-6g5b2mji.us-east-1.elasticbeanstalk.com//NycBasics/api'
         this.requestConfig = {
             headers: {
                 'Content-Type': 'application/json',
