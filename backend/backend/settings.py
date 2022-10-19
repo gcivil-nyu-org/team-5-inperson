@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*s62_zi-k=3ys38hfsh4zi4d(ctav0f6uig7p^mjh7bx5+aq-o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1","nycbasic-env.eba-6g5b2mji.us-east-1.elasticbeanstalk.com"]
+ALLOWED_HOSTS = ["127.0.0.1","nyc5.ml","nyc5-env.eba-rnrfjpuj.us-west-2.elasticbeanstalk.com"]
 # add aws cname here after green eb status
 
 # Application definition
@@ -142,6 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
-     "http://nycbasic-env.eba-6g5b2mji.us-east-1.elasticbeanstalk.com"
+     "http://nyc5-env.eba-rnrfjpuj.us-west-2.elasticbeanstalk.com",
+     "http://nyc5.ml"
 ]
 #may need to add aws eb cname here above
