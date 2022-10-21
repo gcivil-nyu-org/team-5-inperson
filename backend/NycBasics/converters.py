@@ -8,13 +8,11 @@ class FloatUrlParameterConverter:
     def to_url(self, value):
         return str(value)
 """
-
-
 class FloatUrlParameterConverter:
-    regex = "[\d\.\d]+"
+    regex = '[\d\.\d]+'
 
     def to_python(self, value):
         return float(value)
 
     def to_url(self, value):
-        return "{}".format(value)
+        return '{}'.format(value)
