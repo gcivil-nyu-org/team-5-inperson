@@ -1,3 +1,7 @@
+![Travis_Build](https://img.shields.io/travis/gcivil-nyu-org/team-5-inperson/develop)
+
+[![Coverage Status](https://coveralls.io/repos/github/gcivil-nyu-org/team-5-inperson/badge.svg?branch=develop)](https://coveralls.io/github/gcivil-nyu-org/team-5-inperson?branch=develop)
+
 # NYC Basics
 
 ## Guidelines
