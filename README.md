@@ -31,7 +31,7 @@
 
 6. To run front end test
 
-    ```cd frontend```
+    ```cd backend/frontend```
 
-    ```npm run tests```
+    ```npm run test```
 
