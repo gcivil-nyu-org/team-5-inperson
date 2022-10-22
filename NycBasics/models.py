@@ -15,6 +15,7 @@ class water_model(models.Model):
     water_Latitude = models.FloatField(null=True)
     water_Longitude = models.FloatField(null=True)
     """
+
     def __str__(self):
         return (
             self.name
@@ -45,6 +46,7 @@ class toilet_model(models.Model):
     toilet_Longitude = models.FloatField(null=True)
     toilet_place_id = models.CharField(max_length = 10000, null=True)   
     """
+
     def __str__(self):
         return (
             self.name
@@ -62,7 +64,6 @@ class toilet_model(models.Model):
             + str(self.toilet_Latitude)
         )
         """
-        
 
 
 class wifi_model(models.Model):
@@ -116,6 +117,7 @@ class parking_model(models.Model):
     parking_Latitude = models.FloatField(null=True) 
     parking_Longitude = models.FloatField(null=True)
     """
+
     def __str__(self):
         return (
             self.name
@@ -147,6 +149,7 @@ class bench_model(models.Model):
     bench_Latitude = models.FloatField(null=True)
     bench_Longitude = models.FloatField(null=True)
     """
+
     def __str__(self):
         return (
             self.name
