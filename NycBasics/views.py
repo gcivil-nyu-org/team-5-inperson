@@ -188,3 +188,28 @@ class toilet_List(generics.ListAPIView):
         return narrowed_queryset
 
     serializer_class = toilet_modelSerializer
+
+
+class water_amenity_detail(generics.RetrieveAPIView):
+    queryset = water_model.objects.all()
+    serializer_class = water_modelSerializer
+
+
+class wifi_amenity_detail(generics.RetrieveAPIView):
+    queryset = wifi_model.objects.all()
+    serializer_class = wifi_modelSerializer
+
+
+class bench_amenity_detail(generics.RetrieveAPIView):
+    queryset = bench_model.objects.all()
+    serializer_class = bench_modelSerializer
+
+
+class toilet_amenity_detail(generics.RetrieveAPIView):
+    queryset = toilet_model.objects.all()
+    serializer_class = toilet_modelSerializer
+
+
+class parking_amenity_detail(generics.RetrieveAPIView):
+    queryset = parking_model.objects.all()
+    serializer_class = parking_modelSerializer
