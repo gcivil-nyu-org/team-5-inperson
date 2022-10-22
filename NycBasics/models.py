@@ -6,12 +6,12 @@ class water_model(models.Model):
     water_latitude = models.FloatField(null=True)
     water_longitude = models.FloatField(null=True)
     """
-    water_FountainType = models.CharField(max_length = 10000, null=True)
-    water_the_geom = models.CharField(max_length = 10000, null=True)
-    water_Location = models.CharField(max_length = 10000, null=True)
-    water_Place = models.CharField(max_length = 10000, null=True)
+    water_FountainType = models.CharField(max_length = 1856160, null=True)
+    water_the_geom = models.CharField(max_length = 1856160, null=True)
+    water_Location = models.CharField(max_length = 1856160, null=True)
+    water_Place = models.CharField(max_length = 1856160, null=True)
     water_BoroCode = models.IntegerField(null=True)
-    water_Availability = models.CharField(max_length = 10000, null=True)
+    water_Availability = models.CharField(max_length = 1856160, null=True)
     water_Latitude = models.FloatField(null=True)
     water_Longitude = models.FloatField(null=True)
     """
@@ -41,10 +41,10 @@ class toilet_model(models.Model):
     toilet_longitude = models.FloatField(null=True)
     """
     toilet_BoroCode = models.IntegerField(null=True)
-    toilet_open_year_round = models.CharField(max_length = 10000, null=True)
+    toilet_open_year_round = models.CharField(max_length = 1856160, null=True)
     toilet_Latitude = models.FloatField(null=True)
     toilet_Longitude = models.FloatField(null=True)
-    toilet_place_id = models.CharField(max_length = 10000, null=True)   
+    toilet_place_id = models.CharField(max_length = 1856160, null=True)   
     """
 
     def __str__(self):
@@ -71,18 +71,18 @@ class wifi_model(models.Model):
     wifi_latitude = models.FloatField(null=True)
     wifi_longitude = models.FloatField(null=True)
     """
-    wifi_the_geom = models.CharField(max_length = 10000, null=True)
-    wifi_Type = models.CharField(max_length = 5000, null=True)
-    wifi_PROVIDER = models.CharField(max_length = 5000, null=True)
-    wifi_NAME = models.CharField(max_length = 5000, null=True)
+    wifi_the_geom = models.CharField(max_length = 1856160, null=True)
+    wifi_Type = models.CharField(max_length = 1856160, null=True)
+    wifi_PROVIDER = models.CharField(max_length = 1856160, null=True)
+    wifi_NAME = models.CharField(max_length = 1856160, null=True)
     wifi_Latitude = models.FloatField(null=True)
     wifi_Longitude = models.FloatField(null=True)
     wifi_X = models.FloatField(null=True)
     wifi_Y = models.FloatField(null=True)
-    wifi_Location = models.CharField(max_length = 10000, null=True)
-    wifi_Remarks = models.CharField(max_length = 10000, null=True)
-    wifi_SSID = models.CharField(max_length = 10000, null=True)
-    wifi_SourceId = models.CharField(max_length = 10000, null=True)
+    wifi_Location = models.CharField(max_length = 1856160, null=True)
+    wifi_Remarks = models.CharField(max_length = 1856160, null=True)
+    wifi_SSID = models.CharField(max_length = 1856160, null=True)
+    wifi_SourceId = models.CharField(max_length = 1856160, null=True)
     wifi_BoroCode = models.IntegerField(null=True)
     """
 
@@ -110,8 +110,8 @@ class parking_model(models.Model):
     parking_latitude = models.FloatField(null=True)
     parking_longitude = models.FloatField(null=True)
     """
-    parking_the_geom = models.CharField(max_length = 10000, null=True)
-    parking_STATUS = models.CharField(max_length = 10000, null=True)
+    parking_the_geom = models.CharField(max_length = 1856160, null=True)
+    parking_STATUS = models.CharField(max_length = 1856160, null=True)
     parking_SHAPE_Leng = models.FloatField(null=True)
     parking_SHAPE_Area = models.FloatField(null=True)
     parking_Latitude = models.FloatField(null=True) 
@@ -142,10 +142,10 @@ class bench_model(models.Model):
     bench_latitude = models.FloatField(null=True)
     bench_longitude = models.FloatField(null=True)
     """
-    bench_the_geom = models.CharField(max_length = 5000, null=True)
+    bench_the_geom = models.CharField(max_length = 1856160, null=True)
     bench_BoroCode = models.IntegerField(null=True)
-    bench_Category = models.CharField(max_length = 5000, null=True)
-    bench_BenchType = models.CharField(max_length = 5000, null=True)
+    bench_Category = models.CharField(max_length = 1856160, null=True)
+    bench_BenchType = models.CharField(max_length = 1856160, null=True)
     bench_Latitude = models.FloatField(null=True)
     bench_Longitude = models.FloatField(null=True)
     """
@@ -186,6 +186,7 @@ class amenity_model(models.Model):
         ('toilet','toilet'),
         ('wifi','wifi'),
         ('parking','parking'),
+        
         ('bench','bench'),
     )
     amenity_type = models.CharField(max_length=200,null=True,choices=category)
