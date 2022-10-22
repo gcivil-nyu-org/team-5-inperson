@@ -5,6 +5,8 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - pip install black
+  - pip install flake8
   - pip install coveralls
   - pip install coverage
 
@@ -21,14 +23,3 @@ after_script:
 
 after_success:
   coveralls
-
-deploy:
-  - provider: elasticbeanstalk
-    access_key_id: $ACCESSKEYID
-    secret_access_key: $SECRETACCESSKEY
-    region: 'us-west-2'
-    app: 'nycbasics-prod'
-    env: 'Nycbasicsprod-env'
-    bucket_name: 'elasticbeanstalk-us-east-1-529645924119'
-    on:
-      all_branches: true
