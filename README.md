@@ -1,3 +1,8 @@
+![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/aws-travis)
+
+![Coverage Status](https://coveralls.io/repos/github/gcivil-nyu-org/team-5-inperson/badge.svg?branch=aws-eb-travis)
+
+
 # NYC Basics
 
 ## Guidelines

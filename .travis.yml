@@ -4,7 +4,13 @@ python:
   - 3.8
 
 install:
-  - pip install -r requirements.txt  
+  - cd backend 
+  - pip install -r requirements.txt
+  - cd frontend
+  - npm install
+  - nvm install 16.18.0
+  - REACT_APP_GOOGLE_MAPS_API_KEY='$REACT_APP_GOOGLE_MAPS_API_KEY' npm run build
+  - cd ..
 
 before_script:
   - python manage.py migrate
@@ -19,3 +25,14 @@ after_script:
 
 after_success:
   coveralls
+
+deploy:
+  - provider: elasticbeanstalk
+    access_key_id: $ACCESSKEYID
+    secret_access_key: $SECRETACCESSKEY
+    region: 'us-west-2'
+    app: 'backend-staging'
+    env: 'backend-staging'
+    bucket_name: 'elasticbeanstalk-us-west-2-838747782724'
+    on:
+      all_branches: true
