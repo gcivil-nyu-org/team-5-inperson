@@ -2,7 +2,6 @@
 
 ![Coverage Status](https://coveralls.io/repos/github/gcivil-nyu-org/team-5-inperson/badge.svg?branch=develop)
 
-
 # NYC Basics
 
 ## Guidelines
