@@ -52,26 +52,13 @@ function App() {
 
       },
         function (error) {
-          if (error.code === error.PERMISSION_DENIED){
+          if (error.code === error.PERMISSION_DENIED) {
             console.log("Location Access Rejected")
-            AccesDenied()
           }
 
         });
     }
   }, [])
-
-  function AccesDenied() {
-    return (
-      <Alert status='error'>
-        <AlertIcon />
-        <AlertTitle>Location Access Rejected</AlertTitle>
-        <AlertDescription>Please provide location access.</AlertDescription>
-      </Alert>
-    )
-
-
-  }
 
   useEffect(() => {
     async function getAmenities() {
