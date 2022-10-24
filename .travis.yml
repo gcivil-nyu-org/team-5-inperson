@@ -9,7 +9,7 @@ install:
   - cd frontend
   - npm install
   - nvm install 16.18.0
-  - REACT_APP_GOOGLE_MAPS_API_KEY='$REACT_APP_GOOGLE_MAPS_API_KEY' npm run build
+  - npm run build
   - cd ..
 
 before_script:
