@@ -6,16 +6,22 @@ const containerStyle = {
     height: '70vh'
 };
 
+export const amenityIconCodes = {
+    water: "\ue798",
+    wifi: "\ue63e",
+    bench: "\uefee",
+    toilet: "\ue63d",
+    parking: "\ue54f"
+}
 
 export const GoogleMapContainer = (props) => {
-
-    const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities, mapCenter, 
+    const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities, mapCenter,
         waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-    })
+    });
 
     const [isReallyLoaded, setIsReallyLoaded] = React.useState(false);
 
@@ -23,13 +29,6 @@ export const GoogleMapContainer = (props) => {
         setIsReallyLoaded(true);
     }, 200);
 
-    const codepoints = {
-        water: "\ue798",
-        wifi: "\ue63e",
-        bench: "\uefee",
-        toilet: "\ue63d",
-        parking: "\ue54f"
-    }
 
     return isLoaded ? (
         <GoogleMap
@@ -42,17 +41,21 @@ export const GoogleMapContainer = (props) => {
                 <>
                     {/* User location */}
                     <Marker
-                        position={mapCenter} />
+                        dataTestId='user-location-marker'
+                        position={mapCenter}
+                    />
+
 
                     {/* Amenities */}
-                    {/* codepoints from https://fonts.google.com/icons */}
+                    {/* amenityIconCodes from https://fonts.google.com/icons */}
 
                     {waterOn ?
                         waterAmenities.map((waterAmenity) => (
                             <Marker
+                                dataTestId='water-marker'
                                 key={waterAmenity.id}
                                 label={{
-                                    text: codepoints.water,
+                                    text: amenityIconCodes.water,
                                     fontFamily: "Material Icons",
                                     color: "#ffffff",
                                     fontSize: "16px",
@@ -64,9 +67,10 @@ export const GoogleMapContainer = (props) => {
                     {toiletOn ?
                         toiletAmenities.map((toiletAmenity) => (
                             <Marker
+                                dataTestId='toilet-marker'
                                 key={toiletAmenity.id}
                                 label={{
-                                    text: codepoints.toilet,
+                                    text: amenityIconCodes.toilet,
                                     fontFamily: "Material Icons",
                                     color: "#ffffff",
                                     fontSize: "16px",
@@ -78,9 +82,10 @@ export const GoogleMapContainer = (props) => {
                     {wifiOn ?
                         wifiAmenities.map((wifiAmenity) => (
                             <Marker
+                                dataTestId='wifi-marker'
                                 key={wifiAmenity.id}
                                 label={{
-                                    text: codepoints.wifi,
+                                    text: amenityIconCodes.wifi,
                                     fontFamily: "Material Icons",
                                     color: "#ffffff",
                                     fontSize: "16px",
@@ -92,9 +97,10 @@ export const GoogleMapContainer = (props) => {
                     {parkingOn ?
                         parkingAmenities.map((parkingAmenity) => (
                             <Marker
+                                dataTestId='parking-marker'
                                 key={parkingAmenity.id}
                                 label={{
-                                    text: codepoints.parking,
+                                    text: amenityIconCodes.parking,
                                     fontFamily: "Material Icons",
                                     color: "#ffffff",
                                     fontSize: "16px",
@@ -106,9 +112,10 @@ export const GoogleMapContainer = (props) => {
                     {benchOn ?
                         benchAmenities.map((benchAmenity) => (
                             <Marker
+                                dataTestId='bench-marker'
                                 key={benchAmenity.id}
                                 label={{
-                                    text: codepoints.bench,
+                                    text: amenityIconCodes.bench,
                                     fontFamily: "Material Icons",
                                     color: "#ffffff",
                                     fontSize: "16px",
@@ -122,4 +129,3 @@ export const GoogleMapContainer = (props) => {
         </GoogleMap>
     ) : <>Loading</>
 }
-
