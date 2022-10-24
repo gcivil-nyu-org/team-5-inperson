@@ -19,7 +19,7 @@ class Command(BaseCommand):
         bench_model.objects.all().delete()
         toilet_model.objects.all().delete()
 
-        with open("watermod.csv", "r") as csv_file:
+        with open("fountainmod.csv", "r") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=",")
             for row in csv_reader:
                 if row[0] != "":
