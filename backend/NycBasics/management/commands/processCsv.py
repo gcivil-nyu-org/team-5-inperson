@@ -19,7 +19,7 @@ class Command(BaseCommand):
         bench_model.objects.all().delete()
         toilet_model.objects.all().delete()
 
-        with open("water.csv", "r") as csv_file:
+        with open("watermod.csv", "r") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=",")
             for row in csv_reader:
                 if row[0] != "":
@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
             csv_file.close()
 
-        with open("wifi.csv", "r") as csv_file1:
+        with open("wifimod.csv", "r") as csv_file1:
             csv_reader = csv.reader(csv_file1, delimiter=",")
             for row in csv_reader:
                 if row[0] != "":
@@ -39,7 +39,7 @@ class Command(BaseCommand):
 
             csv_file1.close()
 
-        with open("parking.csv", "r") as csv_file2:
+        with open("parkingmod.csv", "r") as csv_file2:
             csv_reader = csv.reader(csv_file2, delimiter=",")
             for row in csv_reader:
                 if row[0] != "":
@@ -49,7 +49,7 @@ class Command(BaseCommand):
 
             csv_file2.close()
 
-        with open("bench.csv", "r") as csv_file3:
+        with open("benchmod.csv", "r") as csv_file3:
             csv_reader = csv.reader(csv_file3, delimiter=",")
             for row in csv_reader:
                 if row[0] != "":
@@ -59,7 +59,7 @@ class Command(BaseCommand):
 
             csv_file3.close()
 
-        with open("toilet.csv", "r") as csv_file4:
+        with open("toiletmod.csv", "r") as csv_file4:
             csv_reader = csv.reader(csv_file4, delimiter=",")
             for row in csv_reader:
                 if row[0] != "":
