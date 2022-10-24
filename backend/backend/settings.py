@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -34,7 +33,7 @@ ALLOWED_HOSTS = [
     "ec2-35-167-162-168.us-west-2.compute.amazonaws.com",
 ]
 # add aws cname here after green eb status
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -143,6 +142,8 @@ STATICFILES_DIRS = [
 """
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
