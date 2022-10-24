@@ -6,12 +6,6 @@ import React, { useEffect, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import BasicsNavbar from "./navigation/Navbar.jsx";
 import { ApiService } from '../api-service';
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-} from '@chakra-ui/react'
 
 const defaultCenter = {
   lat: 40.73122901747168,
