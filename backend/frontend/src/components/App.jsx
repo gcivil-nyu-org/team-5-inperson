@@ -6,6 +6,12 @@ import React, { useEffect, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import BasicsNavbar from "./navigation/Navbar.jsx";
 import { ApiService } from '../api-service';
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from '@chakra-ui/react'
 
 const defaultCenter = {
   lat: 40.73122901747168,
@@ -46,12 +52,26 @@ function App() {
 
       },
         function (error) {
-          if (error.code === error.PERMISSION_DENIED) {
+          if (error.code === error.PERMISSION_DENIED){
             console.log("Location Access Rejected")
+            AccesDenied()
           }
+
         });
     }
   }, [])
+
+  function AccesDenied() {
+    return (
+      <Alert status='error'>
+        <AlertIcon />
+        <AlertTitle>Location Access Rejected</AlertTitle>
+        <AlertDescription>Please provide location access.</AlertDescription>
+      </Alert>
+    )
+
+
+  }
 
   useEffect(() => {
     async function getAmenities() {

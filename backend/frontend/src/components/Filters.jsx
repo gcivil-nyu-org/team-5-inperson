@@ -16,7 +16,6 @@ export const Filters = (props) => {
 
                     {/* Toilets */}
                     <IconButton
-                        data-testid='toilet-filter-btn'
                         // colorScheme='cyan'
                         colorScheme='green'
                         aria-label='Search For Bathrooms'
@@ -27,7 +26,6 @@ export const Filters = (props) => {
 
                     {/* Water */}
                     <IconButton
-                        data-testid='water-filter-btn'
                         // colorScheme='blue'
                         colorScheme='green'
                         aria-label='Search For Water'
@@ -38,7 +36,6 @@ export const Filters = (props) => {
 
                     {/* Parking */}
                     <IconButton
-                        data-testid='parking-filter-btn'
                         // colorScheme='gray'
                         colorScheme='green'
                         aria-label='Search For Parking'
@@ -49,7 +46,6 @@ export const Filters = (props) => {
 
                     {/* Benches */}
                     <IconButton
-                        data-testid='bench-filter-btn'
                         colorScheme='green'
                         aria-label='Search for Benches'
                         icon={<MdOutlineChairAlt />}
@@ -59,7 +55,6 @@ export const Filters = (props) => {
 
                     {/* Wifi */}
                     <IconButton
-                        data-testid='wifi-filter-btn'
                         // colorScheme='blackAlpha'
                         colorScheme='green'
                         aria-label='Search for Wifi'
@@ -70,6 +65,8 @@ export const Filters = (props) => {
                 </ButtonGroup>
             </Box>
         </div>
+
+
 
     )
 }

@@ -19,7 +19,6 @@ script:
   - python -m black . --check
   - python -m flake8 . --ignore=E503,W291,F401,F403,F405,F841,E501,W503,E231,W605,W293,E265 --max-line-length=90
   - python -m coverage run --source='.' manage.py test
-  - cd frontend && npm run test:coverage
 
 after_script:
   - coveralls
