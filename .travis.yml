@@ -26,16 +26,16 @@ after_script:
 
 after_success:
   coveralls
-/*
-deploy:
-  - provider: elasticbeanstalk
-    access_key_id: $ACCESSKEYID
-    secret_access_key: $SECRETACCESSKEY
-    region: 'us-west-2'
-    app: 'backend-staging'
-    env: 'backend-staging'
-    bucket_name: 'elasticbeanstalk-us-west-2-838747782724'
-    on:
-      all_branches: true
- */
+
+//deploy:
+//  - provider: elasticbeanstalk
+//    access_key_id: $ACCESSKEYID
+//    secret_access_key: $SECRETACCESSKEY
+//    region: 'us-west-2'
+//    app: 'backend-staging'
+//    env: 'backend-staging'
+//    bucket_name: 'elasticbeanstalk-us-west-2-838747782724'
+//    on:
+//      all_branches: true
+
    
