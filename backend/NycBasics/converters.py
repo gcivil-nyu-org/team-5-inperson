@@ -49,8 +49,7 @@ models.py commented code
             + str(self.water_Longitude)
             + "_lat_"
             + str(self.water_Latitude)
-        )
-   
+            )
     toilet_BoroCode = models.IntegerField(null=True)
     toilet_open_year_round = models.CharField(max_length = 10000, null=True)
     toilet_Latitude = models.FloatField(null=True)

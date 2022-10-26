@@ -130,7 +130,7 @@ USE_TZ = True
 
 # /home/suyash/team-5-inperson/backend/NycBasics/static
 # STATIC_ROOT = '/home/suyash/team-5-inperson/backend/backend/static'
-#'/home/django/django_project/django_project/static'
+# '/home/django/django_project/django_project/static'
 STATIC_ROOT = os.path.join(BASE_DIR, "frontend/build/static/")
 
 STATIC_URL = "static/"
