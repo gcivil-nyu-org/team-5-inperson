@@ -17,7 +17,7 @@ before_script:
 
 script:
   - python -m black . --check
-  - python -m flake8 . --ignore=E503,W291,F401,F403,F405,F841,E501,W503,E231,W605,W293,E265 --max-line-length=90
+  - python -m flake8 . --ignore=E503,W291,F401,F403,F405,F841,E501,W503,E231,W605,W293,E265 
   - python -m coverage run --source='.' manage.py test
 
 after_script:
@@ -26,15 +26,23 @@ after_script:
 after_success:
   coveralls
 
-//deploy:
-//  - provider: elasticbeanstalk
-//    access_key_id: $ACCESSKEYID
-//    secret_access_key: $SECRETACCESSKEY
-//    region: 'us-west-2'
-//    app: 'backend-staging'
-//    env: 'backend-staging'
-//    bucket_name: 'elasticbeanstalk-us-west-2-838747782724'
-//    on:
-//      all_branches: true
+deploy:
+  - provider: elasticbeanstalk
+    access_key_id: $ACCESSKEYID
+    secret_access_key: $SECRETACCESSKEY
+    region: ‘us-west-2’
+    app: ‘NYC-Basics’
+    env: ‘NYCbasics-staging’
+    bucket_name: ‘elasticbeanstalk-us-west-2-travis’
+    on:
+      branch: develop
 
-   
+  - provider: elasticbeanstalk
+    access_key_id: $ACCESSKEYID
+    secret_access_key: $SECRETACCESSKEY
+    region: ‘us-west-2’
+    app: ‘NYC-Basics’
+    env: ’NYCbasics-prod
+    bucket_name: ‘elasticbeanstalk-us-west-2-travis’
+    on:
+      branch: master
