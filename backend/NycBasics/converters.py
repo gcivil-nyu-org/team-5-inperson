@@ -27,7 +27,6 @@ class FloatUrlParameterConverter:
 
 
 models.py commented code
- 
     water_FountainType = models.CharField(max_length = 10000, null=True)
     water_the_geom = models.CharField(max_length = 10000, null=True)
     water_Location = models.CharField(max_length = 10000, null=True)
@@ -36,7 +35,6 @@ models.py commented code
     water_Availability = models.CharField(max_length = 10000, null=True)
     water_Latitude = models.FloatField(null=True)
     water_Longitude = models.FloatField(null=True)
-    
     def __str__(self):
         return (
             self.name
@@ -45,7 +43,6 @@ models.py commented code
             + "_lat_"
             + str(self.water_latitude)
         )
-   
         return (
             self.name
             + "_lng_"
@@ -123,8 +120,6 @@ models.py commented code
             + "_lat_"
             + str(self.parking_latitude)
         )
-    
-  
         return (
             self.name
             + "_lng_"
