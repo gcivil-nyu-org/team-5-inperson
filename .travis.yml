@@ -30,19 +30,19 @@ deploy:
   - provider: elasticbeanstalk
     access_key_id: $ACCESSKEYID
     secret_access_key: $SECRETACCESSKEY
-    region: ‘us-west-2’
-    app: ‘NYC-Basics’
-    env: ‘NYCbasics-staging’
-    bucket_name: ‘elasticbeanstalk-us-west-2-travis’
+    region: 'us-west-2'
+    app: 'NYC-Basics'
+    env: 'NYCbasics-staging'
+    bucket_name: 'elasticbeanstalk-us-west-2-travis'
     on:
       branch: develop
 
   - provider: elasticbeanstalk
     access_key_id: $ACCESSKEYID
     secret_access_key: $SECRETACCESSKEY
-    region: ‘us-west-2’
-    app: ‘NYC-Basics’
-    env: ’NYCbasics-prod'
-    bucket_name: ‘elasticbeanstalk-us-west-2-travis’
+    region: 'us-west-2'
+    app: 'NYC-Basics'
+    env: 'NYCbasics-prod'
+    bucket_name: 'elasticbeanstalk-us-west-2-travis'
     on:
       branch: master
