@@ -1,6 +1,20 @@
+
+Staging
+
+http://nycbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com/
+
 ![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/develop)
 
 ![Coverage](https://img.shields.io/coveralls/github/gcivil-nyu-org/team-5-inperson/develop)
+
+
+Production
+
+http://nycbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com/
+
+![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/master)
+
+![Coverage](https://img.shields.io/coveralls/github/gcivil-nyu-org/team-5-inperson/master)
 
 # NYC Basics
 
@@ -46,12 +60,4 @@
 1. virtualenv
 
     ```pip install virtualenv```
-    
-    
 
-## Deployment Setup ?
-Create setup.sh script to
-
-1. pip install
-2. install node, npm 
-3. npm install
