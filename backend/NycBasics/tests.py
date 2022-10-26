@@ -6,8 +6,12 @@ from NycBasics.views.listviews import (
     bench_List,
     parking_List,
     toilet_List,
+    water_model,
+    wifi_model,
+    parking_model,
+    bench_model,
+    toilet_model,
 )
-from models import water_model, wifi_model, parking_model, bench_model, toilet_model
 from rest_framework.test import APIClient
 
 """
