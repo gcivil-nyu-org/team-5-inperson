@@ -150,6 +150,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "http://nycbasics5.ga",
     "https://nycbasics5.ga",
-    "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com"
+    "https://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com"
 ]
 # may need to add aws eb cname here above
