@@ -42,7 +42,7 @@ deploy:
     secret_access_key: $SECRETACCESSKEY
     region: ‘us-west-2’
     app: ‘NYC-Basics’
-    env: ’NYCbasics-prod
+    env: ’NYCbasics-prod'
     bucket_name: ‘elasticbeanstalk-us-west-2-travis’
     on:
       branch: master
