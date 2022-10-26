@@ -50,7 +50,7 @@ class water_List(generics.ListAPIView):
             e
             for e in water_all
             if bottom_left_lng <= e.water_longitude <= top_right_lng
-            and bottom_left_lat <= e.water_latitude <= top_right_lat
+            and bottom_left_lat <= e.water_latitude <= top_right_lat  # noqa: W503
         ]
         print("\nNumber of water resources : " + str(len(narrowed_list)) + "\n")
 
@@ -97,7 +97,7 @@ class wifi_List(generics.ListAPIView):
             e
             for e in wifi_all
             if bottom_left_lng <= e.wifi_longitude <= top_right_lng
-            and bottom_left_lat <= e.wifi_latitude <= top_right_lat
+            and bottom_left_lat <= e.wifi_latitude <= top_right_lat  # noqa: W503
         ]
         print("\nNumber of wifi resources : " + str(len(narrowed_list)) + "\n")
 
@@ -131,7 +131,7 @@ class parking_List(generics.ListAPIView):
             e
             for e in parking_all
             if bottom_left_lng <= e.parking_longitude <= top_right_lng
-            and bottom_left_lat <= e.parking_latitude <= top_right_lat
+            and bottom_left_lat <= e.parking_latitude <= top_right_lat  # noqa: W503
         ]
         print("\nNumber of parking resources : " + str(len(narrowed_list)) + "\n")
 
@@ -165,7 +165,7 @@ class bench_List(generics.ListAPIView):
             e
             for e in bench_all
             if bottom_left_lng <= e.bench_longitude <= top_right_lng
-            and bottom_left_lat <= e.bench_latitude <= top_right_lat
+            and bottom_left_lat <= e.bench_latitude <= top_right_lat  # noqa: W503
         ]
         print("\nNumber of bench resources : " + str(len(narrowed_list)) + "\n")
 
@@ -199,7 +199,7 @@ class toilet_List(generics.ListAPIView):
             e
             for e in toilet_all
             if bottom_left_lng <= e.toilet_longitude <= top_right_lng
-            and bottom_left_lat <= e.toilet_latitude <= top_right_lat
+            and bottom_left_lat <= e.toilet_latitude <= top_right_lat  # noqa: W503
         ]
         print("\nNumber of restroom resources : " + str(len(narrowed_list)) + "\n")
 

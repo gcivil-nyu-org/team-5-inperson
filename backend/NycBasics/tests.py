@@ -35,16 +35,12 @@ class ApiTests(TestCase):
         request = factory.get("/NycBasics/api/water/40.0004/73.0004/")
 
         self.client = APIClient()
-        t1 = water_model.objects.create(
-            water_longitude=-73.0004, water_latitude=40.0004
-        )
-        t2 = water_model.objects.create(
-            water_longitude=-73.0003, water_latitude=40.0003
-        )
-        t3 = water_model.objects.create(
+        water_model.objects.create(water_longitude=-73.0004, water_latitude=40.0004)
+        water_model.objects.create(water_longitude=-73.0003, water_latitude=40.0003)
+        water_model.objects.create(
             water_longitude=-73.99765615667471, water_latitude=40.73031601946951
         )
-        t4 = water_model.objects.create(
+        water_model.objects.create(
             water_longitude=-73.99084611065203, water_latitude=40.728739273506626
         )
 
@@ -57,11 +53,6 @@ class ApiTests(TestCase):
         self.assertEqual(response.data[1]["id"], 4)
         self.assertEqual(response.data[1]["water_latitude"], 40.728739273506626)
         self.assertEqual(response.data[1]["water_longitude"], -73.99084611065203)
-        """
-        print((response.data[0]['id']))
-        print((response.data[0]['water_latitude']))
-        print((response.data[0]['water_longitude']))
-        """
 
     def test_bench_api(self):
         view = bench_List.as_view()
@@ -69,16 +60,12 @@ class ApiTests(TestCase):
         request = factory.get("/NycBasics/api/bench/40.0004/73.0004/")
 
         self.client = APIClient()
-        t1 = bench_model.objects.create(
-            bench_longitude=-73.0004, bench_latitude=40.0004
-        )
-        t2 = bench_model.objects.create(
-            bench_longitude=-73.0003, bench_latitude=40.0003
-        )
-        t3 = bench_model.objects.create(
+        bench_model.objects.create(bench_longitude=-73.0004, bench_latitude=40.0004)
+        bench_model.objects.create(bench_longitude=-73.0003, bench_latitude=40.0003)
+        bench_model.objects.create(
             bench_longitude=-73.99765615667471, bench_latitude=40.73031601946951
         )
-        t4 = bench_model.objects.create(
+        bench_model.objects.create(
             bench_longitude=-73.99084611065203, bench_latitude=40.728739273506626
         )
 
@@ -98,12 +85,12 @@ class ApiTests(TestCase):
         request = factory.get("/NycBasics/api/wifi/40.0004/73.0004/")
 
         self.client = APIClient()
-        t1 = wifi_model.objects.create(wifi_longitude=-73.0004, wifi_latitude=40.0004)
-        t2 = wifi_model.objects.create(wifi_longitude=-73.0003, wifi_latitude=40.0003)
-        t3 = wifi_model.objects.create(
+        wifi_model.objects.create(wifi_longitude=-73.0004, wifi_latitude=40.0004)
+        wifi_model.objects.create(wifi_longitude=-73.0003, wifi_latitude=40.0003)
+        wifi_model.objects.create(
             wifi_longitude=-73.97990920046949, wifi_latitude=40.694623000165095
         )
-        t4 = wifi_model.objects.create(
+        wifi_model.objects.create(
             wifi_longitude=-73.98607399979622, wifi_latitude=40.69665199978469
         )
 
@@ -123,16 +110,16 @@ class ApiTests(TestCase):
         request = factory.get("/NycBasics/api/parking/40.0004/73.0004/")
 
         self.client = APIClient()
-        t1 = parking_model.objects.create(
+        parking_model.objects.create(
             parking_longitude=-73.0007, parking_latitude=40.0007
         )
-        t2 = parking_model.objects.create(
+        parking_model.objects.create(
             parking_longitude=-73.0008, parking_latitude=40.0008
         )
-        t3 = parking_model.objects.create(
+        parking_model.objects.create(
             parking_longitude=-73.99765615667471, parking_latitude=40.73031601946951
         )
-        t4 = parking_model.objects.create(
+        parking_model.objects.create(
             parking_longitude=-73.99084611065203, parking_latitude=40.728739273506626
         )
 
@@ -152,16 +139,12 @@ class ApiTests(TestCase):
         request = factory.get("/NycBasics/api/toilet/40.0004/73.0004/")
 
         self.client = APIClient()
-        t1 = toilet_model.objects.create(
-            toilet_longitude=-73.0009, toilet_latitude=40.0009
-        )
-        t2 = toilet_model.objects.create(
-            toilet_longitude=-73.0001, toilet_latitude=40.0001
-        )
-        t3 = toilet_model.objects.create(
+        toilet_model.objects.create(toilet_longitude=-73.0009, toilet_latitude=40.0009)
+        toilet_model.objects.create(toilet_longitude=-73.0001, toilet_latitude=40.0001)
+        toilet_model.objects.create(
             toilet_longitude=-73.99765615667471, toilet_latitude=40.73031601946951
         )
-        t4 = toilet_model.objects.create(
+        toilet_model.objects.create(
             toilet_longitude=-73.99084611065203, toilet_latitude=40.728739273506626
         )
 
