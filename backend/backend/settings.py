@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     "nycbasics5.ga",
     "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
+    "nycbasics5prod.ml",
 ]
 # add aws cname here after green eb status
 
@@ -130,7 +131,7 @@ USE_TZ = True
 
 # /home/suyash/team-5-inperson/backend/NycBasics/static
 # STATIC_ROOT = '/home/suyash/team-5-inperson/backend/backend/static'
-#'/home/django/django_project/django_project/static'
+# '/home/django/django_project/django_project/static'
 STATIC_ROOT = os.path.join(BASE_DIR, "frontend/build/static/")
 
 STATIC_URL = "static/"
@@ -154,5 +155,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "http://NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "https://NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
+    "http://nycbasics5prod.ml",
+    "https://nycbasics5prod.ml",
 ]
 # may need to add aws eb cname here above

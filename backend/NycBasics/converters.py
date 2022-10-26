@@ -49,14 +49,12 @@ models.py commented code
             + str(self.water_Longitude)
             + "_lat_"
             + str(self.water_Latitude)
-        )
-   
+            )
     toilet_BoroCode = models.IntegerField(null=True)
     toilet_open_year_round = models.CharField(max_length = 10000, null=True)
     toilet_Latitude = models.FloatField(null=True)
     toilet_Longitude = models.FloatField(null=True)
-    toilet_place_id = models.CharField(max_length = 10000, null=True)   
-    
+    toilet_place_id = models.CharField(max_length = 10000, null=True)
     def __str__(self):
         return (
             self.name
@@ -65,15 +63,13 @@ models.py commented code
             + "_lat_"
             + str(self.toilet_latitude)
         )
-    
         return (
             self.name
             + "_lng_"
             + str(self.toilet_Longitude)
             + "_lat_"
             + str(self.toilet_Latitude)
-        )
-  
+            )
     wifi_the_geom = models.CharField(max_length = 10000, null=True)
     wifi_Type = models.CharField(max_length = 5000, null=True)
     wifi_PROVIDER = models.CharField(max_length = 5000, null=True)
@@ -87,7 +83,6 @@ models.py commented code
     wifi_SSID = models.CharField(max_length = 10000, null=True)
     wifi_SourceId = models.CharField(max_length = 10000, null=True)
     wifi_BoroCode = models.IntegerField(null=True)
-    
     def __str__(self):
         return (
             self.name
@@ -96,22 +91,19 @@ models.py commented code
             + "_lat_"
             + str(self.wifi_latitude)
         )
-   
         return (
             self.name
             + "_lng_"
             + str(self.wifi_Longitude)
             + "_lat_"
             + str(self.wifi_Latitude)
-        )
-    
+            )
     parking_the_geom = models.CharField(max_length = 10000, null=True)
     parking_STATUS = models.CharField(max_length = 10000, null=True)
     parking_SHAPE_Leng = models.FloatField(null=True)
     parking_SHAPE_Area = models.FloatField(null=True)
-    parking_Latitude = models.FloatField(null=True) 
+    parking_Latitude = models.FloatField(null=True)
     parking_Longitude = models.FloatField(null=True)
-    
     def __str__(self):
         return (
             self.name
@@ -127,14 +119,12 @@ models.py commented code
             + "_lat_"
             + str(self.parking_Latitude)
         )
-   
     bench_the_geom = models.CharField(max_length = 5000, null=True)
     bench_BoroCode = models.IntegerField(null=True)
     bench_Category = models.CharField(max_length = 5000, null=True)
     bench_BenchType = models.CharField(max_length = 5000, null=True)
     bench_Latitude = models.FloatField(null=True)
     bench_Longitude = models.FloatField(null=True)
- 
     def __str__(self):
         return (
             self.name
@@ -151,18 +141,15 @@ models.py commented code
             + "_lat_"
             + str(self.bench_Latitude)
         )
- 
-below stuff not useful for now :
-
-class user_location_model(models.Model):
+    below stuff not useful for now :
+    class user_location_model(models.Model):
     name = "user_location"
     user_latitude = models.FloatField(null=True)
     user_longitude = models.FloatField(null=True)
 
     def __str__(self):
         return self.name+"_lng_"+str(self.user_longitude)+"_lat_"+str(self.user_latitude)
-
-class amenity_model(models.Model):    
+class amenity_model(models.Model):
     category = (
         ('water','water'),
         ('toilet','toilet'),

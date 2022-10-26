@@ -1,10 +1,24 @@
-![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/develop)
-
-![Coverage](https://img.shields.io/coveralls/github/gcivil-nyu-org/team-5-inperson/develop)
-
 # NYC Basics
 
-## Guidelines
+## Staging Environment
+
+http://nycbasics5.ga/ or [here](http://nycbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com/)
+
+![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/develop)
+![Coverage](https://img.shields.io/coveralls/github/gcivil-nyu-org/team-5-inperson/develop)
+
+
+## Production Environment
+
+http://nycbasics5prod.ml/ or [here](http://nycbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com/)
+
+
+![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/master)
+![Coverage](https://img.shields.io/coveralls/github/gcivil-nyu-org/team-5-inperson/master)
+
+---
+
+## Developer Guidelines
 1. Always work in a venv
 
     ```virtualenv env```
@@ -15,19 +29,11 @@
 
     ```pip freeze > requirements.txt```
 
-3. Remember to add any library code to .gitignore file
-
-4. To use requirements.txt
+3. To use requirements.txt
 
     ```pip install -r requirements.txt```
 
-5. To run server
-
-    ```cd backend```
-
-    ```python manage.py runserver```
-
-6. To run client
+4. To run frontend node
 
     ```cd frontend```
 
@@ -35,23 +41,26 @@
 
     ```npm start```
 
-7. To run front end test
+5. To run backend django
 
-    ```cd frontend```
+    ```cd backend```
+
+    ```python manage.py runserver```
+
+6. To run backend test
+
+    ```cd backend```
+
+    ```python -m coverage run --source='NycBasics' manage.py test```
+
+7. To run frontend test
+
+    ```cd backend/frontend```
 
     ```npm run tests```
 
-## Prerequisits
+8. Check black and flake8 before all commits
 
-1. virtualenv
+    ```python -m black .```
 
-    ```pip install virtualenv```
-    
-    
-
-## Deployment Setup ?
-Create setup.sh script to
-
-1. pip install
-2. install node, npm 
-3. npm install
+    ```python -m flake8 .```
