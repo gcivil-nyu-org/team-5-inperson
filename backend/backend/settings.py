@@ -28,9 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "nycbasics5.ga",
-    "backend-staging.eba-pfzmh2st.us-west-2.elasticbeanstalk.com",
-    "ec2-54-188-37-157.us-west-2.compute.amazonaws.com",
-    "ec2-35-167-162-168.us-west-2.compute.amazonaws.com",
+    "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com"
 ]
 # add aws cname here after green eb status
 
@@ -149,12 +147,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "http://nyc5-env.eba-rnrfjpuj.us-west-2.elasticbeanstalk.com",
+    "http://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "http://nycbasics5.ga",
-    "http://backend-staging.eba-pfzmh2st.us-west-2.elasticbeanstalk.com",
     "https://nycbasics5.ga",
-    "https://backend-staging.eba-pfzmh2st.us-west-2.elasticbeanstalk.com",
-    "https://ec2-54-188-37-157.us-west-2.compute.amazonaws.com",
-    "https://ec2-35-167-162-168.us-west-2.compute.amazonaws.com",
+    "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com"
 ]
 # may need to add aws eb cname here above
