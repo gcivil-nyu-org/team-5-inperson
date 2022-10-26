@@ -16,75 +16,79 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*s62_zi-k=3ys38hfsh4zi4d(ctav0f6uig7p^mjh7bx5+aq-o'
+SECRET_KEY = "django-insecure-*s62_zi-k=3ys38hfsh4zi4d(ctav0f6uig7p^mjh7bx5+aq-o"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1","nyc5.ml","nyc5-env.eba-rnrfjpuj.us-west-2.elasticbeanstalk.com"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "nycbasics5.ga",
+    "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
+    "NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
+]
 # add aws cname here after green eb status
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'corsheaders',
-    # Registering the NycBasics Application 
-    'NycBasics.apps.NycbasicsConfig',
-    'rest_framework',    
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "corsheaders",
+    # Registering the NycBasics Application
+    "NycBasics.apps.NycbasicsConfig",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = "backend.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'frontend/build'),
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            os.path.join(BASE_DIR, "frontend/build"),
         ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = "backend.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": str(BASE_DIR / "db.sqlite3"),
     }
 }
 
@@ -94,16 +98,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -111,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = "America/New_York"
 
 USE_I18N = True
 
@@ -124,12 +128,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-#/home/suyash/team-5-inperson/backend/NycBasics/static
-#STATIC_ROOT = '/home/suyash/team-5-inperson/backend/backend/static'
+# /home/suyash/team-5-inperson/backend/NycBasics/static
+# STATIC_ROOT = '/home/suyash/team-5-inperson/backend/backend/static'
 #'/home/django/django_project/django_project/static'
-STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/build/static/')
+STATIC_ROOT = os.path.join(BASE_DIR, "frontend/build/static/")
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 """
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/build/static'),
@@ -138,11 +142,17 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000',
-     "http://nyc5-env.eba-rnrfjpuj.us-west-2.elasticbeanstalk.com",
-     "http://nyc5.ml"
+    "http://localhost:3000",
+    "http://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
+    "http://nycbasics5.ga",
+    "https://nycbasics5.ga",
+    "https://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
+    "http://NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
+    "https://NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
 ]
-#may need to add aws eb cname here above
+# may need to add aws eb cname here above
