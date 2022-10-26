@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "nycbasics5.ga",
-    "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com"
+    "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
 ]
 # add aws cname here after green eb status
 
@@ -63,9 +63,7 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            os.path.join(BASE_DIR, "frontend/build"),
-        ],
+        "DIRS": [os.path.join(BASE_DIR, "frontend/build"),],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -99,15 +97,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 
@@ -150,6 +142,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "http://nycbasics5.ga",
     "https://nycbasics5.ga",
-    "https://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com"
+    "https://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
 ]
 # may need to add aws eb cname here above
