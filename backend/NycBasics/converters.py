@@ -54,8 +54,7 @@ models.py commented code
     toilet_open_year_round = models.CharField(max_length = 10000, null=True)
     toilet_Latitude = models.FloatField(null=True)
     toilet_Longitude = models.FloatField(null=True)
-    toilet_place_id = models.CharField(max_length = 10000, null=True)   
-    
+    toilet_place_id = models.CharField(max_length = 10000, null=True)
     def __str__(self):
         return (
             self.name
@@ -64,15 +63,13 @@ models.py commented code
             + "_lat_"
             + str(self.toilet_latitude)
         )
-    
         return (
             self.name
             + "_lng_"
             + str(self.toilet_Longitude)
             + "_lat_"
             + str(self.toilet_Latitude)
-        )
-  
+            )
     wifi_the_geom = models.CharField(max_length = 10000, null=True)
     wifi_Type = models.CharField(max_length = 5000, null=True)
     wifi_PROVIDER = models.CharField(max_length = 5000, null=True)
@@ -86,7 +83,6 @@ models.py commented code
     wifi_SSID = models.CharField(max_length = 10000, null=True)
     wifi_SourceId = models.CharField(max_length = 10000, null=True)
     wifi_BoroCode = models.IntegerField(null=True)
-    
     def __str__(self):
         return (
             self.name
@@ -95,14 +91,13 @@ models.py commented code
             + "_lat_"
             + str(self.wifi_latitude)
         )
-   
         return (
             self.name
             + "_lng_"
             + str(self.wifi_Longitude)
             + "_lat_"
             + str(self.wifi_Latitude)
-        )
+            )
     
     parking_the_geom = models.CharField(max_length = 10000, null=True)
     parking_STATUS = models.CharField(max_length = 10000, null=True)
