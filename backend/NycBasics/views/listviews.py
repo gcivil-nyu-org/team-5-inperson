@@ -68,16 +68,14 @@ class water_List(generics.ListAPIView):
 
 
 """
-        #queryset1 = water_model.objects.filter(water_longitude=-74.00270459989973,water_latitude=40.71482944342038)
+        queryset1 = water_model.objects.filter(water_longitude=-74.00270459989973,water_latitude=40.71482944342038)
         queryset = water_model.objects.none()
         for e in water_model.objects.all():
             lng = e.water_longitude
-            lat = e.water_latitude                                           
-            
-            
-            if bottom_left_lng <= lng <= top_right_lng and bottom_left_lat <= lat <= top_right_lat :    
+            lat = e.water_latitude
+            if bottom_left_lng <= lng <= top_right_lng and bottom_left_lat <= lat <= top_right_lat :
                 cnt=cnt+1
-                queryset2 = water_model.objects.filter(water_longitude=lng,water_latitude=lat)                
+                queryset2 = water_model.objects.filter(water_longitude=lng,water_latitude=lat)
                 queryset = queryset | queryset2
 """
 

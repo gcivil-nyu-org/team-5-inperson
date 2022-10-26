@@ -1,8 +1,17 @@
 from django.test import TestCase
-from django.urls import reverse
 from rest_framework.test import APIRequestFactory
-from NycBasics.views.listviews import *
-import json
+from NycBasics.views.listviews import (
+    water_List,
+    wifi_List,
+    bench_List,
+    parking_List,
+    toilet_List,
+    water_model,
+    wifi_model,
+    parking_model,
+    bench_model,
+    toilet_model,
+)
 from rest_framework.test import APIClient
 
 """
@@ -50,9 +59,7 @@ class ApiTests(TestCase):
         self.assertEqual(response.data[1]["water_longitude"], -73.99084611065203)
         """
         print((response.data[0]['id']))
-              
-        print((response.data[0]['water_latitude'])) 
-            
+        print((response.data[0]['water_latitude']))
         print((response.data[0]['water_longitude']))
         """
 
