@@ -3,16 +3,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import {
-  BrowserRouter,
-  Routes,
-  Route,
   Link
 } from "react-router-dom";
-import { Login } from '../Login'
 
 function BasicsNavbar() {
   return (
-  // <BrowserRouter> 
+  
     <>
       <Navbar bg="success" variant="dark" expand="lg">
         <Container>
@@ -34,14 +30,9 @@ function BasicsNavbar() {
         </Container>
       </Navbar>
       
-      <div>
-        {/* <Routes>
-          <Route path='Login' element={<Login/>}></Route>
-        </Routes> */}
-
-      </div>
+      
     </>
-  // </BrowserRouter>
+  
   );
 }
 

@@ -1,10 +1,8 @@
 import '../styles/App.css';
 import { GoogleMapContainer } from './GoogleMapContainer';
 import { Filters } from './Filters';
-import { ChakraProvider } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
-import BasicsNavbar from "./navigation/Navbar.jsx";
 import { ApiService } from '../api-service';
 import {
   Alert,
@@ -12,12 +10,6 @@ import {
   AlertTitle,
   AlertDescription,
 } from '@chakra-ui/react'
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link
-} from "react-router-dom";
 
 
 
