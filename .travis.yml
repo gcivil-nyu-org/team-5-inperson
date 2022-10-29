@@ -17,7 +17,7 @@ before_script:
 
 script:
   - python -m black . --check
-  - python -m flake8 . --ignore=W605
+  - python -m flake8 . --ignore=W605,E501
   - python -m coverage run --source='NycBasics' manage.py test
 
 after_script:
