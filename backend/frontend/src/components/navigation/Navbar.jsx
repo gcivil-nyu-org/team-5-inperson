@@ -17,7 +17,10 @@ function BasicsNavbar() {
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav className="ml-auto">
               <Nav.Link as={Link} to='/home'> Home </Nav.Link>
-              <Nav.Link as={Link} to='/login'>Login</Nav.Link>
+              <NavDropdown title="Login/Registration" id="basic-nav-dropdown">
+                <NavDropdown.Item as={Link} to='/login'>Login</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to='/registration'>Registration</NavDropdown.Item>
+              </NavDropdown>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#Settings/Visuals">Visuals</NavDropdown.Item>
                 <NavDropdown.Item href="#Settings/Sound">

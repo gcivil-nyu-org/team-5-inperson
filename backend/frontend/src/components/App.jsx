@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
 import MainSearch from './MainSearch';
 import Login from './Login';
+import Registration from './Registration';
+
 
 
 
@@ -24,6 +26,7 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login />}></Route>
             <Route path='/home' element={<MainSearch />}></Route>
+            <Route path='/registration' element={<Registration />}></Route>
           </Routes>
         </BrowserRouter>
 
