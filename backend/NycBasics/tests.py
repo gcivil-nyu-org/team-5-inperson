@@ -251,13 +251,16 @@ class ApiTests(TestCase):
         )
         logout_res = logout_view(logout_req)
 
-        # isValidStatus = 200 <= logout_res.status_code < 300
-        # self.assertTrue(isValidStatus)
+        isInvalidStatus = 400 <= logout_res.status_code < 500
+        self.assertTrue(isInvalidStatus)
 
-        print("res", logout_res.data)
+        # print("res", logout_res.data)
         # print("res", logout_res.status_code)
 
-        # self.assertEqual(logout_res.data['status'], "User is logged out.")
+        self.assertEqual(
+            logout_res.data["non_field_errors"][0],
+            "User matching query does not exist.",
+        )
 
     def test_water_api(self):
         view = water_List.as_view()
