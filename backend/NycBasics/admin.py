@@ -1,10 +1,19 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import water_model, wifi_model, parking_model, bench_model, toilet_model
+from .models import (
+    User,
+    water_model,
+    wifi_model,
+    parking_model,
+    bench_model,
+    toilet_model,
+)
+
+# from .models import water_model, wifi_model, parking_model, bench_model, toilet_model
 
 # , amenity_model, user_location_model
-
+admin.site.register(User)
 admin.site.register(water_model)
 admin.site.register(wifi_model)
 admin.site.register(parking_model)

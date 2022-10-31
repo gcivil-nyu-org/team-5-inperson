@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "nycbasics5prod.ml",
+    "localhost",
 ]
 # add aws cname here after green eb status
 
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     # Registering the NycBasics Application
     "NycBasics.apps.NycbasicsConfig",
     "rest_framework",
+    "rest_framework.authtoken",
+    "rest_auth",
 ]
 
 MIDDLEWARE = [
@@ -93,6 +96,14 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -121,6 +132,8 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "America/New_York"
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
