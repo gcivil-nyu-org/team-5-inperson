@@ -21,11 +21,11 @@ script:
   # - python -m coverage run --source='NycBasics' manage.py test
   - python -m coverage run manage.py test
 
-# after_script:
-#   - coveralls
+after_script:
+  - coveralls
 
-# after_success:
-#   coveralls
+after_success:
+  coveralls
 
 deploy:
  - provider: elasticbeanstalk

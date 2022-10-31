@@ -6,15 +6,12 @@ from ..serializers import UserSerializer, UserLoginSerializer, UserLogoutSeriali
 
 
 class Record(generics.CreateAPIView):
-    # get method handler
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
 class Login(generics.GenericAPIView):
-    # get method handler
     queryset = User.objects.all()
-    print(queryset)
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs):
