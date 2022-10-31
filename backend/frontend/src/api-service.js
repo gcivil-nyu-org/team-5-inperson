@@ -1,19 +1,89 @@
 export class ApiService {
     constructor() {
-        if (window.location.hostname === 'localhost'){
+        if (window.location.hostname === 'localhost') {
             this.baseUrl = 'http://127.0.0.1:8000/NycBasics/api'
         }
-        else{
+        else {
             this.baseUrl = window.location.href + 'NycBasics/api'
         }
-        //this.baseUrl = 'http://127.0.0.1:8000/NycBasics/api'
-        //this.baseUrl = 'http://nycbasic-env.eba-6g5b2mji.us-east-1.elasticbeanstalk.com//NycBasics/api'
         this.requestConfig = {
             headers: {
                 'Content-Type': 'application/json',
             }
         }
     };
+
+    async logout(userData) {
+        const res = await fetch(`${this.baseUrl}/logout/`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token: userData['token'],
+            })
+        });
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("logout res", res)
+            console.log("logout res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+    async login(userData) {
+        const res = await fetch(`${this.baseUrl}/login/`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: userData['email'],
+                password: userData['password'],
+            })
+        });
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("login res", res)
+            console.log("login res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+    async addUser(userData) {
+        const res = await fetch(`${this.baseUrl}/addUser/`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: userData['username'],
+                email: userData['email'],
+                password: userData['password'],
+            })
+        });
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("addUser res", res)
+            console.log("addUser res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
 
     async getParking(mapCenter) {
         const res = await fetch(`${this.baseUrl}/parking/${mapCenter.lat}/${mapCenter.lng * -1}/`, this.requestConfig);

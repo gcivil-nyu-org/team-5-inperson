@@ -53,6 +53,8 @@ http://nycbasics5prod.ml/ or [here](http://nycbasics-prod.eba-itqvcpc2.us-west-2
 
     ```python -m coverage run --source='NycBasics' manage.py test```
 
+    ```coverage html```
+
 7. To run frontend test
 
     ```cd backend/frontend```
