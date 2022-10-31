@@ -85,5 +85,5 @@ class Logout(generics.GenericAPIView):
     #     return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
 
 
-def index(request):
-    return redirect("/api/login")
+# def index(request):
+#     return redirect("/api/login")

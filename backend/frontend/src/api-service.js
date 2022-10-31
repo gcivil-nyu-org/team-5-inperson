@@ -15,6 +15,30 @@ export class ApiService {
         }
     };
 
+    async logout(userData) {
+        // const res = await fetch(`${this.baseUrl}/login/${userData.user_id}/${userData.password}/`);
+        const res = await fetch(`${this.baseUrl}/logout/`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token: userData['token'],
+            })
+        });
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("logout res", res)
+            console.log("logout res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
     async login(userData) {
         // const res = await fetch(`${this.baseUrl}/login/${userData.user_id}/${userData.password}/`);
         const res = await fetch(`${this.baseUrl}/login/`, {
@@ -32,17 +56,12 @@ export class ApiService {
 
         if (res.status >= 200 && res.status < 300) {
             console.log("login res", res)
-            
-            console.log("login data", data)
+            console.log("login res.data", data)
             return data;
         }
         else {
             return Promise.reject(data);
         }
-
-        
-
-
     }
 
     async addUser(userData) {
@@ -58,10 +77,16 @@ export class ApiService {
                 password: userData['password'],
             })
         });
-        console.log("addUser res", res)
         const data = await res.json();
-        console.log("addUser data", data)
-        return data;
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("addUser res", res)
+            console.log("addUser res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
     }
 
     async getParking(mapCenter) {

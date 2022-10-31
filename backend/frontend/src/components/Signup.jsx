@@ -1,21 +1,39 @@
 import '../styles/Form.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { ApiService } from '../api-service';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
-  
-  const onSubmit = data => {
-    console.log("signup data", data);
-    let credentials = data
-    delete credentials.confirmpwd;
-    console.log("signup credentials", credentials);
-    const apiService = new ApiService();
-    const signupResponse = apiService.addUser(credentials);
-    console.log("signupResponse", signupResponse)
+  const navigate = useNavigate();
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
+  const onSubmit = async (data) => {
+    console.log("signup data", data);
+    const apiService = new ApiService();
+
+    try {
+      const signupResponse = await apiService.addUser(data);
+      console.log("signupResponse", signupResponse)
+      navigate("/login");
+    } catch (error) {
+      console.log("error", error)
+      if ("email" in error) {
+        setEmailError(error['email'])
+      }
+      else {
+        setEmailError("")
+      }
+      if ("username" in error) {
+        setUsernameError(error['username'])
+      }
+      else {
+        setUsernameError("")
+      }
+    }
   }
 
   return (
@@ -28,6 +46,7 @@ function Signup() {
           <br></br>
           <input type='text' {...register("username", { required: true })} placeholder='username' />
           {errors.username?.type === "required" && "Username is Required"}
+          {(usernameError !== "") ? (<div className="error">{usernameError}</div>) : ""}
           <br></br>
           <input type='text' {...register("password", { required: true })} placeholder='password' />
           {errors.password?.type === "required" && "Password is Required"}
@@ -37,6 +56,7 @@ function Signup() {
           <br></br>
           <input type='text' {...register("email", { required: true })} placeholder='email' />
           {errors.email?.type === "required" && "Email is Required"}
+          {(emailError !== "") ? (<div className="error">{emailError}</div>) : ""}
           <br></br>
           <br></br>
           <button className='btn'> Signup </button>
