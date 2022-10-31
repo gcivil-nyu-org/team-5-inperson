@@ -1,36 +1,54 @@
 import React, { useState } from 'react'
-import {
-    Link
-  } from "react-router-dom";
+import { ApiService } from '../api-service';
+import { useNavigate, Link } from 'react-router-dom';
 
-function Loginform({ Login, error}){
-    const [details,setDetails] = useState({name:"", email:"", password: ""});
-    const submitHandler = e => {
-        e.preventDefault();
+function Loginform() {
+  const [formDetails, setFormDetails] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-        Login(details);
+  const loginHandler = async (e) => {
+    e.preventDefault();
+    console.log("formDetails", formDetails)
+    const apiService = new ApiService();
+    try {
+      const loginResponse = await apiService.login(formDetails);
+      console.log("loginResponse", loginResponse)
+      let authenticatedUser = {
+        'token': loginResponse['token']
+      }
+      localStorage.setItem('authenticatedUser', authenticatedUser);
+
+      navigate("/home");
+    } catch (error) {
+      console.error(error['non_field_errors'])
+      setError(error['non_field_errors'][0])
+
     }
-    return(
-        <form onSubmit={submitHandler}>
-            <div className="form-inner">
-                <h2>Login Form</h2>
-                {(error != "") ? (<div className="error">{error}</div>) : ""}
-                <div className="form-group">
-                    <label htmlFor="name">Name:</label>
-                    <input type="text" name="name" id="name" onChange={e => setDetails({ ...details, name: e.target.value })} value={details.name} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email: </label>
-                    <input type="email" name="email" id="email" onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">Password: </label>
-                    <input type="password" name="password" id="password" onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} />
-                </div>
-                <input type="submit" value="Login" />
-            </div>
-        </form>
-    )
+  }
+
+  return (
+    <div className="form-container">
+      <form onSubmit={loginHandler}>
+        <div className="form-inner">
+          <h2>Login Form</h2>
+          {(error !== "") ? (<div className="error">{error}</div>) : ""}
+          <div className="form-group">
+            <label htmlFor="email">Email: </label>
+            <input type="email" name="email" id="email" onChange={e => setFormDetails({ ...formDetails, email: e.target.value })} value={formDetails.email} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password: </label>
+            <input type="password" name="password" id="password" onChange={e => setFormDetails({ ...formDetails, password: e.target.value })} value={formDetails.password} />
+          </div>
+          <input type="submit" value="Login" />
+        </div>
+      </form>
+      <br /><br />
+      <p className="signup-prompt">New user? <Link to='/signup'>Sign up here</Link></p>
+
+    </div>
+  )
 }
 
 export default Loginform

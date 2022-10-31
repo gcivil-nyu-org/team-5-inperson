@@ -8,34 +8,35 @@ import {
 
 function BasicsNavbar() {
   return (
-  
+
     <>
       <Navbar bg="success" variant="dark" expand="lg">
         <Container>
-          <Navbar.Brand href="#Home">NYC Basics</Navbar.Brand>
+          <Navbar.Brand href="/home">NYC Basics</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav className="ml-auto">
-              <Nav.Link as={Link} to='/home'> Home </Nav.Link>
-              <NavDropdown title="Login/Registration" id="basic-nav-dropdown">
+              <Nav.Link as={Link} to='/home'>Home</Nav.Link>
+              {localStorage.getItem('authenticatedUser') ? 
+              <Nav.Link as={Link} to='/login'>Login</Nav.Link> :
+              <Nav.Link as={Link} to='/logout'>Logout</Nav.Link>}
+              
+              {/* <NavDropdown title="Login" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to='/login'>Login</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to='/registration'>Registration</NavDropdown.Item>
-              </NavDropdown>
+                <NavDropdown.Item as={Link} to='/signup'>Signup</NavDropdown.Item>
+              </NavDropdown> */}
               <NavDropdown title="Settings" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#Settings/Visuals">Visuals</NavDropdown.Item>
-                <NavDropdown.Item href="#Settings/Sound">
-                  Sound
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#Settings/???">???</NavDropdown.Item>
+                <NavDropdown.Item href="#Settings/Sound">Sound</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      
-      
+
+
     </>
-  
+
   );
 }
 

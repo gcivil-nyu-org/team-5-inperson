@@ -40,7 +40,8 @@ class Login(generics.GenericAPIView):
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer_class = UserLoginSerializer(data=kwargs)
+        # serializer_class = UserLoginSerializer(data=kwargs)
+        serializer_class = UserLoginSerializer(data=request.data)
         print("args", args)
         print("kwargs", kwargs)
         print("request", request)
@@ -50,16 +51,16 @@ class Login(generics.GenericAPIView):
             return Response(serializer_class.data, status=HTTP_200_OK)
         return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
 
-    def get(self, request, *args, **kwargs):
-        serializer_class = UserLoginSerializer(data=kwargs)
-        print("args", args)
-        print("kwargs", kwargs)
-        print("request", request)
-        print("request.data", request.data)
+    # def get(self, request, *args, **kwargs):
+    #     serializer_class = UserLoginSerializer(data=kwargs)
+    #     print("args", args)
+    #     print("kwargs", kwargs)
+    #     print("request", request)
+    #     print("request.data", request.data)
 
-        if serializer_class.is_valid(raise_exception=True):
-            return Response(serializer_class.data, status=HTTP_200_OK)
-        return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
+    #     if serializer_class.is_valid(raise_exception=True):
+    #         return Response(serializer_class.data, status=HTTP_200_OK)
+    #     return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
 
 
 class Logout(generics.GenericAPIView):
@@ -72,16 +73,16 @@ class Logout(generics.GenericAPIView):
             return Response(serializer_class.data, status=HTTP_200_OK)
         return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
 
-    def get(self, request, *args, **kwargs):
-        print("args", args)
-        print("kwargs", kwargs)
-        print("request", request)
-        print("request.data", request.data)
+    # def get(self, request, *args, **kwargs):
+    #     print("args", args)
+    #     print("kwargs", kwargs)
+    #     print("request", request)
+    #     print("request.data", request.data)
 
-        serializer_class = UserLogoutSerializer(data=kwargs)
-        if serializer_class.is_valid(raise_exception=True):
-            return Response(serializer_class.data, status=HTTP_200_OK)
-        return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
+    #     serializer_class = UserLogoutSerializer(data=kwargs)
+    #     if serializer_class.is_valid(raise_exception=True):
+    #         return Response(serializer_class.data, status=HTTP_200_OK)
+    #     return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
 
 
 def index(request):

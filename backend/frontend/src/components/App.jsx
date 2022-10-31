@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import MainSearch from './MainSearch';
 import Login from './Login';
-import Registration from './Registration';
+import Signup from './Signup';
 
 
 
@@ -26,7 +26,8 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login />}></Route>
             <Route path='/home' element={<MainSearch />}></Route>
-            <Route path='/registration' element={<Registration />}></Route>
+            <Route path='/signup' element={<Signup />}></Route>
+            {/* <Route path='/logout' element={<Logout />}></Route> */}
           </Routes>
         </BrowserRouter>
 

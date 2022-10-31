@@ -102,32 +102,32 @@ function MainSearch() {
   return (
     <div className="app">
 
-        <Filters
-          waterOn={waterOn}
-          wifiOn={wifiOn}
-          benchOn={benchOn}
-          parkingOn={parkingOn}
-          toiletOn={toiletOn}
-          setWaterOn={setWaterOn}
-          setWifiOn={setWifiOn}
-          setBenchOn={setBenchOn}
-          setParkingOn={setParkingOn}
-          setToiletOn={setToiletOn}
+      <Filters
+        waterOn={waterOn}
+        wifiOn={wifiOn}
+        benchOn={benchOn}
+        parkingOn={parkingOn}
+        toiletOn={toiletOn}
+        setWaterOn={setWaterOn}
+        setWifiOn={setWifiOn}
+        setBenchOn={setBenchOn}
+        setParkingOn={setParkingOn}
+        setToiletOn={setToiletOn}
 
-        />
-        <GoogleMapContainer
-          waterAmenities={waterAmenities}
-          wifiAmenities={wifiAmenities}
-          benchAmenities={benchAmenities}
-          toiletAmenities={toiletAmenities}
-          parkingAmenities={parkingAmenities}
-          mapCenter={mapCenter}
-          waterOn={waterOn}
-          wifiOn={wifiOn}
-          benchOn={benchOn}
-          parkingOn={parkingOn}
-          toiletOn={toiletOn}
-        />
+      />
+      <GoogleMapContainer
+        waterAmenities={waterAmenities}
+        wifiAmenities={wifiAmenities}
+        benchAmenities={benchAmenities}
+        toiletAmenities={toiletAmenities}
+        parkingAmenities={parkingAmenities}
+        mapCenter={mapCenter}
+        waterOn={waterOn}
+        wifiOn={wifiOn}
+        benchOn={benchOn}
+        parkingOn={parkingOn}
+        toiletOn={toiletOn}
+      />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { MdOutlineChairAlt, MdWaterDrop } from 'react-icons/md'
 
 
 export const Filters = (props) => {
-    const { waterOn, wifiOn, benchOn, parkingOn, toiletOn, 
+    const { waterOn, wifiOn, benchOn, parkingOn, toiletOn,
         setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
 
     return (
