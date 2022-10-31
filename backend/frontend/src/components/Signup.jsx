@@ -14,8 +14,8 @@ function Signup() {
   const onSubmit = async (data) => {
     console.log("signup data", data);
     const apiService = new ApiService();
-  
-  console.log(watch("password"));
+
+    console.log(watch("password"));
 
     try {
       const signupResponse = await apiService.addUser(data);
@@ -44,22 +44,31 @@ function Signup() {
         <div className="form-container"></div>
         <form id='form' className='form-inner' onSubmit={handleSubmit(onSubmit)}>
           <h2>Signup Form</h2>
+
+          <label htmlFor="email">Username: </label>
+          <input type='text' {...register("username", { required: true })} placeholder='' />
+          {errors.username?.type === "required" && "Username is Required"}
+          {(usernameError !== "") ? (<div className="warning">{usernameError}</div>) : ""}
+
           <label htmlFor="email">Email: </label>
           <input type='text' {...register("email", { required: true })} placeholder='' />
           {errors.email?.type === "required" && "Email is Required"}
-          {(emailError !== "") ? (<div className="error">{emailError}</div>) : ""}
+          {(emailError !== "") ? (<div className="warning">{emailError}</div>) : ""}
+
           <label htmlFor="password">Password: </label>
           <input type='password' {...register("password", { required: true })} placeholder='' />
-          {errors.password?.type === "required" && "Password is Required"}
+          {(errors.password?.type === "required") ? (<div className="warning">Password is Required.</div>) : ""}
+
           <label htmlFor="confirmpassword">Confirm Password: </label>
           <input type='password' {...register("confirmpwd", { required: true })} placeholder='' />
-          {errors.confirmpwd?.type === "required" && "Please Confirm your Password"}
+          {(errors.confirmpwd?.type === "required") ? (<div className="warning">Please Confirm your Password.</div>) : ""}
+
           {watch("confirmpwd") !== watch("password") &&
-          getValues("confirmpwd") ? (
-            <p>password not match</p>
+            getValues("confirmpwd") ? (
+            <p className="warning">Passwords do not match.</p>
           ) : null}
           <br></br>
-          <button className='btn'> Signup </button>
+          <input type="submit" value="Signup" />
         </form>
       </div>
     </section>

@@ -3,6 +3,9 @@ language: python
 python:
   - 3.8
 
+env: 
+  CI: false
+
 install:
   - cd backend 
   - pip install -r requirements.txt
@@ -12,13 +15,12 @@ install:
   - npm run build
   - cd ..
 
-before_script:
-  - python manage.py migrate
+# before_script:
+#   - python manage.py migrate
 
 script:
   - python -m black . --check
   - python -m flake8 . --ignore=W605
-  # - python -m coverage run --source='NycBasics' manage.py test
   - python -m coverage run manage.py test
 
 after_script:

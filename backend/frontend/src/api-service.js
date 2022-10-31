@@ -6,8 +6,6 @@ export class ApiService {
         else {
             this.baseUrl = window.location.href + 'NycBasics/api'
         }
-        //this.baseUrl = 'http://127.0.0.1:8000/NycBasics/api'
-        //this.baseUrl = 'http://nycbasic-env.eba-6g5b2mji.us-east-1.elasticbeanstalk.com//NycBasics/api'
         this.requestConfig = {
             headers: {
                 'Content-Type': 'application/json',
@@ -16,7 +14,6 @@ export class ApiService {
     };
 
     async logout(userData) {
-        // const res = await fetch(`${this.baseUrl}/login/${userData.user_id}/${userData.password}/`);
         const res = await fetch(`${this.baseUrl}/logout/`, {
             method: "POST",
             headers: {
@@ -40,7 +37,6 @@ export class ApiService {
     }
 
     async login(userData) {
-        // const res = await fetch(`${this.baseUrl}/login/${userData.user_id}/${userData.password}/`);
         const res = await fetch(`${this.baseUrl}/login/`, {
             method: "POST",
             headers: {
