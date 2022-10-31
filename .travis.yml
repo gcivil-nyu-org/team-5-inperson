@@ -15,9 +15,6 @@ install:
   - npm run build
   - cd ..
 
-# before_script:
-#   - python manage.py migrate
-
 script:
   - python -m black . --check
   - python -m flake8 . --ignore=W605
@@ -34,7 +31,7 @@ deploy:
    access_key_id: $ACCESSKEYID
    secret_access_key: $SECRETACCESSKEY
    region: 'us-west-2'
-  app: 'NYC-Basics'
+   app: 'NYC-Basics'
    env: 'NYCbasics-staging'
    bucket_name: 'elasticbeanstalk-us-west-2-travis'
    on:
