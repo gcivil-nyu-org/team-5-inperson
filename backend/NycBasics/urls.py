@@ -1,9 +1,6 @@
 from django.urls import path, re_path
+from .views import userviews, listviews, detailviews
 
-# from . import converters
-from .views import listviews, detailviews
-
-# register_converter(converters.FloatUrlParameterConverter, "float")
 
 urlpatterns = [
     re_path(
@@ -56,4 +53,11 @@ urlpatterns = [
         detailviews.parking_amenity_detail.as_view(),
         name="parkingdetail",
     ),
+    path("api/addUser/", userviews.Record.as_view(), name="register"),
+    path(
+        "api/login/",
+        userviews.Login.as_view(),
+        name="login",
+    ),
+    path("api/logout/", userviews.Logout.as_view(), name="logout"),
 ]

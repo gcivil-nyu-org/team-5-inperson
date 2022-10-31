@@ -6,7 +6,7 @@ import { MdOutlineChairAlt, MdWaterDrop } from 'react-icons/md'
 
 
 export const Filters = (props) => {
-    const { waterOn, wifiOn, benchOn, parkingOn, toiletOn, 
+    const { waterOn, wifiOn, benchOn, parkingOn, toiletOn,
         setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
 
     return (
@@ -16,7 +16,6 @@ export const Filters = (props) => {
 
                     {/* Toilets */}
                     <IconButton
-                        // colorScheme='cyan'
                         colorScheme='green'
                         aria-label='Search For Bathrooms'
                         icon={<FaRestroom />}
@@ -26,7 +25,6 @@ export const Filters = (props) => {
 
                     {/* Water */}
                     <IconButton
-                        // colorScheme='blue'
                         colorScheme='green'
                         aria-label='Search For Water'
                         icon={<MdWaterDrop />}
@@ -36,7 +34,6 @@ export const Filters = (props) => {
 
                     {/* Parking */}
                     <IconButton
-                        // colorScheme='gray'
                         colorScheme='green'
                         aria-label='Search For Parking'
                         icon={<FaParking />}
@@ -55,7 +52,6 @@ export const Filters = (props) => {
 
                     {/* Wifi */}
                     <IconButton
-                        // colorScheme='blackAlpha'
                         colorScheme='green'
                         aria-label='Search for Wifi'
                         icon={<AiOutlineWifi />}
@@ -65,8 +61,5 @@ export const Filters = (props) => {
                 </ButtonGroup>
             </Box>
         </div>
-
-
-
     )
 }

@@ -7,3 +7,25 @@
   height: 100vh;
   background-color: bisque;
 }
+
+.login {
+  height: 100vh;
+  display: flex;
+  /* align-items: center; */
+  margin-top: 100px;
+  justify-content: center;
+  background-color :#ffffff;
+
+}
+
+form {
+  display: block;
+  position: relative;
+}
+
+input, button {
+  appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+}
