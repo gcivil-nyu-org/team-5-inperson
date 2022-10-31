@@ -59,15 +59,10 @@ urlpatterns = [
         name="parkingdetail",
     ),
     path("api/addUser/", userviews.Record.as_view(), name="register"),
-    # path('addUser/<str:username>/<str:email>/<str:password>/', Record.as_view(), name="register"),
-    
     path(
-        # "api/login/<str:user_id>/<str:password>/", userviews.Login.as_view(), name="login"
-        "api/login/", userviews.Login.as_view(), name="login"
-
+        "api/login/",
+        userviews.Login.as_view(),
+        name="login",
     ),
-    # path('login/', Login.as_view(), name="login"),
-    # path("api/logout/<str:token>/", userviews.Logout.as_view(), name="logout"),
     path("api/logout/", userviews.Logout.as_view(), name="logout"),
-    # path('logout/', Logout.as_view(), name="logout"),
 ]
