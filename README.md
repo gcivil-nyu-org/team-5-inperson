@@ -2,7 +2,7 @@
 
 ## Staging Environment
 
-http://nycbasics5.ga/ or [here](http://nycbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com/)
+http://nycbasics5.ga/ or [here](http://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com/)
 
 ![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/develop)
 ![Coverage](https://img.shields.io/coveralls/github/gcivil-nyu-org/team-5-inperson/develop)
