@@ -1,8 +1,9 @@
 body {
-    /* background: #0e101c; */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-      sans-serif;
+    /* background: #0e101c; 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    */
   }
   
   form {
@@ -23,15 +24,6 @@ body {
     max-width: 400px;
     margin: 0 auto;
   }
-  
-  /* p {
-    color: #bf1650;
-  } */
-  
-  /* p::before {
-    display: inline;
-    content: "⚠ ";
-  } */
   
   input {
     display: block;
@@ -56,16 +48,22 @@ body {
   }
   
   button[type="submit"],
-  input[type="submit"] {
+  input[type="submit"], .btn {
     background: rgb(7, 122, 53);
-    color: white;
+    color: rgb(255, 255, 255);
     text-transform: uppercase;
     border: none;
     margin-top: 40px;
     padding: 20px;
     font-size: 30px;
     font-weight: 100;
-    letter-spacing: 10px;
+    letter-spacing: 5px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    font-weight: 400;
+    width: 100%;
+    
   }
   
   button[type="submit"]:hover,

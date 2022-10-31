@@ -1,3 +1,4 @@
+import '../styles/Form.css';
 import React, { useState } from 'react'
 import { ApiService } from '../api-service';
 import { useNavigate, Link } from 'react-router-dom';
