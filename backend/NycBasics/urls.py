@@ -1,11 +1,6 @@
 from django.urls import path, re_path
-
-# from . import converters
 from .views import userviews, listviews, detailviews
 
-# from .views import listviews, detailviews
-
-# register_converter(converters.FloatUrlParameterConverter, "float")
 
 urlpatterns = [
     re_path(

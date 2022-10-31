@@ -10,9 +10,7 @@ from .models import (
 )
 from django.core.exceptions import ValidationError
 from uuid import uuid4
-from django.db.models import Q  # for queries
-
-# , amenity_model, user_location_model
+from django.db.models import Q
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,12 +34,14 @@ class UserLoginSerializer(serializers.ModelSerializer):
     token = serializers.CharField(required=False, read_only=True)
 
     def validate(self, data):
+
         # user,email,password validator
         user_id = data.get("user_id", None)
         password = data.get("password", None)
         if not user_id and not password:
             raise ValidationError("Details not entered.")
         user = None
+
         # if the email has been passed
         if "@" in user_id:
             user = User.objects.filter(
@@ -132,17 +132,3 @@ class parking_modelSerializer(serializers.ModelSerializer):
     class Meta:
         model = parking_model
         fields = "__all__"
-
-
-"""
-class amenity_modelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = amenity_model
-        fields = '__all__'
-
-
-class user_location_modelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = user_location_model
-        fields = '__all__'
-"""

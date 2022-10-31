@@ -1,7 +1,5 @@
 from ..models import water_model, wifi_model, parking_model, bench_model, toilet_model
 
-# from .models import amenity_model, user_location_model
-
 from ..serializers import (
     water_modelSerializer,
     wifi_modelSerializer,
