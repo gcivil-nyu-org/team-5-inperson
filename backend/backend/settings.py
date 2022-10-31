@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     "NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "nycbasics5prod.ml",
     "nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
 ]
 # add aws cname here after green eb status
 
@@ -173,5 +174,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://nycbasics5prod.ml",
     "http://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
     "https://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "http://nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "https://nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
 ]
 # may need to add aws eb cname here above
