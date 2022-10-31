@@ -12,7 +12,7 @@ from NycBasics.views.listviews import (
     bench_model,
     toilet_model,
 )
-from NycBasics.views.userviews import Record, Login, Logout, User
+from NycBasics.views.userviews import Login, Logout, User
 from rest_framework.test import APIClient
 
 """
@@ -238,7 +238,6 @@ class ApiTests(TestCase):
         self.assertEqual(logout_res.data["status"], "User is logged out.")
 
     def test_invalid_logout(self):
-        login_view = Login.as_view()
         logout_view = Logout.as_view()
         factory = APIRequestFactory()
         self.client = APIClient()
@@ -246,17 +245,6 @@ class ApiTests(TestCase):
         User.objects.create(
             username="user1", email="user1@test.com", password="testpass"
         )
-
-        # login_req = factory.post('/NycBasics/api/login/', {'user_id':"user1@test.com", 'password': "testpass"})
-        # login_res = login_view(login_req)
-
-        # isValidStatus = 200 <= login_res.status_code < 300
-        # self.assertTrue(isValidStatus)
-
-        # tokenExists = login_res.data.get('token', False)
-        # self.assertTrue(tokenExists)
-
-        # token = login_res.data['token']
 
         logout_req = factory.post(
             "/NycBasics/api/logout/", {"token": "bdd32bf7-c076-4674-aa01-5231c587e646"}
