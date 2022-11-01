@@ -20,9 +20,9 @@ function App() {
         <BrowserRouter>
           <BasicsNavbar />
           <Routes>
-            <Route path='/login' element={<Loginform />}></Route>
-            <Route path='/home' element={<MainSearch />}></Route>
-            <Route path='/signup' element={<Signup />}></Route>
+            <Route path='/login/' element={<Loginform />}></Route>
+            <Route path='/home/' element={<MainSearch />}></Route>
+            <Route path='/signup/' element={<Signup />}></Route>
           </Routes>
         </BrowserRouter>
       </ChakraProvider>
