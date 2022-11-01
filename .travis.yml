@@ -9,11 +9,6 @@ env:
 install:
   - cd backend 
   - pip install -r requirements.txt
-  - cd frontend
-  - npm install
-  - nvm install 16.18.0
-  - npm run build
-  - cd ..
 
 script:
   - python -m black . --check
