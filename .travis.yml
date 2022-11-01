@@ -22,25 +22,6 @@ after_success:
   coveralls
 
 deploy:
- - provider: elasticbeanstalk
-   access_key_id: $ACCESSKEYID
-   secret_access_key: $SECRETACCESSKEY
-   region: 'us-west-2'
-   app: 'NYC-Basics'
-   env: 'NYCbasics-staging'
-   bucket_name: 'elasticbeanstalk-us-west-2-travis'
-   on:
-     branch: develop
-
- - provider: elasticbeanstalk
-   access_key_id: $ACCESSKEYID
-   secret_access_key: $SECRETACCESSKEY
-   region: 'us-west-2'
-   app: 'NYC-Basics'
-   env: 'NYCbasics-prod'
-   bucket_name: 'elasticbeanstalk-us-west-2-travis'
-   on:
-     branch: master
 
  - provider: elasticbeanstalk
    access_key_id: $NYCACCESSKEYID
@@ -50,7 +31,7 @@ deploy:
    env: 'nycstaging-env'
    bucket_name: 'elasticbeanstalk-us-west-2-868930267900'
    on:
-     branch: rds_Suyash
+     branch: develop
 
  - provider: elasticbeanstalk
    access_key_id: $NYCACCESSKEYID
@@ -60,6 +41,6 @@ deploy:
    env: 'nycprod-env'
    bucket_name: 'elasticbeanstalk-us-west-2-868930267900'
    on:
-     branch: rds_Suyash
+     branch: master
 
 
