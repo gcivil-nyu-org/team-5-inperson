@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,6 +33,8 @@ ALLOWED_HOSTS = [
     "NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "nycbasics5prod.ml",
     "localhost",
+    "nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
 ]
 # add aws cname here after green eb status
 
@@ -64,7 +67,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "backend.urls"
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -88,11 +90,23 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+"""
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": str(BASE_DIR / "db.sqlite3"),
+    }
+}
+"""
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("dbname"),
+        "USER": config("dbuser"),
+        "PASSWORD": config("dbpassword"),
+        "HOST": config("dbhost"),
+        "PORT": config("dbport"),
     }
 }
 
@@ -170,5 +184,9 @@ CORS_ORIGIN_WHITELIST = [
     "https://NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "http://nycbasics5prod.ml",
     "https://nycbasics5prod.ml",
+    "http://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "https://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "http://nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "https://nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
 ]
 # may need to add aws eb cname here above
