@@ -4,7 +4,7 @@ export class ApiService {
             this.baseUrl = 'http://127.0.0.1:8000/NycBasics/api'
         }
         else {
-            this.baseUrl = window.location.origin + 'NycBasics/api'
+            this.baseUrl = window.location.origin + '/NycBasics/api'
         }
         this.requestConfig = {
             headers: {
