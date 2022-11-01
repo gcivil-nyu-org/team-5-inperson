@@ -14,7 +14,7 @@ export class ApiService {
     };
 
     async logout(userData) {
-        const res = await fetch(`${this.baseUrl}/logout/`, {
+        const res = await fetch(`${this.baseUrl}/logout/NycBasics/api/logout/`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -37,7 +37,7 @@ export class ApiService {
     }
 
     async login(userData) {
-        const res = await fetch(`${this.baseUrl}/login/`, {
+        const res = await fetch(`${this.baseUrl}/login/NycBasics/api/login/`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -61,7 +61,7 @@ export class ApiService {
     }
 
     async addUser(userData) {
-        const res = await fetch(`${this.baseUrl}/addUser/`, {
+        const res = await fetch(`${this.baseUrl}/signup/NycBasics/api/addUser/`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
