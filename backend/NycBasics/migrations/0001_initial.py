@@ -7,59 +7,106 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='bench_model',
+            name="bench_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('bench_latitude', models.FloatField(null=True)),
-                ('bench_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("bench_latitude", models.FloatField(null=True)),
+                ("bench_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='parking_model',
+            name="parking_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('parking_latitude', models.FloatField(null=True)),
-                ('parking_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("parking_latitude", models.FloatField(null=True)),
+                ("parking_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='toilet_model',
+            name="toilet_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('toilet_latitude', models.FloatField(null=True)),
-                ('toilet_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("toilet_latitude", models.FloatField(null=True)),
+                ("toilet_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('username', models.CharField(max_length=255)),
-                ('email', models.EmailField(max_length=255)),
-                ('password', models.CharField(max_length=50)),
-                ('ifLogged', models.BooleanField(default=False)),
-                ('token', models.CharField(default='', max_length=500, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("username", models.CharField(max_length=255)),
+                ("email", models.EmailField(max_length=255)),
+                ("password", models.CharField(max_length=50)),
+                ("ifLogged", models.BooleanField(default=False)),
+                ("token", models.CharField(default="", max_length=500, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='water_model',
+            name="water_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('water_latitude', models.FloatField(null=True)),
-                ('water_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("water_latitude", models.FloatField(null=True)),
+                ("water_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='wifi_model',
+            name="wifi_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('wifi_latitude', models.FloatField(null=True)),
-                ('wifi_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("wifi_latitude", models.FloatField(null=True)),
+                ("wifi_longitude", models.FloatField(null=True)),
             ],
         ),
     ]
