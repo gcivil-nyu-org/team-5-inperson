@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,6 +32,9 @@ ALLOWED_HOSTS = [
     "NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "nycbasics5prod.ml",
+    "localhost",
+    "nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
 ]
 # add aws cname here after green eb status
 
@@ -47,6 +51,8 @@ INSTALLED_APPS = [
     # Registering the NycBasics Application
     "NycBasics.apps.NycbasicsConfig",
     "rest_framework",
+    "rest_framework.authtoken",
+    "rest_auth",
 ]
 
 MIDDLEWARE = [
@@ -61,7 +67,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "backend.urls"
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -85,14 +90,34 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+"""
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": str(BASE_DIR / "db.sqlite3"),
     }
 }
+"""
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("dbname"),
+        "USER": config("dbuser"),
+        "PASSWORD": config("dbpassword"),
+        "HOST": config("dbhost"),
+        "PORT": config("dbport"),
+    }
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -121,6 +146,8 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "America/New_York"
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
@@ -157,5 +184,9 @@ CORS_ORIGIN_WHITELIST = [
     "https://NYCbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "http://nycbasics5prod.ml",
     "https://nycbasics5prod.ml",
+    "http://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "https://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "http://nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "https://nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
 ]
 # may need to add aws eb cname here above

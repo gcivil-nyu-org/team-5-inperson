@@ -2,7 +2,7 @@
 
 ## Staging Environment
 
-http://nycbasics5.ga/ or [here](http://nycbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com/)
+http://nycbasics5.ga/ or [here](http://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com/)
 
 ![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/develop)
 ![Coverage](https://img.shields.io/coveralls/github/gcivil-nyu-org/team-5-inperson/develop)
@@ -10,7 +10,7 @@ http://nycbasics5.ga/ or [here](http://nycbasics-staging.eba-itqvcpc2.us-west-2.
 
 ## Production Environment
 
-http://nycbasics5prod.ml/ or [here](http://nycbasics-prod.eba-itqvcpc2.us-west-2.elasticbeanstalk.com/)
+http://nycbasics5prod.ml/ or [here](http://nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com/)
 
 
 ![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/master)
@@ -52,6 +52,8 @@ http://nycbasics5prod.ml/ or [here](http://nycbasics-prod.eba-itqvcpc2.us-west-2
     ```cd backend```
 
     ```python -m coverage run --source='NycBasics' manage.py test```
+
+    ```coverage html```
 
 7. To run frontend test
 

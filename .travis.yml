@@ -3,22 +3,17 @@ language: python
 python:
   - 3.8
 
+env: 
+  CI: false
+
 install:
   - cd backend 
   - pip install -r requirements.txt
-  - cd frontend
-  - npm install
-  - nvm install 16.18.0
-  - npm run build
-  - cd ..
-
-before_script:
-  - python manage.py migrate
 
 script:
   - python -m black . --check
   - python -m flake8 . --ignore=W605
-  - python -m coverage run --source='NycBasics' manage.py test
+  - python -m coverage run manage.py test
 
 after_script:
   - coveralls
@@ -27,22 +22,25 @@ after_success:
   coveralls
 
 deploy:
-  - provider: elasticbeanstalk
-    access_key_id: $ACCESSKEYID
-    secret_access_key: $SECRETACCESSKEY
-    region: 'us-west-2'
-    app: 'NYC-Basics'
-    env: 'NYCbasics-staging'
-    bucket_name: 'elasticbeanstalk-us-west-2-travis'
-    on:
-      branch: develop
 
-  - provider: elasticbeanstalk
-    access_key_id: $ACCESSKEYID
-    secret_access_key: $SECRETACCESSKEY
-    region: 'us-west-2'
-    app: 'NYC-Basics'
-    env: 'NYCbasics-prod'
-    bucket_name: 'elasticbeanstalk-us-west-2-travis'
-    on:
-      branch: master
+ - provider: elasticbeanstalk
+   access_key_id: $NYCACCESSKEYID
+   secret_access_key: $NYCSECRETACCESSKEY
+   region: 'us-west-2'
+   app: 'nycstaging'
+   env: 'nycstaging-env'
+   bucket_name: 'elasticbeanstalk-us-west-2-868930267900'
+   on:
+     branch: develop
+
+ - provider: elasticbeanstalk
+   access_key_id: $NYCACCESSKEYID
+   secret_access_key: $NYCSECRETACCESSKEY
+   region: 'us-west-2'
+   app: 'nycstaging'
+   env: 'nycprod-env'
+   bucket_name: 'elasticbeanstalk-us-west-2-868930267900'
+   on:
+     branch: master
+
+
