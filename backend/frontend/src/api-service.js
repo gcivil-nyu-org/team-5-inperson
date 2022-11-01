@@ -4,7 +4,7 @@ export class ApiService {
             this.baseUrl = 'http://127.0.0.1:8000/NycBasics/api'
         }
         else {
-            this.baseUrl = window.location.href + '/NycBasics/api'
+            this.baseUrl = window.location.href + 'NycBasics/api'
         }
         this.requestConfig = {
             headers: {
@@ -14,7 +14,7 @@ export class ApiService {
     };
 
     async logout(userData) {
-        const res = await fetch(`${this.baseUrl}/logout/NycBasics/api/logout/`, {
+        const res = await fetch(`${this.baseUrl}/logout/`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -37,7 +37,7 @@ export class ApiService {
     }
 
     async login(userData) {
-        const res = await fetch(`${this.baseUrl}/login/NycBasics/api/login/`, {
+        const res = await fetch(`${this.baseUrl}/login/`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -61,7 +61,7 @@ export class ApiService {
     }
 
     async addUser(userData) {
-        const res = await fetch(`${this.baseUrl}/signup/NycBasics/api/addUser/`, {
+        const res = await fetch(`${this.baseUrl}/addUser/`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',

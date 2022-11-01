@@ -22,9 +22,9 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("home/NycBasics/", include("NycBasics.urls")),
-    path("signup/NycBasics/", include("NycBasics.urls")),
-    path("login/NycBasics/", include("NycBasics.urls")),
-    path("logout/NycBasics/", include("NycBasics.urls")),
+    path("homeNycBasics/", include("NycBasics.urls")),
+    path("signupNycBasics/", include("NycBasics.urls")),
+    path("loginNycBasics/", include("NycBasics.urls")),
+    path("logoutNycBasics/", include("NycBasics.urls")),
     path("", TemplateView.as_view(template_name="index.html")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
