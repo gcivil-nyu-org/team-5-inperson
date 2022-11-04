@@ -33,6 +33,7 @@ class bench_model(models.Model):
     bench_latitude = models.FloatField(null=True)
     bench_longitude = models.FloatField(null=True)
 
+
 class Rating_Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amenity_type = models.CharField(max_length=10, null=False)
