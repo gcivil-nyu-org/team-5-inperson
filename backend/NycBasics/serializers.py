@@ -7,6 +7,7 @@ from .models import (
     parking_model,
     bench_model,
     toilet_model,
+    Rating_Review
 )
 from django.core.exceptions import ValidationError
 from uuid import uuid4
@@ -131,4 +132,9 @@ class toilet_modelSerializer(serializers.ModelSerializer):
 class parking_modelSerializer(serializers.ModelSerializer):
     class Meta:
         model = parking_model
+        fields = "__all__"
+
+class rating_modelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating_Review
         fields = "__all__"
