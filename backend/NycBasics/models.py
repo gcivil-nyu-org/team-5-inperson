@@ -32,3 +32,18 @@ class parking_model(models.Model):
 class bench_model(models.Model):
     bench_latitude = models.FloatField(null=True)
     bench_longitude = models.FloatField(null=True)
+
+class Rating_Review(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    amenity_type = models.CharField(max_length=10, null=False)
+    water_id = models.ForeignKey(water_model, on_delete=models.CASCADE)
+    bench_id = models.ForeignKey(bench_model, on_delete=models.CASCADE)
+    wifi_id = models.ForeignKey(wifi_model, on_delete=models.CASCADE)
+    parking_id = models.ForeignKey(parking_model, on_delete=models.CASCADE)
+    toilet_id = models.ForeignKey(toilet_model, on_delete=models.CASCADE)
+    rating = models.IntegerField(null=False)
+    review = models.CharField(max_length=255, null=False)
+    is_flagged = models.BooleanField(null=True, default=False)
+    is_deleted = models.BooleanField(null=True, default=False)
+    upvotes = models.IntegerField(null=True, default=0)
+    downvotes = models.IntegerField(null=True, default=0)
