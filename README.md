@@ -51,7 +51,7 @@ http://nycbasics5prod.ml/ or [here](http://nycprod-env.eba-6p2tbyi2.us-west-2.el
 
     ```cd backend```
 
-    ```python -m coverage run --source='NycBasics' manage.py test```
+    ```python -m coverage run manage.py test```
 
     ```coverage html```
 

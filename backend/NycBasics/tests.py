@@ -13,6 +13,7 @@ from NycBasics.views.listviews import (
     toilet_model,
 )
 from NycBasics.views.userviews import Login, Logout, User
+from NycBasics.views.ratingviews import rating_List, Rating_Review
 from rest_framework.test import APIClient
 
 """
@@ -30,71 +31,34 @@ const testingCenter = {
 
 
 class ApiTests(TestCase):
+    def test_valid_rating_review(self):
+        view = rating_List.as_view()
+        factory = APIRequestFactory()
+        self.client = APIClient()
 
-    # def test_valid_addUser(self):
-    #     view = Record.as_view()
-    #     factory = APIRequestFactory()
-    #     self.client = APIClient()
+        x = User.objects.create(
+            username="user1", email="user1@test.com", password="testpass"
+        )
 
-    #     request = factory.post('/NycBasics/api/addUser/', {'username': 'user1', 'email': 'user1@test.com', 'password': 'testpass'})
-    #     response = view(request)
+        Rating_Review.objects.create(
+            user_id=x.id,
+            amenity_type="water",
+            amenity_id=92,
+            rating=3,
+            review="This fountain is nice.",
+            is_flagged=False,
+            is_deleted=False,
+            upvotes=0,
+            downvotes=0,
+        )
 
-    #     # print("response", response)
-    #     # print("response.data", response.data)
-    #     # print("response.status_code", response.status_code)
+        request = factory.get("/NycBasics/api/rating_review/water/92/")
+        response = view(request, pk1="water", pk2="92")
 
-    #     isValidStatus = 200 <= response.status_code < 300
-    #     # print("isValidStatus", isValidStatus)
+        isValidStatus = 200 <= response.status_code < 300
+        self.assertTrue(isValidStatus)
 
-    #     self.assertTrue(isValidStatus)
-
-    # def test_duplicate_username_addUser(self):
-    #     view = Record.as_view()
-    #     factory = APIRequestFactory()
-    #     self.client = APIClient()
-
-    #     User.objects.create(username="user1", email="user2@test.com", password="testpass")
-
-    #     request = factory.post('/NycBasics/api/addUser/', {'username': 'user1', 'email': 'user1@test.com', 'password': 'testpass'})
-    #     response = view(request)
-
-    #     # print("response", response)
-    #     # print("response.data", response.data)
-    #     # print("response.status_code", response.status_code)
-
-    #     isInvalidStatus = 400 <= response.status_code < 500
-    #     # print("isInvalidStatus", isInvalidStatus)
-
-    #     self.assertTrue(isInvalidStatus)
-
-    #     # print("response.data.username", response.data['username'])
-    #     # print("response.data.username", response.data['username'][0])
-
-    #     self.assertEqual(response.data['username'][0], "This field must be unique.")
-
-    # def test_duplicate_email_addUser(self):
-    #     view = Record.as_view()
-    #     factory = APIRequestFactory()
-    #     self.client = APIClient()
-
-    #     User.objects.create(username="user2", email="user1@test.com", password="testpass")
-
-    #     request = factory.post('/NycBasics/api/addUser/', {'username': 'user1', 'email': 'user1@test.com', 'password': 'testpass'})
-    #     response = view(request)
-
-    #     # print("response", response)
-    #     # print("response.data", response.data)
-    #     # print("response.status_code", response.status_code)
-
-    #     isInvalidStatus = 400 <= response.status_code < 500
-    #     # print("isInvalidStatus", isInvalidStatus)
-
-    #     self.assertTrue(isInvalidStatus)
-
-    #     # print("response.data.email", response.data['email'])
-    #     # print("response.data.email", response.data['email'][0])
-
-    #     self.assertEqual(response.data['email'][0], "This field must be unique.")
+        self.assertEqual(response.data[0]["review"], "This fountain is nice.")
 
     def test_valid_login(self):
         view = Login.as_view()
