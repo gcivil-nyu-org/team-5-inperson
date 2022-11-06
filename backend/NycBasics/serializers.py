@@ -141,6 +141,7 @@ class rating_modelSerializer(serializers.ModelSerializer):
         model = Rating_Review
         fields = "__all__"
 
+
 class avgrating_modelSerializer(serializers.ModelSerializer):
     class Meta:
         model = average_rating_model
