@@ -64,5 +64,10 @@ urlpatterns = [
         "api/rating_and_review/<str:pk1>/<int:pk2>/",
         ratingviews.rating_List.as_view(),
         name="ratingdetail",
-    ),
+    ),    
+    path(
+        "api/create_rating/",
+        ratingviews.create_Rating.as_view(),
+        name="createrating",
+    ),    
 ]

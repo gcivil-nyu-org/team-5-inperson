@@ -1,5 +1,6 @@
 from ..models import (
     Rating_Review,
+    User,
 )
 
 from ..serializers import (
@@ -23,4 +24,9 @@ class rating_List(generics.ListAPIView):
 
         return relevant_ratings
 
+    serializer_class = rating_modelSerializer
+
+
+class create_Rating(generics.CreateAPIView):
+    queryset = User.objects.all()
     serializer_class = rating_modelSerializer
