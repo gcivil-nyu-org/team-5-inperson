@@ -70,4 +70,9 @@ urlpatterns = [
         ratingviews.create_Rating.as_view(),
         name="createrating",
     ),
+    path(
+        "api/average_rating/<str:pk1>/<int:pk2>/",
+        ratingviews.average_Rating.as_view(),
+        name="averagerating",
+    ),
 ]
