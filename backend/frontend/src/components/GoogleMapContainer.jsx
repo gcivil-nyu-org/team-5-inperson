@@ -1,7 +1,10 @@
+import '../styles/Form.css';
 import React, { useState } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { ApiService } from '../api-service';
 
 const containerStyle = {
     width: '100vw',
@@ -47,14 +50,41 @@ export const GoogleMapContainer = (props) => {
             center={mapCenter}
             zoom={17}
         >
-            <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'end'}>
+        <div className='Offcanvas'> 
+            <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'start'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>
                 </Offcanvas.Header>
-                <Offcanvas.Body>
-                    {offcanvasbody} <br></br><br></br><Button variant="primary">Google Maps</Button>{' '}
+                <Offcanvas.Body>  
+                    <Button variant="primary">Google Maps</Button>{' '} 
+                    <br></br> 
+                    <br></br> 
+                    <div className='AverageRating'> Average Rating: 4.5 </div>
+                    <br></br> 
+                    <br></br>
+                    <ListGroup>
+
+                        <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                            <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
+                            <div className="ms-2 me-auto">
+                                <div className="fw-bold">CoolDude99  |  Rating: 4</div>
+                                <br></br>
+                                    This is a review, woah, this is a pretty cool amenity! Thumbs up from me!
+                                </div>
+                        </ListGroup.Item>
+
+                        <ListGroup.Item>Review 3</ListGroup.Item>
+                        <ListGroup.Item>Review 4</ListGroup.Item>
+                        <ListGroup.Item>Review 5</ListGroup.Item>
+                    </ListGroup>
+
+                    <br></br> 
+                    <br></br>
+
+                    <button className="buttonaddreview">Add Review</button>
                 </Offcanvas.Body>
             </Offcanvas>
+        </div>
 
             { /* Child components, such as markers, info windows, etc. */}
             {isReallyLoaded ?
@@ -78,8 +108,19 @@ export const GoogleMapContainer = (props) => {
                                 }}
                                 position={{ lat: waterAmenity.water_latitude, lng: waterAmenity.water_longitude }}
                                 onClick={() => {
+                                    async function getReviews() {
+                                        const apiService = new ApiService();
+
+                                        const reviewData = await apiService.getReview('water', 92);
+
+                                        return reviewData
+                                    }
+
+                                    const reviewData = getReviews();
+                                    
                                     offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id;
-                                    offcanvasbody = 'Lat: ' + waterAmenity.water_latitude + ' Lon:' + waterAmenity.water_longitude;
+                                    offcanvasbody = 'Lat: ' + ' Lon:' + waterAmenity.water_longitude;
+                                    console.log(reviewData[3].amenity_type)
                                     handleShow();
                                 }} />
                         ))
