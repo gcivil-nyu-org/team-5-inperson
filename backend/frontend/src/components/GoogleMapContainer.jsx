@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader,
+  Marker,
+  DirectionsRenderer,
+  Circle,
+  MarkerClusterer } from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
+//import Map from "../components/MainSearch"
 
 const containerStyle = {
-    width: '100vw',
+    width: '100%',
     height: '70vh'
 };
 
 var offcanvastitle = 'Im a title!';
 var offcanvasbody = 'Im a body!';
+
 
 export const GoogleMapContainer = (props) => {
 
@@ -18,8 +24,7 @@ export const GoogleMapContainer = (props) => {
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyAlY5HyxhDCzErdU_jPO38azUGZkejyeWM'
-        // googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     })
 
     const [isReallyLoaded, setIsReallyLoaded] = React.useState(false);
@@ -40,13 +45,14 @@ export const GoogleMapContainer = (props) => {
         toilet: "\ue63d",
         parking: "\ue54f"
     }
-
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
             zoom={17}
+
         >
+            
             <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'end'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>

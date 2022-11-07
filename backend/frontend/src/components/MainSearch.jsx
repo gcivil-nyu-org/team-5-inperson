@@ -34,13 +34,13 @@ function MainSearch() {
     // When component mounts
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(function (position) {
-        // setMapCenter({
-        //   lat: Number(position.coords.latitude),
-        //   lng: Number(position.coords.longitude)
-        // })
+          setMapCenter({
+            lat: Number(position.coords.latitude),
+            lng: Number(position.coords.longitude)
+         })
 
         // switched to testing location for developer testing by viha
-        setMapCenter(testingCenter)
+        //setMapCenter(testingCenter)
       },
         function (error) {
           if (error.code === error.PERMISSION_DENIED) {
@@ -49,6 +49,7 @@ function MainSearch() {
         });
     }
   }, [])
+
 
 
   useEffect(() => {
@@ -94,6 +95,7 @@ function MainSearch() {
 
       />
       <GoogleMapContainer
+        
         waterAmenities={waterAmenities}
         wifiAmenities={wifiAmenities}
         benchAmenities={benchAmenities}
