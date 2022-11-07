@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { GoogleMap, useJsApiLoader,
-  Marker,
-  DirectionsRenderer,
-  Circle,
-  MarkerClusterer } from '@react-google-maps/api';
+import {
+    GoogleMap, useJsApiLoader,
+    Marker,
+    DirectionsRenderer,
+    Circle,
+    Autocomplete,
+    MarkerClusterer
+} from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
-//import Map from "../components/MainSearch"
 
 const containerStyle = {
     width: '100%',
@@ -45,14 +47,39 @@ export const GoogleMapContainer = (props) => {
         toilet: "\ue63d",
         parking: "\ue54f"
     }
+
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
             zoom={17}
-
         >
-            
+
+            <Autocomplete>
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    style={{
+                        boxSizing: `border-box`,
+                        border: `1px solid transparent`,
+                        width: `300px`,
+                        height: `40px`,
+                        padding: `0 12px`,
+                        borderRadius: `3px`,
+                        boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                        fontSize: `16px`,
+                        outline: `none`,
+                        textOverflow: `ellipses`,
+                        position: "absolute",
+                        left: "48%",
+                        top: "10px",
+                        marginLeft: "-120px",
+                        backgroundColor: "white"
+                        
+                    }}
+                />
+            </Autocomplete>
+
             <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'end'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>
