@@ -20,7 +20,8 @@ function Loginform() {
       const loginResponse = await apiService.login(formDetails);
       console.log("loginResponse", loginResponse)
       let authenticatedUserObj = {
-        'token': loginResponse['token']
+        'token': loginResponse['token'],
+        'username': loginResponse['username']
       }
       localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUserObj));
       window.dispatchEvent(new Event("storage"));

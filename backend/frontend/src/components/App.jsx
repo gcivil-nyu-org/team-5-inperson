@@ -7,6 +7,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Navigate
 } from "react-router-dom";
 import MainSearch from './MainSearch';
 import Loginform from './Loginform';
@@ -23,6 +24,10 @@ function App() {
             <Route path='/login' element={<Loginform />}></Route>
             <Route path='/home' element={<MainSearch />}></Route>
             <Route path='/signup' element={<Signup />}></Route>
+            <Route
+                    path="/"
+                    element={ <Navigate to="/home" /> }
+                />
           </Routes>
         </BrowserRouter>
       </ChakraProvider>
