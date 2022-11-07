@@ -27,7 +27,8 @@ function BasicsNavbar() {
     const logoutResponse = await apiService.logout(authenticatedUser);
     console.log("logoutResponse", logoutResponse)
     let authenticatedUserObj = {
-      'token': null
+      'token': null,
+      'username': null
     }
     localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUserObj));
     window.dispatchEvent(new Event("storage"));
@@ -42,14 +43,17 @@ function BasicsNavbar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav className="ml-auto">
-              <Nav.Link as={Link} to='/home'>Home</Nav.Link>
+              
               {authenticatedUser?.token?.length > 0 ?
-                <Nav.Link onClick={logout}>Logout</Nav.Link> :
+                <Nav.Link>Hello, {authenticatedUser.username}!</Nav.Link> :
                 <Nav.Link as={Link} to='/login'>Login</Nav.Link>
               }
+              <Nav.Link as={Link} to='/home'>Home</Nav.Link>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#Settings/Visuals">Visuals</NavDropdown.Item>
-                <NavDropdown.Item href="#Settings/Sound">Sound</NavDropdown.Item>
+                {authenticatedUser?.token?.length > 0 ?
+                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item> :
+                  null
+                }
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

@@ -11,8 +11,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 
 const containerStyle = {
-    width: '100%',
-    height: '70vh'
+    width: '100vw',
+    height: '82vh'
 };
 
 var offcanvastitle = 'Im a title!';
