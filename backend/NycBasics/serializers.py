@@ -34,6 +34,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
     user_id = serializers.CharField()
     password = serializers.CharField()
     token = serializers.CharField(required=False, read_only=True)
+    username = serializers.CharField(required=False, read_only=True)
 
     def validate(self, data):
 
@@ -65,6 +66,8 @@ class UserLoginSerializer(serializers.ModelSerializer):
         data["token"] = uuid4()
         user.token = data["token"]
         user.save()
+        data["username"] = user.username
+        print("login data from django",data )
         return data
 
     class Meta:
@@ -73,9 +76,10 @@ class UserLoginSerializer(serializers.ModelSerializer):
             "user_id",
             "password",
             "token",
+            "username"
         )
 
-        read_only_fields = ("token",)
+        read_only_fields = ("token", "username")
 
 
 class UserLogoutSerializer(serializers.ModelSerializer):
