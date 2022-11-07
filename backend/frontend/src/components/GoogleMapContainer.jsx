@@ -22,7 +22,7 @@ var offcanvasbody = 'Im a body!';
 export const GoogleMapContainer = (props) => {
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities, mapCenter,
-        waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
+        setMapCenter, waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -36,6 +36,7 @@ export const GoogleMapContainer = (props) => {
     }, 200);
 
     const [show, setShow] = useState(false);
+    const [autocomplete, setAutocomplete] = useState(null);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -48,6 +49,25 @@ export const GoogleMapContainer = (props) => {
         parking: "\ue54f"
     }
 
+    const onLoad = (autocomplete) => {
+        console.log('autocomplete: ', autocomplete)
+        setAutocomplete(autocomplete)
+    }
+
+    const onPlaceChanged = () => {
+        if (autocomplete !== null) {
+            const place = autocomplete.getPlace()
+            console.log(place.geometry.location.lat(), place.geometry.location.lng())
+            const searchLocation = {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+              };
+            setMapCenter(searchLocation)
+        } else {
+            console.log('Autocomplete is not loaded yet!')
+        }
+    }
+
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
@@ -55,7 +75,10 @@ export const GoogleMapContainer = (props) => {
             zoom={17}
         >
 
-            <Autocomplete>
+            <Autocomplete
+                onLoad={onLoad}
+                onPlaceChanged={onPlaceChanged}
+            >
                 <input
                     type="text"
                     placeholder="Search..."
@@ -75,7 +98,7 @@ export const GoogleMapContainer = (props) => {
                         top: "10px",
                         marginLeft: "-120px",
                         backgroundColor: "white"
-                        
+
                     }}
                 />
             </Autocomplete>

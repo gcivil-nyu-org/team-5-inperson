@@ -29,26 +29,26 @@ function MainSearch() {
   const [parkingAmenities, setParkingAmenities] = useState([]);
   const [toiletAmenities, setToiletAmenities] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // When component mounts
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(function (position) {
-          setMapCenter({
-            lat: Number(position.coords.latitude),
-            lng: Number(position.coords.longitude)
-         })
+  //   // When component mounts
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.watchPosition(function (position) {
+  //         setMapCenter({
+  //           lat: Number(position.coords.latitude),
+  //           lng: Number(position.coords.longitude)
+  //        })
 
-        // switched to testing location for developer testing by viha
-        //setMapCenter(testingCenter)
-      },
-        function (error) {
-          if (error.code === error.PERMISSION_DENIED) {
-            console.log("Location Access Rejected")
-          }
-        });
-    }
-  }, [])
+  //       // switched to testing location for developer testing by viha
+  //       //setMapCenter(testingCenter)
+  //     },
+  //       function (error) {
+  //         if (error.code === error.PERMISSION_DENIED) {
+  //           console.log("Location Access Rejected")
+  //         }
+  //       });
+  //   }
+  // }, [])
 
 
 
@@ -102,6 +102,7 @@ function MainSearch() {
         toiletAmenities={toiletAmenities}
         parkingAmenities={parkingAmenities}
         mapCenter={mapCenter}
+        setMapCenter={setMapCenter}
         waterOn={waterOn}
         wifiOn={wifiOn}
         benchOn={benchOn}
