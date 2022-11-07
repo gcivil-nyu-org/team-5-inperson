@@ -43,9 +43,15 @@ class Rating_Review(models.Model):
     # wifi_id = models.ForeignKey(wifi_model, on_delete=models.CASCADE)
     # parking_id = models.ForeignKey(parking_model, on_delete=models.CASCADE)
     # toilet_id = models.ForeignKey(toilet_model, on_delete=models.CASCADE)
-    rating = models.IntegerField(null=False)
+    rating = models.IntegerField(null=False, default=0)
     review = models.CharField(max_length=255, null=False)
     is_flagged = models.BooleanField(null=True, default=False)
     is_deleted = models.BooleanField(null=True, default=False)
     upvotes = models.IntegerField(null=True, default=0)
     downvotes = models.IntegerField(null=True, default=0)
+
+
+class average_rating_model(models.Model):
+    amenity_type = models.CharField(max_length=10, null=True)
+    amenity_id = models.IntegerField(null=True, default=0)
+    average_rating = models.IntegerField(null=False)
