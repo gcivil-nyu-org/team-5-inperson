@@ -49,7 +49,6 @@ export class ApiService {
             })
         });
         const data = await res.json();
-        console.log("login data from FE", data)
 
         if (res.status >= 200 && res.status < 300) {
             console.log("login res", res)
