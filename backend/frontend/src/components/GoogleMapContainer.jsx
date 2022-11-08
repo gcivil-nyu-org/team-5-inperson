@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {
-    GoogleMap, useJsApiLoader,
+    GoogleMap, useJsApiLoader,withGoogleMap,
     Marker,
     DirectionsRenderer,
     Circle,
@@ -9,6 +9,12 @@ import {
 } from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
+import { IconButton, SkeletonText, Flex, HStack,Box,
+    ButtonGroup,
+    Input,
+    Text,
+    position} from '@chakra-ui/react';
+import { FaLocationArrow , FaTimes} from 'react-icons/fa';
 
 const containerStyle = {
     width: '100vw',
@@ -30,13 +36,17 @@ export const GoogleMapContainer = (props) => {
     })
 
     const [isReallyLoaded, setIsReallyLoaded] = React.useState(false);
-
+    
     setTimeout(() => {
         setIsReallyLoaded(true);
     }, 200);
 
     const [show, setShow] = useState(false);
     const [autocomplete, setAutocomplete] = useState(null);
+    const [map,setMap] = useState(/** @type google.maps.Map */ (null))
+    const [directionsResponse, setDirectionsResponse] =useState(null)
+    const [distance, setDistance] = useState('')
+    const [duration, setDuration] = useState('')
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -67,15 +77,50 @@ export const GoogleMapContainer = (props) => {
             console.log('Autocomplete is not loaded yet!')
         }
     }
+   
+    async function calculateRoute(position){
 
+        // eslint-disable-next-line no-undef
+        const directionsService= new google.maps.DirectionsService()
+        const results= await directionsService.route({
+            origin:mapCenter,
+            destination:position,
+            // eslint-disable-next-line no-undef
+            travelMode:google.maps.TravelMode.WALKING
+        })
+        setDirectionsResponse(results)
+        setDistance(results.routes[0].legs[0].distance.text)
+        setDuration(results.routes[0].legs[0].duration.text)
+        console.log(('found directions'))
+    }
+
+    function clearRoute(){
+        setDirectionsResponse(null)
+        setDistance('')
+        setDuration('')
+    }
+    
     return isLoaded ? (
+        <Flex
+            position='relative'
+            flexDirection='column'
+            alignItems='center'
+            h='100vh'
+            w='100vw'
+        >
+        
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
             zoom={17}
-        >
+            options={{
+                fullscreenControl:false,
 
-            <Autocomplete
+            }}
+            onLoad={map => setMap(map)}
+        >
+            {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)}
+        { /*   <Autocomplete
                 onLoad={onLoad}
                 onPlaceChanged={onPlaceChanged}
             >
@@ -101,14 +146,28 @@ export const GoogleMapContainer = (props) => {
 
                     }}
                 />
+                
+                <IconButton
+                    aria-label='center back'
+                    icon={<FaLocationArrow />}
+                    isRound
+                    onClick={() =>{
+                        map.panTo(mapCenter)
+                    }}
+                /> 
             </Autocomplete>
-
+                */}
+            
             <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'end'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    {offcanvasbody} <br></br><br></br><Button variant="primary">Google Maps</Button>{' '}
+                    {offcanvasbody} <br></br><br></br><Button variant="primary"
+                      onClick={()=>{
+                            calculateRoute(position)
+                            }} 
+                            >Navigate to amenity</Button>{' '}
                 </Offcanvas.Body>
             </Offcanvas>
 
@@ -219,7 +278,79 @@ export const GoogleMapContainer = (props) => {
 
                 </>
                 : null}
-        </GoogleMap>
-    ) : <>Loading</>
+        
+        <Box
+        p={4}
+        borderRadius='lg'
+        m={4}
+        bgColor='white'
+        shadow='base'
+        minW='container.md'
+        zIndex='1'
+      >
+        <HStack spacing={2} justifyContent='space-between'>
+        
+          <Box flexGrow={1}>
+            <Autocomplete
+            onLoad={onLoad}
+            onPlaceChanged={onPlaceChanged}
+            >
+            <input
+                    type="text"
+                    placeholder="Search..."
+                    style={{
+                        boxSizing: `border-box`,
+                        border: `1px solid transparent`,
+                        width: `300px`,
+                        height: `40px`,
+                        padding: `0 12px`,
+                        borderRadius: `3px`,
+                        boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                        fontSize: `16px`,
+                        outline: `none`,
+                        textOverflow: `ellipses`,
+                        position: "absolute",
+                        left: "48%",
+                        top: "10px",
+                        marginLeft: "-120px",
+                        backgroundColor: "white"
+
+                    }}
+                />
+            </Autocomplete>
+          </Box>
+          <div className="searchButtons">
+
+          
+                <ButtonGroup>
+                    
+                    <IconButton
+                    aria-label='center back'
+                    icon={<FaTimes />}
+                    onClick={clearRoute}
+                    />
+                    <IconButton
+                        aria-label='center back'
+                        icon={<FaLocationArrow />}
+                        isRound
+                        onClick={() => {
+                        map.panTo(mapCenter)
+                        
+                        }}
+                    />
+                </ButtonGroup>
+            </div>
+        </HStack>
+        <HStack spacing={4} mt={4} justifyContent='space-between'>
+            <Text>Distance: {distance} </Text>
+            <Text>Duration: {duration} </Text>
+        
+        </HStack>
+      </Box>
+      </GoogleMap>
+    </Flex>
+    ) : <SkeletonText />//<>Loading</>
+       // return <SkeletonText />
+    
 }
 
