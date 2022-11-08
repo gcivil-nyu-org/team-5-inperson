@@ -5,6 +5,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { ApiService } from '../api-service';
+import parse from 'html-react-parser';
+
 
 const containerStyle = {
     width: '100vw',
@@ -13,11 +15,12 @@ const containerStyle = {
 
 var offcanvastitle = 'Im a title!';
 var offcanvasbody = 'Im a body!';
+var reviewlist = '';
 
 export const GoogleMapContainer = (props) => {
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities, mapCenter,
-        waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
+        waterOn, wifiOn, benchOn, parkingOn, toiletOn, reviewDataAmenities,  amenity_type, amenity_id} = props;
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -62,21 +65,7 @@ export const GoogleMapContainer = (props) => {
                     <div className='AverageRating'> Average Rating: 4.5 </div>
                     <br></br> 
                     <br></br>
-                    <ListGroup>
-
-                        <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-                            <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
-                            <div className="ms-2 me-auto">
-                                <div className="fw-bold">CoolDude99  |  Rating: 4</div>
-                                <br></br>
-                                    This is a review, woah, this is a pretty cool amenity! Thumbs up from me!
-                                </div>
-                        </ListGroup.Item>
-
-                        <ListGroup.Item>Review 3</ListGroup.Item>
-                        <ListGroup.Item>Review 4</ListGroup.Item>
-                        <ListGroup.Item>Review 5</ListGroup.Item>
-                    </ListGroup>
+                    {parse(reviewlist)}
 
                     <br></br> 
                     <br></br>
@@ -108,21 +97,31 @@ export const GoogleMapContainer = (props) => {
                                 }}
                                 position={{ lat: waterAmenity.water_latitude, lng: waterAmenity.water_longitude }}
                                 onClick={() => {
-                                    async function getReviews() {
-                                        const apiService = new ApiService();
-
-                                        const reviewData = await apiService.getReview('water', 92);
-
-                                        return reviewData
-                                    }
-
-                                    const reviewData = getReviews();
                                     
-                                    offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id;
-                                    offcanvasbody = 'Lat: ' + ' Lon:' + waterAmenity.water_longitude;
-                                    console.log(reviewData[3].amenity_type)
-                                    handleShow();
-                                }} />
+                                    const apiService = new ApiService();
+                                    const reviewDataPromise = apiService.getReview('water', waterAmenity.id);                                      
+
+                                    reviewDataPromise.then((reviewData) => {
+                                        
+                                        reviewlist = '<ListGroup>';
+                                        for (let i=0; i < reviewData.length; i++){
+                                            reviewlist  = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                            <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
+                                            <div className="ms-2 me-auto">
+                                                <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating}</div>
+                                                    ${reviewData[i].review}
+                                                    <br></br>
+                                                </div>
+                                            </ListGroup.Item>
+                                            `);
+                                        }
+                                        reviewlist  = reviewlist.concat('</ListGroup>');
+
+                                        offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id + ' ';
+                                        offcanvasbody = 'Lat: ' + ' Lon:' + waterAmenity.water_longitude;
+                                        handleShow();
+                                });
+                            }} />
                         ))
                         : null}
 
