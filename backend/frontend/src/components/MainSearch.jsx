@@ -15,14 +15,10 @@ const testingCenter = {
   lng: -73.9863413463988
 };
 
-var amenity_type_example = 'water';
-var amenity_id_example = 95;
 
 function MainSearch() {
 
   const [mapCenter, setMapCenter] = useState(defaultCenter)
-  const [amenity_type, set_Amenity_type] = useState([]);
-  const [amenity_id, set_Amenity_id] = useState([]);
   const [waterOn, setWaterOn] = useState(false);
   const [wifiOn, setWifiOn] = useState(false);
   const [benchOn, setBenchOn] = useState(false);
@@ -33,7 +29,6 @@ function MainSearch() {
   const [benchAmenities, setBenchAmenities] = useState([]);
   const [parkingAmenities, setParkingAmenities] = useState([]);
   const [toiletAmenities, setToiletAmenities] = useState([]);
-  const [reviewDataAmenities, setReviews] = useState([]);
 
   useEffect(() => {
 
@@ -47,8 +42,6 @@ function MainSearch() {
 
         // switched to testing location for developer testing by viha
         setMapCenter(testingCenter)
-        set_Amenity_id(amenity_id_example)
-        set_Amenity_type(amenity_type_example)
       },
         function (error) {
           if (error.code === error.PERMISSION_DENIED) {
@@ -78,8 +71,6 @@ function MainSearch() {
       const toiletData = await apiService.getToilet(mapCenter);
       setToiletAmenities(toiletData);
 
-      const reviewData = await apiService.getReview(amenity_type,amenity_id);
-      setReviews(reviewData);
 
     }
 
@@ -116,10 +107,6 @@ function MainSearch() {
         benchOn={benchOn}
         parkingOn={parkingOn}
         toiletOn={toiletOn}
-        reviewDataAmenities={reviewDataAmenities}
-
-        amenity_type={amenity_type}
-        amenity_id={amenity_id}
 
       />
     </div>

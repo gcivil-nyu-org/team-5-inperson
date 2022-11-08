@@ -131,10 +131,11 @@ button[type="button"] {
   font-size: 16px;
   margin: 4px 1px;
   cursor: pointer;
-  margin-left: 250px;
   background: rgb(72, 163, 166);
   display: flex;
-  position: absolute;
+  position: relative;
+  left: 231px;
+  bottom: 52px;
 }
 
 .buttondislike {
@@ -148,10 +149,11 @@ button[type="button"] {
   font-size: 16px;
   margin: 4px 1px;
   cursor: pointer;
-  margin-left: 250px;
   background: rgb(72, 163, 166);
   display: flex;
-  position: absolute;
+  position: relative;
+  left: 280px;
+  bottom: 120px;
 }
 
 .buttonaddreview {
@@ -180,9 +182,10 @@ button[type="button"] {
   font-size: 16px;
   margin: 4px 1px;
   cursor: pointer;
-  margin-left: 100px;
   display: flex;
-  position: absolute;
+  position: relative;
+  left: 180px;
+  bottom: 85px;
 }
 
 .buttonaddreview {
@@ -213,4 +216,24 @@ button {
   text-transform: uppercase;
   padding: 10px 20px;
   border-radius: 4px;
+}
+
+.Review {
+  
+}
+
+.reviewbuttons {
+  float: right;
+}
+
+.AverageRating{
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 1px;
+  cursor: pointer;
+  margin-left: 100px;
+  font-weight: bold;
 }
