@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {
-    GoogleMap, useJsApiLoader,withGoogleMap,
+    GoogleMap, useJsApiLoader,
     Marker,
     DirectionsRenderer,
     Autocomplete,
@@ -79,7 +79,7 @@ export const GoogleMapContainer = (props) => {
         // eslint-disable-next-line no-undef
         const directionsService= new google.maps.DirectionsService()
         const destination = {lat:destLat , lng: destLng}
-        if (destLat==='' || destLng==='')
+        if (destLat === '' || destLng ===  '')
             return
         const results= await directionsService.route({
             origin:mapCenter,
@@ -101,7 +101,7 @@ export const GoogleMapContainer = (props) => {
         setDuration('')
         setDestLat('')
         setDestLng('')
-        setMap(map)
+        //setMap(map)
     }
     
     return isLoaded ? (
