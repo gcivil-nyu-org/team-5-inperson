@@ -110,7 +110,7 @@ export const GoogleMapContainer = (props) => {
                 />
             </Autocomplete>
 
-            <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'end'}>
+            <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'start'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>
                 </Offcanvas.Header>
@@ -129,7 +129,6 @@ export const GoogleMapContainer = (props) => {
                     <button className="buttonaddreview">Add Review</button>
                 </Offcanvas.Body>
             </Offcanvas>
-        </div>
 
             { /* Child components, such as markers, info windows, etc. */}
             {isReallyLoaded ?
