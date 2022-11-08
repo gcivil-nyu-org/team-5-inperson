@@ -3,17 +3,13 @@ import {
     GoogleMap, useJsApiLoader,withGoogleMap,
     Marker,
     DirectionsRenderer,
-    Circle,
     Autocomplete,
-    MarkerClusterer
 } from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import { IconButton, SkeletonText, Flex, HStack,Box,
     ButtonGroup,
-    Input,
-    Text,
-    position} from '@chakra-ui/react';
+    } from '@chakra-ui/react';
 import { FaLocationArrow , FaTimes} from 'react-icons/fa';
 
 const containerStyle = {
@@ -29,8 +25,8 @@ export const GoogleMapContainer = (props) => {
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities, mapCenter,
         setMapCenter, waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
-
-    const { isLoaded } = useJsApiLoader({
+    
+    const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     })
@@ -47,10 +43,11 @@ export const GoogleMapContainer = (props) => {
     const [directionsResponse, setDirectionsResponse] =useState(null)
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
-
+    const [destLat, setDestLat] = useState('')
+    const [destLng, setDestLng] = useState('')
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+    
     const codepoints = {
         water: "\ue798",
         wifi: "\ue63e",
@@ -78,16 +75,20 @@ export const GoogleMapContainer = (props) => {
         }
     }
    
-    async function calculateRoute(position){
-
+    async function calculateRoute(){
         // eslint-disable-next-line no-undef
         const directionsService= new google.maps.DirectionsService()
+        const destination = {lat:destLat , lng: destLng}
+        if (destLat==='' || destLng==='')
+            return
         const results= await directionsService.route({
             origin:mapCenter,
-            destination:position,
+            destination:destination,
             // eslint-disable-next-line no-undef
             travelMode:google.maps.TravelMode.WALKING
+            
         })
+        console.log(destination.lat, destination.lng)
         setDirectionsResponse(results)
         setDistance(results.routes[0].legs[0].distance.text)
         setDuration(results.routes[0].legs[0].duration.text)
@@ -98,6 +99,9 @@ export const GoogleMapContainer = (props) => {
         setDirectionsResponse(null)
         setDistance('')
         setDuration('')
+        setDestLat('')
+        setDestLng('')
+        setMap(map)
     }
     
     return isLoaded ? (
@@ -119,7 +123,7 @@ export const GoogleMapContainer = (props) => {
             }}
             onLoad={map => setMap(map)}
         >
-            {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)}
+            {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)} 
         { /*   <Autocomplete
                 onLoad={onLoad}
                 onPlaceChanged={onPlaceChanged}
@@ -165,7 +169,8 @@ export const GoogleMapContainer = (props) => {
                 <Offcanvas.Body>
                     {offcanvasbody} <br></br><br></br><Button variant="primary"
                       onClick={()=>{
-                            calculateRoute(position)
+                         
+                            calculateRoute()
                             }} 
                             >Navigate to amenity</Button>{' '}
                 </Offcanvas.Body>
@@ -176,7 +181,7 @@ export const GoogleMapContainer = (props) => {
                 <>
                     {/* User location */}
                     <Marker
-                        position={mapCenter} />
+                        var position={mapCenter} />
 
                     {/* Amenities */}
                     {/* codepoints from https://fonts.google.com/icons */}
@@ -195,7 +200,10 @@ export const GoogleMapContainer = (props) => {
                                 onClick={() => {
                                     offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id;
                                     offcanvasbody = 'Lat: ' + waterAmenity.water_latitude + ' Lon:' + waterAmenity.water_longitude;
+                                    setDestLat(waterAmenity.water_latitude)
+                                    setDestLng(waterAmenity.water_longitude)
                                     handleShow();
+                                    
                                 }} />
                         ))
                         : null}
@@ -214,6 +222,8 @@ export const GoogleMapContainer = (props) => {
                                 onClick={() => {
                                     offcanvastitle = 'Toilet Amenity, ID:' + toiletAmenity.id;
                                     offcanvasbody = 'Lat: ' + toiletAmenity.toilet_latitude + ' Lon:' + toiletAmenity.toilet_longitude;
+                                    setDestLat(toiletAmenity.toilet_latitude)
+                                    setDestLng(toiletAmenity.toilet_longitude)
                                     handleShow();
                                 }} />
                         ))
@@ -233,6 +243,8 @@ export const GoogleMapContainer = (props) => {
                                 onClick={() => {
                                     offcanvastitle = 'Wifi Amenity, ID:' + wifiAmenity.id;
                                     offcanvasbody = 'Lat: ' + wifiAmenity.wifi_latitude + ' Lon:' + wifiAmenity.wifi_longitude;
+                                    setDestLat(wifiAmenity.wifi_latitude)
+                                    setDestLng(wifiAmenity.wifi_longitude)
                                     handleShow();
                                 }} />
                         ))
@@ -252,6 +264,8 @@ export const GoogleMapContainer = (props) => {
                                 onClick={() => {
                                     offcanvastitle = 'Parking Amenity, ID:' + parkingAmenity.id;
                                     offcanvasbody = 'Lat: ' + parkingAmenity.parking_latitude + ' Lon:' + parkingAmenity.parking_longitude;
+                                    setDestLat(parkingAmenity.parking_latitude)
+                                    setDestLng(parkingAmenity.parking_longitude)
                                     handleShow();
                                 }} />
                         ))
@@ -271,6 +285,8 @@ export const GoogleMapContainer = (props) => {
                                 onClick={() => {
                                     offcanvastitle = 'Bench Amenity, ID:' + benchAmenity.id;
                                     offcanvasbody = 'Lat: ' + benchAmenity.bench_latitude + ' Lon:' + benchAmenity.bench_longitude;
+                                    setDestLat(benchAmenity.bench_latitude)
+                                    setDestLng(benchAmenity.bench_longitude)
                                     handleShow();
                                 }} />
                         ))
@@ -287,7 +303,7 @@ export const GoogleMapContainer = (props) => {
         shadow='base'
         minW='container.md'
         zIndex='1'
-      >
+        >
         <HStack spacing={2} justifyContent='space-between'>
         
           <Box flexGrow={1}>
@@ -327,7 +343,9 @@ export const GoogleMapContainer = (props) => {
                     <IconButton
                     aria-label='center back'
                     icon={<FaTimes />}
-                    onClick={clearRoute}
+                    onClick= {() =>{clearRoute()}
+                    
+                    }
                     />
                     <IconButton
                         aria-label='center back'
@@ -341,11 +359,11 @@ export const GoogleMapContainer = (props) => {
                 </ButtonGroup>
             </div>
         </HStack>
-        <HStack spacing={4} mt={4} justifyContent='space-between'>
+        {/*<HStack spacing={4} mt={4} justifyContent='space-between'>
             <Text>Distance: {distance} </Text>
             <Text>Duration: {duration} </Text>
         
-        </HStack>
+                    </HStack>*/}
       </Box>
       </GoogleMap>
     </Flex>
