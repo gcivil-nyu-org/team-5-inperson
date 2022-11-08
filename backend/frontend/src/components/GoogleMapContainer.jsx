@@ -1,6 +1,13 @@
 import '../styles/Form.css';
 import React, { useState } from 'react'
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import {
+    GoogleMap, useJsApiLoader,
+    Marker,
+    DirectionsRenderer,
+    Circle,
+    Autocomplete,
+    MarkerClusterer
+} from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -10,7 +17,7 @@ import parse from 'html-react-parser';
 
 const containerStyle = {
     width: '100vw',
-    height: '70vh'
+    height: '82vh'
 };
 
 var offcanvastitle = 'Im a title!';
@@ -18,15 +25,15 @@ var offcanvasbody = 'Im a body!';
 var reviewlist = '';
 var rating_average = '';
 
+
 export const GoogleMapContainer = (props) => {
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities, mapCenter,
-        waterOn, wifiOn, benchOn, parkingOn, toiletOn} = props;
+        setMapCenter, waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyAlY5HyxhDCzErdU_jPO38azUGZkejyeWM'
-        // googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     })
 
     const [isReallyLoaded, setIsReallyLoaded] = React.useState(false);
@@ -36,6 +43,7 @@ export const GoogleMapContainer = (props) => {
     }, 200);
 
     const [show, setShow] = useState(false);
+    const [autocomplete, setAutocomplete] = useState(null);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -48,14 +56,61 @@ export const GoogleMapContainer = (props) => {
         parking: "\ue54f"
     }
 
+    const onLoad = (autocomplete) => {
+        console.log('autocomplete: ', autocomplete)
+        setAutocomplete(autocomplete)
+    }
+
+    const onPlaceChanged = () => {
+        if (autocomplete !== null) {
+            const place = autocomplete.getPlace()
+            console.log(place.geometry.location.lat(), place.geometry.location.lng())
+            const searchLocation = {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+              };
+            setMapCenter(searchLocation)
+        } else {
+            console.log('Autocomplete is not loaded yet!')
+        }
+    }
+
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
             zoom={17}
         >
-        <div className='Offcanvas'> 
-            <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'start'}>
+
+            <Autocomplete
+                onLoad={onLoad}
+                onPlaceChanged={onPlaceChanged}
+            >
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    style={{
+                        boxSizing: `border-box`,
+                        border: `1px solid transparent`,
+                        width: `300px`,
+                        height: `40px`,
+                        padding: `0 12px`,
+                        borderRadius: `3px`,
+                        boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                        fontSize: `16px`,
+                        outline: `none`,
+                        textOverflow: `ellipses`,
+                        position: "absolute",
+                        left: "48%",
+                        top: "10px",
+                        marginLeft: "-120px",
+                        backgroundColor: "white"
+
+                    }}
+                />
+            </Autocomplete>
+
+            <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'end'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>
                 </Offcanvas.Header>

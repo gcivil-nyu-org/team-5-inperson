@@ -8,6 +8,7 @@ from .models import (
     bench_model,
     toilet_model,
     Rating_Review,
+    average_rating_model,
 )
 from django.core.exceptions import ValidationError
 from uuid import uuid4
@@ -33,6 +34,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
     user_id = serializers.CharField()
     password = serializers.CharField()
     token = serializers.CharField(required=False, read_only=True)
+    username = serializers.CharField(required=False, read_only=True)
 
     def validate(self, data):
 
@@ -64,17 +66,14 @@ class UserLoginSerializer(serializers.ModelSerializer):
         data["token"] = uuid4()
         user.token = data["token"]
         user.save()
+        data["username"] = user.username
         return data
 
     class Meta:
         model = User
-        fields = (
-            "user_id",
-            "password",
-            "token",
-        )
+        fields = ("user_id", "password", "token", "username")
 
-        read_only_fields = ("token",)
+        read_only_fields = ("token", "username")
 
 
 class UserLogoutSerializer(serializers.ModelSerializer):
@@ -138,4 +137,10 @@ class parking_modelSerializer(serializers.ModelSerializer):
 class rating_modelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating_Review
+        fields = "__all__"
+
+
+class avgrating_modelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = average_rating_model
         fields = "__all__"
