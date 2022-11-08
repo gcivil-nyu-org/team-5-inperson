@@ -13,7 +13,7 @@ install:
 script:
   - python -m black . --check
   - python -m flake8 . --ignore=W605
-  - python -m coverage run manage.py test
+  - python -m coverage run manage.py test --noinput
 
 after_script:
   - coveralls
