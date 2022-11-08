@@ -135,8 +135,6 @@ button[type="button"] {
   background: rgb(72, 163, 166);
   display: flex;
   position: absolute;
-  top: 5px;
-  right: 66px;
 }
 
 .buttondislike {
@@ -154,8 +152,6 @@ button[type="button"] {
   background: rgb(72, 163, 166);
   display: flex;
   position: absolute;
-  top: 5px;
-  right: 5px;
 }
 
 .buttonaddreview {
@@ -187,8 +183,6 @@ button[type="button"] {
   margin-left: 100px;
   display: flex;
   position: absolute;
-  top: 5px;
-  right: 110px;
 }
 
 .buttonaddreview {

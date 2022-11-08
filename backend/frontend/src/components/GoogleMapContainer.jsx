@@ -16,6 +16,7 @@ const containerStyle = {
 var offcanvastitle = 'Im a title!';
 var offcanvasbody = 'Im a body!';
 var reviewlist = '';
+var rating_average = 'B';
 
 export const GoogleMapContainer = (props) => {
 
@@ -62,7 +63,7 @@ export const GoogleMapContainer = (props) => {
                     <Button variant="primary">Google Maps</Button>{' '} 
                     <br></br> 
                     <br></br> 
-                    <div className='AverageRating'> Average Rating: 4.5 </div>
+                    <div className='AverageRating'> {rating_average} </div>
                     <br></br> 
                     <br></br>
                     {parse(reviewlist)}
@@ -102,23 +103,36 @@ export const GoogleMapContainer = (props) => {
                                     const reviewDataPromise = apiService.getReview('water', waterAmenity.id);                                      
 
                                     reviewDataPromise.then((reviewData) => {
-                                        
+
+                                        var average_rating = 0;
+                                        var undeleted_reviews = 0;
+                                    
                                         reviewlist = '<ListGroup>';
                                         for (let i=0; i < reviewData.length; i++){
-                                            reviewlist  = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-                                            <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
-                                            <div className="ms-2 me-auto">
-                                                <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating}</div>
-                                                    ${reviewData[i].review}
-                                                    <br></br>
-                                                </div>
-                                            </ListGroup.Item>
-                                            `);
+                                            if (reviewData[i].is_deleted === false) {
+                                                reviewlist  = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                                <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
+                                                <div className="ms-2 me-auto">
+                                                    <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating}</div>
+                                                        ${reviewData[i].review}
+                                                        <br></br>
+                                                    </div>
+                                                </ListGroup.Item>
+                                                `);
+                                                average_rating = average_rating + reviewData[i].rating;
+                                                undeleted_reviews++;
+                                            }
                                         }
+                                        average_rating = average_rating / undeleted_reviews;
                                         reviewlist  = reviewlist.concat('</ListGroup>');
 
                                         offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id + ' ';
                                         offcanvasbody = 'Lat: ' + ' Lon:' + waterAmenity.water_longitude;
+                                        if (undeleted_reviews > 0) {
+                                            rating_average = "Average Rating: " + average_rating;
+                                        } else {
+                                            rating_average = 'No Reviews Yet';
+                                        }
                                         handleShow();
                                 });
                             }} />
