@@ -188,21 +188,6 @@ button[type="button"] {
   bottom: 85px;
 }
 
-.buttonaddreview {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 10px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 1px;
-  cursor: pointer;
-  margin-left: 125px;
-  background: rgb(72, 163, 166);
-}
-
 hr {
   margin-top: 30px;
 }
