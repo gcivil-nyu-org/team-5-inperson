@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import userviews, listviews, detailviews
+from .views import userviews, listviews, detailviews, ratingviews
 
 
 urlpatterns = [
@@ -60,4 +60,19 @@ urlpatterns = [
         name="login",
     ),
     path("api/logout/", userviews.Logout.as_view(), name="logout"),
+    path(
+        "api/rating_review/<str:pk1>/<int:pk2>/",
+        ratingviews.rating_List.as_view(),
+        name="ratingdetail",
+    ),
+    path(
+        "api/create_rating/",
+        ratingviews.create_Rating.as_view(),
+        name="createrating",
+    ),
+    path(
+        "api/average_rating/<str:pk1>/<int:pk2>/",
+        ratingviews.average_Rating.as_view(),
+        name="averagerating",
+    ),
 ]

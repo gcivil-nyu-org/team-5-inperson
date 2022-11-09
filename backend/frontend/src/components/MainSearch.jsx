@@ -15,6 +15,7 @@ const testingCenter = {
   lng: -73.9863413463988
 };
 
+
 function MainSearch() {
 
   const [mapCenter, setMapCenter] = useState(defaultCenter)
@@ -29,26 +30,27 @@ function MainSearch() {
   const [parkingAmenities, setParkingAmenities] = useState([]);
   const [toiletAmenities, setToiletAmenities] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // When component mounts
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(function (position) {
-        // setMapCenter({
-        //   lat: Number(position.coords.latitude),
-        //   lng: Number(position.coords.longitude)
-        // })
+  //   // When component mounts
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.watchPosition(function (position) {
+  //         setMapCenter({
+  //           lat: Number(position.coords.latitude),
+  //           lng: Number(position.coords.longitude)
+  //        })
 
-        // switched to testing location for developer testing by viha
-        setMapCenter(testingCenter)
-      },
-        function (error) {
-          if (error.code === error.PERMISSION_DENIED) {
-            console.log("Location Access Rejected")
-          }
-        });
-    }
-  }, [])
+  //       // switched to testing location for developer testing by viha
+  //       //setMapCenter(testingCenter)
+  //     },
+  //       function (error) {
+  //         if (error.code === error.PERMISSION_DENIED) {
+  //           console.log("Location Access Rejected")
+  //         }
+  //       });
+  //   }
+  // }, [])
+
 
 
   useEffect(() => {
@@ -69,6 +71,7 @@ function MainSearch() {
 
       const toiletData = await apiService.getToilet(mapCenter);
       setToiletAmenities(toiletData);
+
 
     }
 
@@ -94,17 +97,20 @@ function MainSearch() {
 
       />
       <GoogleMapContainer
+        
         waterAmenities={waterAmenities}
         wifiAmenities={wifiAmenities}
         benchAmenities={benchAmenities}
         toiletAmenities={toiletAmenities}
         parkingAmenities={parkingAmenities}
         mapCenter={mapCenter}
+        setMapCenter={setMapCenter}
         waterOn={waterOn}
         wifiOn={wifiOn}
         benchOn={benchOn}
         parkingOn={parkingOn}
         toiletOn={toiletOn}
+
       />
     </div>
   );

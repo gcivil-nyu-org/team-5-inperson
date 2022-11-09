@@ -120,6 +120,74 @@ button[type="button"] {
   border-radius: 4px;
 }
 
+.buttonlike {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 3px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 1px;
+  cursor: pointer;
+  background: rgb(72, 163, 166);
+  display: flex;
+  position: relative;
+  left: 231px;
+  bottom: 52px;
+}
+
+.buttondislike {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 3px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 1px;
+  cursor: pointer;
+  background: rgb(72, 163, 166);
+  display: flex;
+  position: relative;
+  left: 280px;
+  bottom: 120px;
+}
+
+.buttonaddreview {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 1px;
+  cursor: pointer;
+  margin-left: 125px;
+  background: rgb(72, 163, 166);
+}
+
+.buttonflag {
+  background-color: crimson; 
+  border: none;
+  color: white;
+  padding: 3px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 1px;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+  left: 180px;
+  bottom: 85px;
+}
+
 hr {
   margin-top: 30px;
 }
@@ -133,4 +201,24 @@ button {
   text-transform: uppercase;
   padding: 10px 20px;
   border-radius: 4px;
+}
+
+.Review {
+  
+}
+
+.reviewbuttons {
+  float: right;
+}
+
+.AverageRating{
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 1px;
+  cursor: pointer;
+  margin-left: 100px;
+  font-weight: bold;
 }
