@@ -15,6 +15,7 @@ const testingCenter = {
   lng: -73.9863413463988
 };
 
+
 function MainSearch() {
 
   const [mapCenter, setMapCenter] = useState(defaultCenter)
@@ -71,6 +72,7 @@ function MainSearch() {
       const toiletData = await apiService.getToilet(mapCenter);
       setToiletAmenities(toiletData);
 
+
     }
 
     getAmenities()
@@ -108,6 +110,7 @@ function MainSearch() {
         benchOn={benchOn}
         parkingOn={parkingOn}
         toiletOn={toiletOn}
+
       />
     </div>
   );

@@ -114,4 +114,10 @@ export class ApiService {
         const data = await res.json();
         return data;
     }
+
+    async getReview(amenity_type,amenity_id) {
+        const res = await fetch(`${this.baseUrl}/rating_review/${amenity_type}/${amenity_id}/`, this.requestConfig);
+        const data = await res.json();
+        return data;
+    }
 }
