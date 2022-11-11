@@ -9,27 +9,44 @@ import {
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import {
-    IconButton, SkeletonText, Flex, HStack, Box,
-    ButtonGroup, Spacer
+    IconButton, SkeletonText, Flex, Stack, Box,
+    ButtonGroup, Spacer, Center, WrapItem, Wrap, Tooltip
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
 import parse from 'html-react-parser';
+import { Filters } from './Filters';
 
 const containerStyle = {
     width: '100vw',
-    height: '82vh'
+    height: '92vh'
 };
 
 var offcanvastitle = '';
 var reviewlist = '';
 var rating_average = '';
 
+const mapStyle =
+    [
+        {
+            featureType: "all",
+            elementType: "labels",
+            stylers: [
+                {
+                    visibility: "off"
+                }
+            ]
+        }
+    ]
+
+
 
 export const GoogleMapContainer = (props) => {
 
-    const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities, mapCenter,
-        setMapCenter, waterOn, wifiOn, benchOn, parkingOn, toiletOn } = props;
+    const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
+        mapCenter, setMapCenter,
+        waterOn, wifiOn, benchOn, parkingOn, toiletOn,
+        setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -108,6 +125,8 @@ export const GoogleMapContainer = (props) => {
         //setMap(map)
     }
 
+
+
     return isLoaded ? (
 
         <GoogleMap
@@ -117,9 +136,11 @@ export const GoogleMapContainer = (props) => {
             options={{
                 fullscreenControl: false,
                 mapTypeControl: false,
-                streetViewControl: false
+                streetViewControl: false,
+                // styles: {mapStyle}
             }}
             onLoad={map => setMap(map)}
+        // customMapStyle={mapStyle}
         >
             {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)}
 
@@ -142,9 +163,10 @@ export const GoogleMapContainer = (props) => {
                         outline: `none`,
                         textOverflow: `ellipses`,
                         position: "absolute",
-                        left: "48%",
-                        top: "10px",
-                        marginLeft: "-120px",
+                        // left: "48%",
+                        left: "20px",
+                        top: "20px",
+                        // marginLeft: "-120px",
                         backgroundColor: "white"
                     }}
                 />
@@ -163,6 +185,14 @@ export const GoogleMapContainer = (props) => {
                             handleClose()
                         }}>
                         Navigate Here
+                    </Button>{' '}
+
+                    <br></br>
+
+                    <Button variant="primary"
+                    >
+                        <a href={`https://www.google.com/maps?saddr=${mapCenter.lat},${mapCenter.lng}&daddr=${destLat},${destLng}`} target="_blank">Open with GoogleMaps</a>
+
                     </Button>{' '}
                     <br></br><br></br>
 
@@ -494,22 +524,51 @@ export const GoogleMapContainer = (props) => {
             <Flex>
                 <Spacer />
 
-                <Box borderRadius='lg' m={4} shadow='base'>
-                    <HStack spacing={2} justifyContent='space-between'>
-                        <ButtonGroup>
-                            {directionsResponse ? <IconButton
-                                aria-label='center back'
-                                icon={<FaTimes />}
-                                onClick={() => { clearRoute() }}
-                            /> : null}
-                            <IconButton
-                                aria-label='center back'
-                                icon={<FaLocationArrow />}
-                                isRound
-                                onClick={() => { map.panTo(mapCenter) }}
-                            />
-                        </ButtonGroup>
-                    </HStack>
+                <Filters
+                    waterOn={waterOn}
+                    wifiOn={wifiOn}
+                    benchOn={benchOn}
+                    parkingOn={parkingOn}
+                    toiletOn={toiletOn}
+                    setWaterOn={setWaterOn}
+                    setWifiOn={setWifiOn}
+                    setBenchOn={setBenchOn}
+                    setParkingOn={setParkingOn}
+                    setToiletOn={setToiletOn}
+
+                />
+                <Spacer />
+
+                <Box borderRadius='lg' p={5} shadow='base'
+                    pt={{ base: '36', sm: '5', md: '5', lg: '5', xl: '5' }}
+                    pl={{ base: '0', sm: '5', md: '5', lg: '5', xl: '5' }}
+                    ml={{ base: '-20', sm: '-20', md: '-20', lg: '-20', xl: '-20' }}
+                >
+
+                    <ButtonGroup>
+                        <Stack spacing={2} justifyContent='space-between' direction="column">
+                            <Tooltip hasArrow label='Recenter Map' placement='left' openDelay="500">
+                                <IconButton
+                                    aria-label='center back'
+                                    icon={<FaLocationArrow />}
+                                    colorScheme="green"
+                                    onClick={() => { map.panTo(mapCenter) }}
+                                />
+                            </Tooltip>
+
+
+                            {directionsResponse ?
+                                <Tooltip hasArrow label='Clear Navigation' placement='left' openDelay="500">
+                                    <IconButton
+                                        aria-label='center back'
+                                        icon={<FaTimes />}
+                                        colorScheme="green"
+                                        onClick={() => { clearRoute() }}
+                                    />
+                                </Tooltip> : null}
+                        </Stack>
+                    </ButtonGroup>
+
                 </Box>
             </Flex >
         </GoogleMap>
