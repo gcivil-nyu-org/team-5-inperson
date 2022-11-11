@@ -39,7 +39,7 @@ http://nycbasics5prod.ml/ or [here](http://nycprod-env.eba-6p2tbyi2.us-west-2.el
 
     ```npm install```
 
-    ```npm start```
+    ```npm run watch```
 
 5. To run backend django
 
