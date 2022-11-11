@@ -1,16 +1,12 @@
 import '../styles/Form.css';
 import React, { useState } from 'react'
 import {
-    GoogleMap, useJsApiLoader,
-    Marker,
-    DirectionsRenderer,
-    Autocomplete,
+    GoogleMap, useJsApiLoader,Marker,DirectionsRenderer,Autocomplete,
 } from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import {
-    IconButton, SkeletonText, Flex, Stack, Box,
-    ButtonGroup, Spacer, Center, WrapItem, Wrap, Tooltip
+    IconButton, SkeletonText, Flex, Stack, Box,ButtonGroup, Spacer, Tooltip
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
@@ -40,7 +36,6 @@ const mapStyle =
     ]
 
 
-
 export const GoogleMapContainer = (props) => {
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
@@ -63,8 +58,8 @@ export const GoogleMapContainer = (props) => {
     const [autocomplete, setAutocomplete] = useState(null);
     const [map, setMap] = useState(/** @type google.maps.Map */(null))
     const [directionsResponse, setDirectionsResponse] = useState(null)
-    const [distance, setDistance] = useState('')
-    const [duration, setDuration] = useState('')
+    // const [distance, setDistance] = useState('')
+    // const [duration, setDuration] = useState('')
     const [destLat, setDestLat] = useState('')
     const [destLng, setDestLng] = useState('')
     const handleClose = () => setShow(false);
@@ -111,15 +106,15 @@ export const GoogleMapContainer = (props) => {
 
         })
         setDirectionsResponse(results)
-        setDistance(results.routes[0].legs[0].distance.text)
-        setDuration(results.routes[0].legs[0].duration.text)
+        // setDistance(results.routes[0].legs[0].distance.text)
+        // setDuration(results.routes[0].legs[0].duration.text)
         console.log(('found directions'))
     }
 
     function clearRoute() {
         setDirectionsResponse(null)
-        setDistance('')
-        setDuration('')
+        // setDistance('')
+        // setDuration('')
         setDestLat('')
         setDestLng('')
         //setMap(map)
@@ -183,17 +178,17 @@ export const GoogleMapContainer = (props) => {
                         onClick={() => {
                             calculateRoute()
                             handleClose()
-                        }}>
-                        Navigate Here
-                    </Button>{' '}
-
-                    <br></br>
-
-                    <Button variant="primary"
+                        }}
                     >
-                        <a href={`https://www.google.com/maps?saddr=${mapCenter.lat},${mapCenter.lng}&daddr=${destLat},${destLng}`} target="_blank">Open with GoogleMaps</a>
-
+                        Show Path
                     </Button>{' '}
+
+                    <a class="btn btn-primary"
+                        href={`https://www.google.com/maps?saddr=${mapCenter.lat},${mapCenter.lng}&daddr=${destLat},${destLng}`}
+                        target="_blank"
+                    >
+                        GMaps Nav
+                    </a>
                     <br></br><br></br>
 
                     <div className='AverageRating'> {rating_average} </div>
