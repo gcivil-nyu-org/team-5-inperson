@@ -10,21 +10,18 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import {
     IconButton, SkeletonText, Flex, HStack, Box,
-    ButtonGroup, Text
+    ButtonGroup, Spacer
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
-import ListGroup from 'react-bootstrap/ListGroup';
 import { ApiService } from '../api-service';
 import parse from 'html-react-parser';
-
 
 const containerStyle = {
     width: '100vw',
     height: '82vh'
 };
 
-var offcanvastitle = 'Im a title!';
-var offcanvasbody = 'Im a body!';
+var offcanvastitle = '';
 var reviewlist = '';
 var rating_average = '';
 
@@ -112,86 +109,108 @@ export const GoogleMapContainer = (props) => {
     }
 
     return isLoaded ? (
-        <Flex
-            position='relative'
-            flexDirection='column'
-            alignItems='center'
-            h='100vh'
-            w='100vw'
+
+        <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={mapCenter}
+            zoom={17}
+            options={{
+                fullscreenControl: false,
+                mapTypeControl: false,
+                streetViewControl: false
+            }}
+            onLoad={map => setMap(map)}
         >
+            {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)}
 
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={mapCenter}
-                zoom={17}
-                options={{
-                    fullscreenControl: false,
-
-                }}
-                onLoad={map => setMap(map)}
+            <Autocomplete
+                onLoad={onLoad}
+                onPlaceChanged={onPlaceChanged}
             >
-                {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)}
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    style={{
+                        boxSizing: `border-box`,
+                        border: `1px solid transparent`,
+                        width: `300px`,
+                        height: `40px`,
+                        padding: `0 12px`,
+                        borderRadius: `3px`,
+                        boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                        fontSize: `16px`,
+                        outline: `none`,
+                        textOverflow: `ellipses`,
+                        position: "absolute",
+                        left: "48%",
+                        top: "10px",
+                        marginLeft: "-120px",
+                        backgroundColor: "white"
+                    }}
+                />
+            </Autocomplete>
 
-                <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'start'}>
-                    <Offcanvas.Header closeButton>
-                        <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>
-                    </Offcanvas.Header>
-                    <Offcanvas.Body>
+            <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'start'}>
 
-                        <Button variant="primary"
-                            onClick={() => {
-                                calculateRoute()
-                            }}
-                        >
-                            Navigate Here
-                        </Button>{' '}
-                        <br></br><br></br>
+                <Offcanvas.Header closeButton>
+                    <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>
+                </Offcanvas.Header>
 
-                        <div className='AverageRating'> {rating_average} </div>
-                        <br></br><br></br>
+                <Offcanvas.Body>
+                    <Button variant="primary"
+                        onClick={() => {
+                            calculateRoute()
+                            handleClose()
+                        }}>
+                        Navigate Here
+                    </Button>{' '}
+                    <br></br><br></br>
 
-                        <div className='Review'> {parse(reviewlist)} </div>
-                        <br></br><br></br>
+                    <div className='AverageRating'> {rating_average} </div>
+                    <br></br><br></br>
 
-                        <button className="buttonaddreview">Add Review</button>
-                    </Offcanvas.Body>
-                </Offcanvas>
+                    <div className='Review'> {parse(reviewlist)} </div>
+                    <br></br><br></br>
+
+                    <button className="buttonaddreview">Add Review</button>
+                </Offcanvas.Body>
+            </Offcanvas>
 
 
-                {isReallyLoaded ?
-                    <>
+            {isReallyLoaded ?
+                <>
 
-                        <Marker
-                            var position={mapCenter} />
+                    <Marker
+                        var position={mapCenter} />
 
-                        {waterOn ?
-                            waterAmenities.map((waterAmenity) => (
-                                <Marker
-                                    key={waterAmenity.id}
-                                    label={{
-                                        text: codepoints.water,
-                                        fontFamily: "Material Icons",
-                                        color: "#ffffff",
-                                        fontSize: "16px",
-                                    }}
-                                    position={{ lat: waterAmenity.water_latitude, lng: waterAmenity.water_longitude }}
-                                    onClick={() => {
+                    {waterOn ?
+                        waterAmenities.map((waterAmenity) => (
+                            <Marker
+                                key={waterAmenity.id}
+                                label={{
+                                    text: codepoints.water,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: waterAmenity.water_latitude, lng: waterAmenity.water_longitude }}
+                                onClick={() => {
 
-                                        setDestLat(waterAmenity.water_latitude)
-                                        setDestLng(waterAmenity.water_longitude)
+                                    setDestLat(waterAmenity.water_latitude)
+                                    setDestLng(waterAmenity.water_longitude)
 
-                                        const apiService = new ApiService();
-                                        const reviewDataPromise = apiService.getReview('water', waterAmenity.id);
+                                    const apiService = new ApiService();
+                                    const reviewDataPromise = apiService.getReview('water', waterAmenity.id);
 
-                                        reviewDataPromise.then((reviewData) => {
+                                    reviewDataPromise.then((reviewData) => {
 
-                                            var average_rating = 0;
-                                            var undeleted_reviews = 0;
+                                        var average_rating = 0;
+                                        var undeleted_reviews = 0;
 
-                                            reviewlist = '<ListGroup>';
-                                            for (let i = 0; i < reviewData.length; i++) {
-                                                if (reviewData[i].is_deleted === false) {
-                                                    reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                        reviewlist = '<ListGroup>';
+                                        for (let i = 0; i < reviewData.length; i++) {
+                                            if (reviewData[i].is_deleted === false) {
+                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
                                                  
@@ -205,54 +224,54 @@ export const GoogleMapContainer = (props) => {
                                                     
                                                 </ListGroup.Item>
                                                 `);
-                                                    average_rating = average_rating + reviewData[i].rating;
-                                                    undeleted_reviews++;
+                                                average_rating = average_rating + reviewData[i].rating;
+                                                undeleted_reviews++;
 
-                                                }
                                             }
-                                            average_rating = average_rating / undeleted_reviews;
-                                            reviewlist = reviewlist.concat('</ListGroup>');
+                                        }
+                                        average_rating = average_rating / undeleted_reviews;
+                                        reviewlist = reviewlist.concat('</ListGroup>');
 
-                                            offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id + ' ';
-                                            if (undeleted_reviews > 0) {
-                                                rating_average = "Average Rating: " + average_rating;
-                                            } else {
-                                                rating_average = 'No Reviews Yet';
-                                            }
-                                            handleShow();
-                                        });
-                                    }} />
-                            ))
-                            : null}
+                                        offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id + ' ';
+                                        if (undeleted_reviews > 0) {
+                                            rating_average = "Average Rating: " + average_rating;
+                                        } else {
+                                            rating_average = 'No Reviews Yet';
+                                        }
+                                        handleShow();
+                                    });
+                                }} />
+                        ))
+                        : null}
 
-                        {toiletOn ?
-                            toiletAmenities.map((toiletAmenity) => (
-                                <Marker
-                                    key={toiletAmenity.id}
-                                    label={{
-                                        text: codepoints.toilet,
-                                        fontFamily: "Material Icons",
-                                        color: "#ffffff",
-                                        fontSize: "16px",
-                                    }}
-                                    position={{ lat: toiletAmenity.toilet_latitude, lng: toiletAmenity.toilet_longitude }}
-                                    onClick={() => {
+                    {toiletOn ?
+                        toiletAmenities.map((toiletAmenity) => (
+                            <Marker
+                                key={toiletAmenity.id}
+                                label={{
+                                    text: codepoints.toilet,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: toiletAmenity.toilet_latitude, lng: toiletAmenity.toilet_longitude }}
+                                onClick={() => {
 
-                                        setDestLat(toiletAmenity.toilet_latitude)
-                                        setDestLng(toiletAmenity.toilet_longitude)
+                                    setDestLat(toiletAmenity.toilet_latitude)
+                                    setDestLng(toiletAmenity.toilet_longitude)
 
-                                        const apiService = new ApiService();
-                                        const reviewDataPromise = apiService.getReview('toilet', toiletAmenity.id);
+                                    const apiService = new ApiService();
+                                    const reviewDataPromise = apiService.getReview('toilet', toiletAmenity.id);
 
-                                        reviewDataPromise.then((reviewData) => {
+                                    reviewDataPromise.then((reviewData) => {
 
-                                            var average_rating = 0;
-                                            var undeleted_reviews = 0;
+                                        var average_rating = 0;
+                                        var undeleted_reviews = 0;
 
-                                            reviewlist = '<ListGroup>';
-                                            for (let i = 0; i < reviewData.length; i++) {
-                                                if (reviewData[i].is_deleted === false) {
-                                                    reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                        reviewlist = '<ListGroup>';
+                                        for (let i = 0; i < reviewData.length; i++) {
+                                            if (reviewData[i].is_deleted === false) {
+                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
                                                  
@@ -266,54 +285,54 @@ export const GoogleMapContainer = (props) => {
                                                     
                                                 </ListGroup.Item>
                                                 `);
-                                                    average_rating = average_rating + reviewData[i].rating;
-                                                    undeleted_reviews++;
+                                                average_rating = average_rating + reviewData[i].rating;
+                                                undeleted_reviews++;
 
-                                                }
                                             }
-                                            average_rating = average_rating / undeleted_reviews;
-                                            reviewlist = reviewlist.concat('</ListGroup>');
+                                        }
+                                        average_rating = average_rating / undeleted_reviews;
+                                        reviewlist = reviewlist.concat('</ListGroup>');
 
-                                            offcanvastitle = 'Toilet Amenity, ID:' + toiletAmenity.id + ' ';
-                                            if (undeleted_reviews > 0) {
-                                                rating_average = "Average Rating: " + average_rating;
-                                            } else {
-                                                rating_average = 'No Reviews Yet';
-                                            }
-                                            handleShow();
-                                        });
-                                    }} />
-                            ))
-                            : null}
+                                        offcanvastitle = 'Toilet Amenity, ID:' + toiletAmenity.id + ' ';
+                                        if (undeleted_reviews > 0) {
+                                            rating_average = "Average Rating: " + average_rating;
+                                        } else {
+                                            rating_average = 'No Reviews Yet';
+                                        }
+                                        handleShow();
+                                    });
+                                }} />
+                        ))
+                        : null}
 
-                        {wifiOn ?
-                            wifiAmenities.map((wifiAmenity) => (
-                                <Marker
-                                    key={wifiAmenity.id}
-                                    label={{
-                                        text: codepoints.wifi,
-                                        fontFamily: "Material Icons",
-                                        color: "#ffffff",
-                                        fontSize: "16px",
-                                    }}
-                                    position={{ lat: wifiAmenity.wifi_latitude, lng: wifiAmenity.wifi_longitude }}
-                                    onClick={() => {
+                    {wifiOn ?
+                        wifiAmenities.map((wifiAmenity) => (
+                            <Marker
+                                key={wifiAmenity.id}
+                                label={{
+                                    text: codepoints.wifi,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: wifiAmenity.wifi_latitude, lng: wifiAmenity.wifi_longitude }}
+                                onClick={() => {
 
-                                        setDestLat(wifiAmenity.wifi_latitude)
-                                        setDestLng(wifiAmenity.wifi_longitude)
+                                    setDestLat(wifiAmenity.wifi_latitude)
+                                    setDestLng(wifiAmenity.wifi_longitude)
 
-                                        const apiService = new ApiService();
-                                        const reviewDataPromise = apiService.getReview('wifi', wifiAmenity.id);
+                                    const apiService = new ApiService();
+                                    const reviewDataPromise = apiService.getReview('wifi', wifiAmenity.id);
 
-                                        reviewDataPromise.then((reviewData) => {
+                                    reviewDataPromise.then((reviewData) => {
 
-                                            var average_rating = 0;
-                                            var undeleted_reviews = 0;
+                                        var average_rating = 0;
+                                        var undeleted_reviews = 0;
 
-                                            reviewlist = '<ListGroup>';
-                                            for (let i = 0; i < reviewData.length; i++) {
-                                                if (reviewData[i].is_deleted === false) {
-                                                    reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                        reviewlist = '<ListGroup>';
+                                        for (let i = 0; i < reviewData.length; i++) {
+                                            if (reviewData[i].is_deleted === false) {
+                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
                                                  
@@ -327,54 +346,54 @@ export const GoogleMapContainer = (props) => {
                                                     
                                                 </ListGroup.Item>
                                                 `);
-                                                    average_rating = average_rating + reviewData[i].rating;
-                                                    undeleted_reviews++;
+                                                average_rating = average_rating + reviewData[i].rating;
+                                                undeleted_reviews++;
 
-                                                }
                                             }
-                                            average_rating = average_rating / undeleted_reviews;
-                                            reviewlist = reviewlist.concat('</ListGroup>');
+                                        }
+                                        average_rating = average_rating / undeleted_reviews;
+                                        reviewlist = reviewlist.concat('</ListGroup>');
 
-                                            offcanvastitle = 'Wifi Amenity, ID:' + wifiAmenity.id + ' ';
-                                            if (undeleted_reviews > 0) {
-                                                rating_average = "Average Rating: " + average_rating;
-                                            } else {
-                                                rating_average = 'No Reviews Yet';
-                                            }
-                                            handleShow();
-                                        });
-                                    }} />
-                            ))
-                            : null}
+                                        offcanvastitle = 'Wifi Amenity, ID:' + wifiAmenity.id + ' ';
+                                        if (undeleted_reviews > 0) {
+                                            rating_average = "Average Rating: " + average_rating;
+                                        } else {
+                                            rating_average = 'No Reviews Yet';
+                                        }
+                                        handleShow();
+                                    });
+                                }} />
+                        ))
+                        : null}
 
-                        {parkingOn ?
-                            parkingAmenities.map((parkingAmenity) => (
-                                <Marker
-                                    key={parkingAmenity.id}
-                                    label={{
-                                        text: codepoints.parking,
-                                        fontFamily: "Material Icons",
-                                        color: "#ffffff",
-                                        fontSize: "16px",
-                                    }}
-                                    position={{ lat: parkingAmenity.parking_latitude, lng: parkingAmenity.parking_longitude }}
-                                    onClick={() => {
+                    {parkingOn ?
+                        parkingAmenities.map((parkingAmenity) => (
+                            <Marker
+                                key={parkingAmenity.id}
+                                label={{
+                                    text: codepoints.parking,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: parkingAmenity.parking_latitude, lng: parkingAmenity.parking_longitude }}
+                                onClick={() => {
 
-                                        setDestLat(parkingAmenity.parking_latitude)
-                                        setDestLng(parkingAmenity.parking_longitude)
+                                    setDestLat(parkingAmenity.parking_latitude)
+                                    setDestLng(parkingAmenity.parking_longitude)
 
-                                        const apiService = new ApiService();
-                                        const reviewDataPromise = apiService.getReview('parking', parkingAmenity.id);
+                                    const apiService = new ApiService();
+                                    const reviewDataPromise = apiService.getReview('parking', parkingAmenity.id);
 
-                                        reviewDataPromise.then((reviewData) => {
+                                    reviewDataPromise.then((reviewData) => {
 
-                                            var average_rating = 0;
-                                            var undeleted_reviews = 0;
+                                        var average_rating = 0;
+                                        var undeleted_reviews = 0;
 
-                                            reviewlist = '<ListGroup>';
-                                            for (let i = 0; i < reviewData.length; i++) {
-                                                if (reviewData[i].is_deleted === false) {
-                                                    reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                        reviewlist = '<ListGroup>';
+                                        for (let i = 0; i < reviewData.length; i++) {
+                                            if (reviewData[i].is_deleted === false) {
+                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
                                                  
@@ -388,54 +407,54 @@ export const GoogleMapContainer = (props) => {
                                                     
                                                 </ListGroup.Item>
                                                 `);
-                                                    average_rating = average_rating + reviewData[i].rating;
-                                                    undeleted_reviews++;
+                                                average_rating = average_rating + reviewData[i].rating;
+                                                undeleted_reviews++;
 
-                                                }
                                             }
-                                            average_rating = average_rating / undeleted_reviews;
-                                            reviewlist = reviewlist.concat('</ListGroup>');
+                                        }
+                                        average_rating = average_rating / undeleted_reviews;
+                                        reviewlist = reviewlist.concat('</ListGroup>');
 
-                                            offcanvastitle = 'Parking Amenity, ID:' + parkingAmenity.id + ' ';
-                                            if (undeleted_reviews > 0) {
-                                                rating_average = "Average Rating: " + average_rating;
-                                            } else {
-                                                rating_average = 'No Reviews Yet';
-                                            }
-                                            handleShow();
-                                        });
-                                    }} />
-                            ))
-                            : null}
+                                        offcanvastitle = 'Parking Amenity, ID:' + parkingAmenity.id + ' ';
+                                        if (undeleted_reviews > 0) {
+                                            rating_average = "Average Rating: " + average_rating;
+                                        } else {
+                                            rating_average = 'No Reviews Yet';
+                                        }
+                                        handleShow();
+                                    });
+                                }} />
+                        ))
+                        : null}
 
-                        {benchOn ?
-                            benchAmenities.map((benchAmenity) => (
-                                <Marker
-                                    key={benchAmenity.id}
-                                    label={{
-                                        text: codepoints.bench,
-                                        fontFamily: "Material Icons",
-                                        color: "#ffffff",
-                                        fontSize: "16px",
-                                    }}
-                                    position={{ lat: benchAmenity.bench_latitude, lng: benchAmenity.bench_longitude }}
-                                    onClick={() => {
+                    {benchOn ?
+                        benchAmenities.map((benchAmenity) => (
+                            <Marker
+                                key={benchAmenity.id}
+                                label={{
+                                    text: codepoints.bench,
+                                    fontFamily: "Material Icons",
+                                    color: "#ffffff",
+                                    fontSize: "16px",
+                                }}
+                                position={{ lat: benchAmenity.bench_latitude, lng: benchAmenity.bench_longitude }}
+                                onClick={() => {
 
-                                        setDestLat(benchAmenity.bench_latitude)
-                                        setDestLng(benchAmenity.bench_longitude)
+                                    setDestLat(benchAmenity.bench_latitude)
+                                    setDestLng(benchAmenity.bench_longitude)
 
-                                        const apiService = new ApiService();
-                                        const reviewDataPromise = apiService.getReview('bench', benchAmenity.id);
+                                    const apiService = new ApiService();
+                                    const reviewDataPromise = apiService.getReview('bench', benchAmenity.id);
 
-                                        reviewDataPromise.then((reviewData) => {
+                                    reviewDataPromise.then((reviewData) => {
 
-                                            var average_rating = 0;
-                                            var undeleted_reviews = 0;
+                                        var average_rating = 0;
+                                        var undeleted_reviews = 0;
 
-                                            reviewlist = '<ListGroup>';
-                                            for (let i = 0; i < reviewData.length; i++) {
-                                                if (reviewData[i].is_deleted === false) {
-                                                    reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                        reviewlist = '<ListGroup>';
+                                        for (let i = 0; i < reviewData.length; i++) {
+                                            if (reviewData[i].is_deleted === false) {
+                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
                                                  
@@ -449,94 +468,53 @@ export const GoogleMapContainer = (props) => {
                                                     
                                                 </ListGroup.Item>
                                                 `);
-                                                    average_rating = average_rating + reviewData[i].rating;
-                                                    undeleted_reviews++;
+                                                average_rating = average_rating + reviewData[i].rating;
+                                                undeleted_reviews++;
 
-                                                }
                                             }
-                                            average_rating = average_rating / undeleted_reviews;
-                                            reviewlist = reviewlist.concat('</ListGroup>');
+                                        }
+                                        average_rating = average_rating / undeleted_reviews;
+                                        reviewlist = reviewlist.concat('</ListGroup>');
 
-                                            offcanvastitle = 'Bench Amenity, ID:' + benchAmenity.id + ' ';
-                                            if (undeleted_reviews > 0) {
-                                                rating_average = "Average Rating: " + average_rating;
-                                            } else {
-                                                rating_average = 'No Reviews Yet';
-                                            }
-                                            handleShow();
-                                        });
-                                    }} />
-                            ))
-                            : null}
+                                        offcanvastitle = 'Bench Amenity, ID:' + benchAmenity.id + ' ';
+                                        if (undeleted_reviews > 0) {
+                                            rating_average = "Average Rating: " + average_rating;
+                                        } else {
+                                            rating_average = 'No Reviews Yet';
+                                        }
+                                        handleShow();
+                                    });
+                                }} />
+                        ))
+                        : null}
 
-                    </>
-                    : null}
+                </>
+                : null}
 
-                <Box
-                    p={4}
-                    borderRadius='lg'
-                    m={4}
-                    bgColor='white'
-                    shadow='base'
-                    minW='container.md'
-                    zIndex='1'
-                >
+            <Flex>
+                <Spacer />
+
+                <Box borderRadius='lg' m={4} shadow='base'>
                     <HStack spacing={2} justifyContent='space-between'>
-                        <Box flexGrow={1}>
-                            <Autocomplete
-                                onLoad={onLoad}
-                                onPlaceChanged={onPlaceChanged}
-                            >
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    style={{
-                                        boxSizing: `border-box`,
-                                        border: `1px solid transparent`,
-                                        width: `300px`,
-                                        height: `40px`,
-                                        padding: `0 12px`,
-                                        borderRadius: `3px`,
-                                        boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                                        fontSize: `16px`,
-                                        outline: `none`,
-                                        textOverflow: `ellipses`,
-                                        position: "absolute",
-                                        left: "48%",
-                                        top: "10px",
-                                        marginLeft: "-120px",
-                                        backgroundColor: "white"
-
-                                    }}
-                                />
-                            </Autocomplete>
-                        </Box>
-
-                        <div className="searchButtons">
-                            <ButtonGroup>
-                                <IconButton
-                                    aria-label='center back'
-                                    icon={<FaTimes />}
-                                    onClick={() => { clearRoute() }}
-                                />
-                                <IconButton
-                                    aria-label='center back'
-                                    icon={<FaLocationArrow />}
-                                    isRound
-                                    onClick={() => { map.panTo(mapCenter) }}
-                                />
-                            </ButtonGroup>
-                        </div>
-                        {/* <Box flexGrow={1}>
-                            <Text>Distance: {distance} </Text>
-                            <Text>Duration: {duration} </Text>
-                        </Box> */}
+                        <ButtonGroup>
+                            {directionsResponse ? <IconButton
+                                aria-label='center back'
+                                icon={<FaTimes />}
+                                onClick={() => { clearRoute() }}
+                            /> : null}
+                            <IconButton
+                                aria-label='center back'
+                                icon={<FaLocationArrow />}
+                                isRound
+                                onClick={() => { map.panTo(mapCenter) }}
+                            />
+                        </ButtonGroup>
                     </HStack>
                 </Box>
-            </GoogleMap>
-        </Flex>
-    ) : <SkeletonText />//<>Loading</>
-    // return <SkeletonText />
+            </Flex >
+        </GoogleMap>
+
+    ) : <SkeletonText />
 
 }
 
