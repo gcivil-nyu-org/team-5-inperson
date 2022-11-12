@@ -12,6 +12,9 @@ import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
 import parse from 'html-react-parser';
 import { Filters } from './Filters';
+import { useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 
 const containerStyle = {
     width: '100vw',
@@ -64,6 +67,11 @@ export const GoogleMapContainer = (props) => {
     const [destLng, setDestLng] = useState('')
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
 
     const codepoints = {
         water: "\ue798",
@@ -120,8 +128,50 @@ export const GoogleMapContainer = (props) => {
         //setMap(map)
     }
 
+    const [inputs, setInputs] = useState({});
 
+    const handleChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs(values => ({...values, [name]: value}))
+    }
+  
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(inputs);
+        alert(inputs.rating);
+        alert(inputs.review);
 
+        // THIS IS HARDCODED
+        var amenity_type = 'water';
+        var amenity_id = 95;
+        var user = 1;
+
+        const newReview = {
+            amenity_type: amenity_type,
+            amenity_id: amenity_id, 
+            rating: inputs.rating, 
+            review: inputs.review, 
+            is_flagged: false, 
+            is_deleted: false, 
+            upvotes: 0, 
+            downvotes: 0, 
+            user: user
+        }
+
+        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/create_rating/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newReview)
+        })
+
+        const resultInJson = result.json();
+        console.log(resultInJson)
+
+    }
+  
     return isLoaded ? (
 
         <GoogleMap
@@ -197,7 +247,35 @@ export const GoogleMapContainer = (props) => {
                     <div className='Review'> {parse(reviewlist)} </div>
                     <br></br><br></br>
 
-                    <button className="buttonaddreview">Add Review</button>
+                    <Button variant="primary" onClick={handleShowModal}>Add Review</Button>
+
+                    <Modal show={showModal} onHide={handleCloseModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>New Review</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form onSubmit={handleSubmit}>
+                            <label>Rating:
+                            <input 
+                                type="number" 
+                                name="rating" 
+                                value={inputs.rating || ""} 
+                                onChange={handleChange}
+                            />
+                            </label>
+                            <label>Review:
+                                <input 
+                                    type="text" 
+                                    name="review" 
+                                    value={inputs.review || ""} 
+                                    onChange={handleChange}
+                                />
+                                </label>
+                                <input type="submit" />
+                            </form>
+                        </Modal.Body>
+                    </Modal>
+
                 </Offcanvas.Body>
             </Offcanvas>
 
