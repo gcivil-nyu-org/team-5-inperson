@@ -28,6 +28,9 @@ var amenity_type = '';
 var amenity_id = '';
 var user = 1;
 
+var Filter = require('bad-words'),
+    filter = new Filter();
+
 const mapStyle =
     [
         {
@@ -148,7 +151,7 @@ export const GoogleMapContainer = (props) => {
             amenity_type: amenity_type,
             amenity_id: amenity_id, 
             rating: inputs.rating, 
-            review: inputs.review, 
+            review: filter.clean(inputs.review), 
             is_flagged: false, 
             is_deleted: false, 
             upvotes: 0, 
