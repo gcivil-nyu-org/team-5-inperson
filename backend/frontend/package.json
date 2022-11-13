@@ -10,6 +10,7 @@
     "@react-google-maps/api": "^2.13.1",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "bad-words": "^3.0.4",
     "bootstrap": "^5.2.2",
     "framer-motion": "^7.5.3",
     "html-react-parser": "^3.0.4",
@@ -59,5 +60,4 @@
       "extensions": "js,jsx"
     }
   }
-  
 }

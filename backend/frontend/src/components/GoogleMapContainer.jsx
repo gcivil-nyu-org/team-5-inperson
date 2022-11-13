@@ -12,6 +12,9 @@ import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
 import parse from 'html-react-parser';
 import { Filters } from './Filters';
+import { useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 
 const containerStyle = {
     width: '100vw',
@@ -21,6 +24,12 @@ const containerStyle = {
 var offcanvastitle = '';
 var reviewlist = '';
 var rating_average = '';
+var amenity_type = '';
+var amenity_id = '';
+var user = 1;
+
+var Filter = require('bad-words'),
+    filter = new Filter();
 
 const mapStyle =
     [
@@ -64,6 +73,11 @@ export const GoogleMapContainer = (props) => {
     const [destLng, setDestLng] = useState('')
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
 
     const codepoints = {
         water: "\ue798",
@@ -120,8 +134,44 @@ export const GoogleMapContainer = (props) => {
         //setMap(map)
     }
 
+    const [inputs, setInputs] = useState({});
+
+    const handleChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs(values => ({...values, [name]: value}))
+    }
+  
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(inputs);
 
 
+        const newReview = {
+            amenity_type: amenity_type,
+            amenity_id: amenity_id, 
+            rating: inputs.rating, 
+            review: filter.clean(inputs.review), 
+            is_flagged: false, 
+            is_deleted: false, 
+            upvotes: 0, 
+            downvotes: 0, 
+            user: user
+        }
+
+        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/create_rating/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newReview)
+        })
+
+        const resultInJson = result.json();
+        console.log(resultInJson)
+
+    }
+  
     return isLoaded ? (
 
         <GoogleMap
@@ -197,7 +247,54 @@ export const GoogleMapContainer = (props) => {
                     <div className='Review'> {parse(reviewlist)} </div>
                     <br></br><br></br>
 
-                    <button className="buttonaddreview">Add Review</button>
+                    <Button variant="primary" onClick={handleShowModal}>Add Review</Button>
+
+                    <Modal show={showModal} onHide={handleCloseModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>New Review</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form onSubmit={handleSubmit}>
+                            <label>{amenity_type} {amenity_id} </label>
+                            <label>Rating (1-5):
+                            <input 
+                                type="number" 
+                                name="rating" 
+                                value={inputs.rating || ""}
+                                required = "required" 
+                                onChange={handleChange}
+                                min={1}
+                                max={5}
+                            />
+                            </label>
+                            <label>Review:
+                                <input 
+                                    type="text" 
+                                    name="review" 
+                                    value={inputs.review || ""} 
+                                    required = "required" 
+                                    onChange={handleChange}
+                                />
+                                </label> {/*onClick={handleCloseModal}*/}
+                                <input type="submit"  
+                                onClick={() => {handleCloseModal(); 
+
+                                    if(inputs.rating > 5) {
+                                        console.log(alert('Please insert a Rating from 1-5'))
+                                    } else if (inputs.rating < 1) {
+                                        console.log(alert('Please insert a Rating from 1-5'))
+                                    } else if (inputs.rating === undefined) {
+                                        console.log(alert('Please insert a Rating'))
+                                    }else if (inputs.review === undefined) {
+                                        console.log(alert('Please insert something in Review'))
+                                    } else { 
+                                    console.log(alert('Successfuly Submitted!'))
+                                    }
+                                    }}/>
+                            </form>
+                        </Modal.Body>
+                    </Modal>
+
                 </Offcanvas.Body>
             </Offcanvas>
 
@@ -257,9 +354,12 @@ export const GoogleMapContainer = (props) => {
                                         average_rating = average_rating / undeleted_reviews;
                                         reviewlist = reviewlist.concat('</ListGroup>');
 
+                                        amenity_id = waterAmenity.id;
+                                        amenity_type = 'water';
+
                                         offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id + ' ';
                                         if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + average_rating;
+                                            rating_average = "Average Rating: " + Math.round(average_rating);
                                         } else {
                                             rating_average = 'No Reviews Yet';
                                         }
@@ -318,9 +418,12 @@ export const GoogleMapContainer = (props) => {
                                         average_rating = average_rating / undeleted_reviews;
                                         reviewlist = reviewlist.concat('</ListGroup>');
 
+                                        amenity_id = toiletAmenity.id;
+                                        amenity_type = 'toilet';
+
                                         offcanvastitle = 'Toilet Amenity, ID:' + toiletAmenity.id + ' ';
                                         if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + average_rating;
+                                            rating_average = "Average Rating: " + Math.round(average_rating);
                                         } else {
                                             rating_average = 'No Reviews Yet';
                                         }
@@ -379,9 +482,12 @@ export const GoogleMapContainer = (props) => {
                                         average_rating = average_rating / undeleted_reviews;
                                         reviewlist = reviewlist.concat('</ListGroup>');
 
+                                        amenity_id = wifiAmenity.id;
+                                        amenity_type = 'wifi';
+
                                         offcanvastitle = 'Wifi Amenity, ID:' + wifiAmenity.id + ' ';
                                         if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + average_rating;
+                                            rating_average = "Average Rating: " + Math.round(average_rating);
                                         } else {
                                             rating_average = 'No Reviews Yet';
                                         }
@@ -440,9 +546,12 @@ export const GoogleMapContainer = (props) => {
                                         average_rating = average_rating / undeleted_reviews;
                                         reviewlist = reviewlist.concat('</ListGroup>');
 
+                                        amenity_id = parkingAmenity.id;
+                                        amenity_type = 'parking';
+
                                         offcanvastitle = 'Parking Amenity, ID:' + parkingAmenity.id + ' ';
                                         if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + average_rating;
+                                            rating_average = "Average Rating: " + Math.round(average_rating);
                                         } else {
                                             rating_average = 'No Reviews Yet';
                                         }
@@ -501,9 +610,12 @@ export const GoogleMapContainer = (props) => {
                                         average_rating = average_rating / undeleted_reviews;
                                         reviewlist = reviewlist.concat('</ListGroup>');
 
+                                        amenity_id = benchAmenity.id;
+                                        amenity_type = 'bench';
+
                                         offcanvastitle = 'Bench Amenity, ID:' + benchAmenity.id + ' ';
                                         if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + average_rating;
+                                            rating_average = "Average Rating: " + Math.round(average_rating);
                                         } else {
                                             rating_average = 'No Reviews Yet';
                                         }
