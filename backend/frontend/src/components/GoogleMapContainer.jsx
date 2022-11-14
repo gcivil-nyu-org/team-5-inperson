@@ -15,6 +15,8 @@ import { Filters } from './Filters';
 import { useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const containerStyle = {
     width: '100vw',
@@ -171,6 +173,25 @@ export const GoogleMapContainer = (props) => {
         console.log(resultInJson)
 
     }
+
+    /*
+    const addSuccess = () => {
+        toast.success('Sucessfully Submitted!', {
+            position: toast.POSITION.TOP_RIGHT
+        })
+    } 
+    */
+    
+
+    const refreshForm = () => {
+        inputs.review = ""
+        inputs.rating = ""
+
+    }
+
+    function refreshPage() {
+        window.location.reload(false);
+      }
   
     return isLoaded ? (
 
@@ -278,20 +299,28 @@ export const GoogleMapContainer = (props) => {
                                 />
                                 </label> {/*onClick={handleCloseModal}*/}
                                 <input type="submit"  
-                                onClick={() => {handleCloseModal(); 
+                                    onClick={() => {handleCloseModal(); 
 
-                                    if(inputs.rating > 5) {
-                                        console.log(alert('Please insert a Rating from 1-5'))
-                                    } else if (inputs.rating < 1) {
-                                        console.log(alert('Please insert a Rating from 1-5'))
-                                    } else if (inputs.rating === undefined) {
-                                        console.log(alert('Please insert a Rating'))
-                                    }else if (inputs.review === undefined) {
-                                        console.log(alert('Please insert something in Review'))
-                                    } else { 
-                                    console.log(alert('Successfuly Submitted!'))
-                                    }
-                                    }}/>
+                                        if(inputs.rating > 5) {
+                                            console.log(alert('Please insert a Rating from 1-5'))
+                                            refreshForm()
+                                        } else if (inputs.rating < 1) {
+                                            console.log(alert('Please insert a Rating from 1-5'))
+                                            refreshForm()
+                                        } else if (inputs.rating === undefined || inputs.rating === "") {
+                                            console.log(alert('Please insert a Rating'))
+                                            refreshForm()
+                                        }else if (inputs.review === undefined || inputs.review === "") {
+                                            console.log(alert('Please insert something in Review'))
+                                            refreshForm()
+                                        } else { 
+                                            console.log(alert('Successfully Submitted'))
+                                            //addSuccess()
+                                            refreshPage()
+                                        }
+                                        }}
+                                /> 
+                                <ToastContainer/>
                             </form>
                         </Modal.Body>
                     </Modal>
