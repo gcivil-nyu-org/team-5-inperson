@@ -24,12 +24,12 @@ after_success:
 deploy:
 
  - provider: elasticbeanstalk
-   access_key_id: $NYCACCESSKEYID
-   secret_access_key: $NYCSECRETACCESSKEY
+   access_key_id: $NYCBASICSKEY
+   secret_access_key: $NYCBASICSSECRETSKEY
    region: 'us-west-2'
-   app: 'nycstaging'
-   env: 'nycstaging-env'
-   bucket_name: 'elasticbeanstalk-us-west-2-868930267900'
+   app: 'nycbasics-staging'
+   env: 'nycbasics-staging-env'
+   bucket_name: 'travis-staging-bucket'
    on:
      branch: develop
 
