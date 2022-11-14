@@ -239,15 +239,16 @@ export const GoogleMapContainer = (props) => {
                     >
                         GMaps Nav
                     </a>
-                    <br></br><br></br>
+                    <br></br>
 
+                    <Button variant="primary" onClick={handleShowModal}>Add Review</Button>
                     <div className='AverageRating'> {rating_average} </div>
                     <br></br><br></br>
 
                     <div className='Review'> {parse(reviewlist)} </div>
-                    <br></br><br></br>
+                    
 
-                    <Button variant="primary" onClick={handleShowModal}>Add Review</Button>
+                    
 
                     <Modal show={showModal} onHide={handleCloseModal}>
                         <Modal.Header closeButton>
