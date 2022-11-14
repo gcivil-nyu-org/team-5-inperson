@@ -336,7 +336,7 @@ export const GoogleMapContainer = (props) => {
                                                 
                                                 <div className="ms-2 me-auto">
                                                  
-                                                    <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
+                                                    <div className="fw-bold">User: ${reviewData[i].user.username}  |  Rating: ${reviewData[i].rating} </div>
                                                         ${reviewData[i].review}
                                                         <br></br>
                                                         Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 

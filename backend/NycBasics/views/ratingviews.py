@@ -24,7 +24,7 @@ class rating_List(generics.ListAPIView):
         relevant_ratings = rating_all.filter(
             amenity_type=pk1,
             amenity_id=pk2,
-        )
+        ).select_related("user")
 
         return relevant_ratings
 
