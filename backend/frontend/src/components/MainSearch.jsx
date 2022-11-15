@@ -83,7 +83,7 @@ function MainSearch() {
   return (
     <div className="app">
 
-      <Filters
+      {/* <Filters
         waterOn={waterOn}
         wifiOn={wifiOn}
         benchOn={benchOn}
@@ -95,9 +95,9 @@ function MainSearch() {
         setParkingOn={setParkingOn}
         setToiletOn={setToiletOn}
 
-      />
+      /> */}
       <GoogleMapContainer
-        
+
         waterAmenities={waterAmenities}
         wifiAmenities={wifiAmenities}
         benchAmenities={benchAmenities}
@@ -110,6 +110,11 @@ function MainSearch() {
         benchOn={benchOn}
         parkingOn={parkingOn}
         toiletOn={toiletOn}
+        setWaterOn={setWaterOn}
+        setWifiOn={setWifiOn}
+        setBenchOn={setBenchOn}
+        setParkingOn={setParkingOn}
+        setToiletOn={setToiletOn}
 
       />
     </div>

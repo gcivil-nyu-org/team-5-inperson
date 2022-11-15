@@ -112,7 +112,7 @@ input[type="submit"] {
 button[type="button"] {
   display: block;
   appearance: none;
-  background: rgb(25, 127, 7);
+  /* background: rgb(25, 127, 7); */
   color: white;
   border: none;
   text-transform: uppercase;
@@ -192,6 +192,7 @@ hr {
   margin-top: 30px;
 }
 
+
 button {
   display: block;
   appearance: none;
@@ -221,4 +222,8 @@ button {
   cursor: pointer;
   margin-left: 100px;
   font-weight: bold;
+}
+
+.offcanvas-top.h-auto {
+  bottom: initial;
 }
