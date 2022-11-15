@@ -81,6 +81,7 @@ export const GoogleMapContainer = (props) => {
     const [review_id, setReview_id] = useState(0)
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
+    const [reviewFlag, setReviewFlag] = useState(false)
 
     const codepoints = {
         water: "\ue798",
@@ -186,6 +187,37 @@ export const GoogleMapContainer = (props) => {
         downvotes: dislikeCount+1,
         user: user
     }
+    const result = fetch ('http://127.0.0.1:8000/NycBasics/api/review/' + review_id + '/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newReview)
+        })
+
+        const resultInJson = result.json();
+        console.log(resultInJson)
+        
+    }
+
+    const changeFlag = (event) =>{
+        event.preventDefault();
+        console.log('Flag status change');
+        const newReview = {
+        amenity_type: amenity_type,
+        amenity_id: amenity_id, 
+        rating: inputs.rating, 
+        review: filter.clean(inputs.review), 
+        is_flagged: false, 
+        is_deleted: false, 
+        upvotes: likeCount, 
+        downvotes: dislikeCount,
+        user: user
+    }
+    if(reviewFlag)
+        updateReview.is_flagged=false
+    else
+        updateReview.is_flagged=true
     const result = fetch ('http://127.0.0.1:8000/NycBasics/api/review/' + review_id + '/', {
             method: 'PUT',
             headers: {
