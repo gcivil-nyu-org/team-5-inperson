@@ -61,6 +61,11 @@ urlpatterns = [
     ),
     path("api/logout/", userviews.Logout.as_view(), name="logout"),
     path(
+        "api/rating_review/",
+        ratingviews.all_ratings.as_view(),
+        name="ratingdetail",
+    ),
+    path(
         "api/rating_review/<str:pk1>/<int:pk2>/",
         ratingviews.rating_List.as_view(),
         name="ratingdetail",
@@ -75,4 +80,5 @@ urlpatterns = [
         ratingviews.average_Rating.as_view(),
         name="averagerating",
     ),
+    
 ]

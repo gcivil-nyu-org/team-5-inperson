@@ -73,7 +73,8 @@ export const GoogleMapContainer = (props) => {
     const [destLng, setDestLng] = useState('')
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+    const [likeCount, setLikeCount] = useState(0)
+    const [dislikeCount, setDislikeCount] = useState(0)
     const [showModal, setShowModal] = useState(false);
 
     const handleCloseModal = () => setShowModal(false);
@@ -86,7 +87,7 @@ export const GoogleMapContainer = (props) => {
         toilet: "\ue63d",
         parking: "\ue54f"
     }
-
+    
     const onLoad = (autocomplete) => {
         console.log('autocomplete: ', autocomplete)
         setAutocomplete(autocomplete)
@@ -105,7 +106,7 @@ export const GoogleMapContainer = (props) => {
             console.log('Autocomplete is not loaded yet!')
         }
     }
-
+   
     async function calculateRoute() {
         // eslint-disable-next-line no-undef
         const directionsService = new google.maps.DirectionsService()
@@ -132,9 +133,58 @@ export const GoogleMapContainer = (props) => {
         setDestLat('')
         setDestLng('')
         //setMap(map)
+        map.panTo(mapCenter)
     }
 
     const [inputs, setInputs] = useState({});
+    
+    const incrementLikeCount = (event) => {
+        
+        
+        event.preventDefault();
+        console.log(likeCount);
+        const newReview = {
+        amenity_type: amenity_type,
+        amenity_id: amenity_id, 
+        rating: inputs.rating, 
+        review: filter.clean(inputs.review), 
+        is_flagged: false, 
+        is_deleted: false, 
+        upvotes: 0, 
+        downvotes: 0, 
+        user: user
+    }
+        newReview.upvotes=likeCount+1
+        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/create_rating/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newReview)
+        })
+
+        const resultInJson = result.json();
+        console.log(resultInJson)
+
+
+    }
+/*
+    const incrementDislikeCount = (event) =>{
+        event.preventDefault();
+        console.log(likeCount);
+        newReview.downvotes=dislikeCount+1
+        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/create_rating/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newReview)
+        })
+
+        const resultInJson = result.json();
+        console.log(resultInJson)
+        
+    }*/
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -332,6 +382,8 @@ export const GoogleMapContainer = (props) => {
                                         reviewlist = '<ListGroup>';
                                         for (let i = 0; i < reviewData.length; i++) {
                                             if (reviewData[i].is_deleted === false) {
+                                                setLikeCount(reviewData[i].upvotes)
+                                                setDislikeCount(reviewData[i].downvotes)
                                                 reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
@@ -339,13 +391,14 @@ export const GoogleMapContainer = (props) => {
                                                     <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
                                                         ${reviewData[i].review}
                                                         <br></br>
-                                                        Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
+                                                        Likes: ${likeCount} Dislikes: ${dislikeCount} 
                                                         <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
+                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
                                                     </div>
                                                     
                                                 </ListGroup.Item>
                                                 `);
+                                                
                                                 average_rating = average_rating + reviewData[i].rating;
                                                 undeleted_reviews++;
 
