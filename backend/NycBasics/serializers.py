@@ -67,11 +67,13 @@ class UserLoginSerializer(serializers.ModelSerializer):
         user.token = data["token"]
         user.save()
         data["username"] = user.username
+        data["id"] = user.id
+        print("data is", data)
         return data
 
     class Meta:
         model = User
-        fields = ("user_id", "password", "token", "username")
+        fields = ("user_id", "password", "token", "username", "id")
 
         read_only_fields = ("token", "username")
 

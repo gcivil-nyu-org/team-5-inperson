@@ -146,6 +146,7 @@ export const GoogleMapContainer = (props) => {
         event.preventDefault();
         console.log(inputs);
 
+        console.log("authenticatedUser", authenticatedUser)
 
         const newReview = {
             amenity_type: amenity_type,
