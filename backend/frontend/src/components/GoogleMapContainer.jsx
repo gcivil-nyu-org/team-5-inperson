@@ -136,6 +136,9 @@ export const GoogleMapContainer = (props) => {
         //setMap(map)
     }
 
+
+
+
     const [inputs, setInputs] = useState({});
 
     const handleChange = (event) => {
@@ -161,16 +164,15 @@ export const GoogleMapContainer = (props) => {
             user: user
         }
 
-        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/create_rating/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newReview)
+
+        const apiService = new ApiService();
+        const resultPromise = apiService.addReview(newReview);
+
+        resultPromise.then((result) => {
+            console.log(result)
         })
 
-        const resultInJson = result.json();
-        console.log(resultInJson)
+        
 
     }
 
