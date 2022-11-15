@@ -34,11 +34,11 @@ deploy:
      branch: develop
 
  - provider: elasticbeanstalk
-   access_key_id: $NYCACCESSKEYID
-   secret_access_key: $NYCSECRETACCESSKEY
+   access_key_id: $NYCBASICKEY2
+   secret_access_key: $NYCBASICSSECRETSKEY2
    region: 'us-west-2'
-   app: 'nycstaging'
-   env: 'nycprod-env'
+   app: 'nycbasics-prod'
+   env: 'nycbasics-prod-env'
    bucket_name: 'travis-prod-bucket'
    on:
      branch: master
