@@ -10,7 +10,7 @@ http://nycbasics5.ga/ or [here](http://nycbasics-staging-env.eba-gvsq4xxk.us-wes
 
 ## Production Environment
 
-http://nycbasics5prod.ml/ or [here](http://nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com/)
+http://nycbasics5prod.ml/ or [here](http://nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com/)
 
 
 ![Travis_Build](https://img.shields.io/travis/com/gcivil-nyu-org/team-5-inperson/master)
