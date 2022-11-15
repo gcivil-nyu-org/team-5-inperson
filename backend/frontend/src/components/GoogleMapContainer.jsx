@@ -76,7 +76,9 @@ export const GoogleMapContainer = (props) => {
     const [likeCount, setLikeCount] = useState(0)
     const [dislikeCount, setDislikeCount] = useState(0)
     const [showModal, setShowModal] = useState(false);
-
+    const [rating_val, setRating_val] = useState(0)
+    const [review_text, setReview_text] = useState('')
+    const [review_id, setReview_id] = useState(0)
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
 
@@ -140,8 +142,37 @@ export const GoogleMapContainer = (props) => {
     
     const incrementLikeCount = (event) => {
         console.log(event)
-        console.log("I got lcicked ")
+        console.log("I got clicked ")
         
+        //event.preventDefault();
+        console.log(likeCount);
+        const updateReview = {
+        amenity_type: amenity_type,
+        amenity_id: amenity_id, 
+        rating: rating_val,
+        review: review_text,//filter.clean(inputs.review), 
+        is_flagged: false, 
+        is_deleted: false, 
+        upvotes: likeCount+1, 
+        downvotes: dislikeCount, 
+        user: user
+    }
+        
+        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/review/' + review_id + '/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateReview)
+        })
+
+        const resultInJson = result.json();
+        console.log(resultInJson)
+
+
+    }
+
+    const incrementDislikeCount = (event) =>{
         event.preventDefault();
         console.log(likeCount);
         const newReview = {
@@ -151,31 +182,12 @@ export const GoogleMapContainer = (props) => {
         review: filter.clean(inputs.review), 
         is_flagged: false, 
         is_deleted: false, 
-        upvotes: 0, 
-        downvotes: 0, 
+        upvotes: likeCount, 
+        downvotes: dislikeCount+1,
         user: user
     }
-        newReview.upvotes=likeCount+1
-        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/create_rating/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newReview)
-        })
-
-        const resultInJson = result.json();
-        console.log(resultInJson)
-
-
-    }
-/*
-    const incrementDislikeCount = (event) =>{
-        event.preventDefault();
-        console.log(likeCount);
-        newReview.downvotes=dislikeCount+1
-        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/create_rating/', {
-            method: 'POST',
+    const result = fetch ('http://127.0.0.1:8000/NycBasics/api/review/' + review_id + '/', {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -185,7 +197,7 @@ export const GoogleMapContainer = (props) => {
         const resultInJson = result.json();
         console.log(resultInJson)
         
-    }*/
+    }
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -279,7 +291,7 @@ export const GoogleMapContainer = (props) => {
                         onClick={() => {
                             calculateRoute()
                             handleClose()
-                            incrementLikeCount()
+                            //incrementLikeCount()
                         }}
                     >
                         Show Path
@@ -384,8 +396,19 @@ export const GoogleMapContainer = (props) => {
                                         reviewlist = '<ListGroup>';
                                         for (let i = 0; i < reviewData.length; i++) {
                                             if (reviewData[i].is_deleted === false) {
-                                                setLikeCount(reviewData[i].upvotes)
-                                                setDislikeCount(reviewData[i].downvotes)
+                                                setLikeCount(reviewData[i].upvotes);
+                                                setDislikeCount(reviewData[i].downvotes);
+                                                setRating_val(reviewData[i].rating);
+                                                setReview_text(reviewData[i].review);
+                                                setReview_id(reviewData[i].id);
+                                                /*<div className="ms-2 me-auto">
+                                                <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
+                                                        ${reviewData[i].review}
+                                                        <br></br>
+                                                        Likes: ${likeCount} Dislikes: ${dislikeCount} 
+                                                        <br></br>
+                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
+                                                    </div>*/
                                                 reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
@@ -393,7 +416,7 @@ export const GoogleMapContainer = (props) => {
                                                     <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
                                                         ${reviewData[i].review}
                                                         <br></br>
-                                                        Likes: ${likeCount} Dislikes: ${dislikeCount} 
+                                                        Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
                                                         <br></br>
                                                         <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
                                                     </div>
@@ -411,7 +434,7 @@ export const GoogleMapContainer = (props) => {
 
                                         amenity_id = waterAmenity.id;
                                         amenity_type = 'water';
-
+                                        
                                         offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id + ' ';
                                         if (undeleted_reviews > 0) {
                                             rating_average = "Average Rating: " + Math.round(average_rating);

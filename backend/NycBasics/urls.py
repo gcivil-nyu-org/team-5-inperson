@@ -61,14 +61,14 @@ urlpatterns = [
     ),
     path("api/logout/", userviews.Logout.as_view(), name="logout"),
     path(
-        "api/review/",
-        ratingviews.all_ratings.as_view(),
-        name="ratingdetailall",
-    ),
-    path(
         "api/rating_review/<str:pk1>/<int:pk2>/",
         ratingviews.rating_List.as_view(),
         name="ratingdetail",
+    ),
+    path(
+        "api/review/<int:pk>/",
+        ratingviews.all_ratings.as_view(),
+        name="ratingdetailall",
     ),
     path(
         "api/create_rating/",
