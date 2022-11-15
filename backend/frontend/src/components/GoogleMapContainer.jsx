@@ -140,25 +140,25 @@ export const GoogleMapContainer = (props) => {
     }
 
     const [inputs, setInputs] = useState({});
-    
-    const incrementLikeCount = (event) => {
-        console.log(event)
-        console.log("I got clicked ")
-        
-        //event.preventDefault();
-        console.log(likeCount);
-        const updateReview = {
+    const updateReview = {
         amenity_type: amenity_type,
         amenity_id: amenity_id, 
         rating: rating_val,
         review: review_text,//filter.clean(inputs.review), 
         is_flagged: false, 
         is_deleted: false, 
-        upvotes: likeCount+1, 
+        upvotes: likeCount, 
         downvotes: dislikeCount, 
         user: user
     }
+    
+    const incrementLikeCount = (event) => {
+        console.log(event)
+        console.log("I got clicked ")
         
+        //event.preventDefault();
+        updateReview.upvotes = updateReview.upvotes + 1 
+        console.log(updateReview.upvotes);
         const result = fetch ('http://127.0.0.1:8000/NycBasics/api/review/' + review_id + '/', {
             method: 'PUT',
             headers: {
@@ -174,9 +174,10 @@ export const GoogleMapContainer = (props) => {
     }
 
     const incrementDislikeCount = (event) =>{
+        console.log(event);
         event.preventDefault();
-        console.log(likeCount);
-        const newReview = {
+        
+    /*    const updateReview = {
         amenity_type: amenity_type,
         amenity_id: amenity_id, 
         rating: inputs.rating, 
@@ -186,13 +187,15 @@ export const GoogleMapContainer = (props) => {
         upvotes: likeCount, 
         downvotes: dislikeCount+1,
         user: user
-    }
+    }*/
+    updateReview.downvotes = updateReview.downvotes + 1 
+    console.log(updateReview.downvotes);
     const result = fetch ('http://127.0.0.1:8000/NycBasics/api/review/' + review_id + '/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newReview)
+            body: JSON.stringify(updateReview)
         })
 
         const resultInJson = result.json();
@@ -203,7 +206,7 @@ export const GoogleMapContainer = (props) => {
     const changeFlag = (event) =>{
         event.preventDefault();
         console.log('Flag status change');
-        const newReview = {
+    /*    const updateReview = {
         amenity_type: amenity_type,
         amenity_id: amenity_id, 
         rating: inputs.rating, 
@@ -213,11 +216,12 @@ export const GoogleMapContainer = (props) => {
         upvotes: likeCount, 
         downvotes: dislikeCount,
         user: user
-    }
+    }*/
     if(reviewFlag)
         updateReview.is_flagged=false
     else
         updateReview.is_flagged=true
+    console.log(event)    
     const result = fetch ('http://127.0.0.1:8000/NycBasics/api/review/' + review_id + '/', {
             method: 'PUT',
             headers: {
