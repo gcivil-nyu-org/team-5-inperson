@@ -283,7 +283,7 @@ export const GoogleMapContainer = (props) => {
                         Show Path
                     </Button>{' '}
 
-                    <a class="btn btn-primary"
+                    <a className="btn btn-primary"
                         href={`https://www.google.com/maps?saddr=${mapCenter.lat},${mapCenter.lng}&daddr=${destLat},${destLng}`}
                         target="_blank"
                     >
@@ -458,7 +458,7 @@ export const GoogleMapContainer = (props) => {
                                                         <br></br>
                                                         Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
                                                         <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
+                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
                                                     </div>
                                                     
                                                 </ListGroup.Item>
@@ -522,7 +522,7 @@ export const GoogleMapContainer = (props) => {
                                                         <br></br>
                                                         Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
                                                         <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
+                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
                                                     </div>
                                                     
                                                 </ListGroup.Item>
@@ -586,7 +586,7 @@ export const GoogleMapContainer = (props) => {
                                                         <br></br>
                                                         Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
                                                         <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
+                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
                                                     </div>
                                                     
                                                 </ListGroup.Item>
@@ -650,7 +650,7 @@ export const GoogleMapContainer = (props) => {
                                                         <br></br>
                                                         Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
                                                         <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
+                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
                                                     </div>
                                                     
                                                 </ListGroup.Item>
