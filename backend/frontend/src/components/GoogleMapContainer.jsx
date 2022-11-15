@@ -139,7 +139,8 @@ export const GoogleMapContainer = (props) => {
     const [inputs, setInputs] = useState({});
     
     const incrementLikeCount = (event) => {
-        
+        console.log(event)
+        console.log("I got lcicked ")
         
         event.preventDefault();
         console.log(likeCount);
@@ -278,6 +279,7 @@ export const GoogleMapContainer = (props) => {
                         onClick={() => {
                             calculateRoute()
                             handleClose()
+                            incrementLikeCount()
                         }}
                     >
                         Show Path
