@@ -169,7 +169,7 @@ export const GoogleMapContainer = (props) => {
 
         const resultInJson = result.json();
         console.log(resultInJson)
-
+        return ''
 
     }
 
@@ -200,7 +200,7 @@ export const GoogleMapContainer = (props) => {
 
         const resultInJson = result.json();
         console.log(resultInJson)
-        
+        return ''
     }
 
     const changeFlag = (event) =>{
@@ -227,12 +227,12 @@ export const GoogleMapContainer = (props) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newReview)
+            body: JSON.stringify(updateReview)
         })
 
         const resultInJson = result.json();
         console.log(resultInJson)
-        
+        return ''
     }
 
     const handleChange = (event) => {
@@ -428,8 +428,9 @@ export const GoogleMapContainer = (props) => {
 
                                         var average_rating = 0;
                                         var undeleted_reviews = 0;
-
+                                        
                                         reviewlist = '<ListGroup>';
+                                        
                                         for (let i = 0; i < reviewData.length; i++) {
                                             if (reviewData[i].is_deleted === false) {
                                                 setLikeCount(reviewData[i].upvotes);
@@ -437,14 +438,28 @@ export const GoogleMapContainer = (props) => {
                                                 setRating_val(reviewData[i].rating);
                                                 setReview_text(reviewData[i].review);
                                                 setReview_id(reviewData[i].id);
-                                                /*<div className="ms-2 me-auto">
-                                                <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
+                                                
+                                                
+                                                /*<Box>
+                                                    <Stack spacing={2} justifyContent='space-between' direction="column">
+                                                    <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} 
                                                         ${reviewData[i].review}
                                                         <br></br>
                                                         Likes: ${likeCount} Dislikes: ${dislikeCount} 
                                                         <br></br>
-                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
-                                                    </div>*/
+                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> 
+                                                        <button className="buttonflag" onClick={changeFlag}>Flag</button> 
+                                                        <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
+                                                    </div>
+                                                    </Stack>
+                                                </Box>
+                                                <button className="buttonlike" onClick={incrementLikeCount}>Like</button> 
+                                                        <button className="buttonflag" onClick={changeFlag}>Flag</button> 
+                                                        <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>   
+
+                                                
+                                                </div>
+                                               */
                                                 reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
@@ -454,7 +469,9 @@ export const GoogleMapContainer = (props) => {
                                                         <br></br>
                                                         Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
                                                         <br></br>
-                                                        <button className="buttonlike" onClick={incrementLikeCount}>Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike" onClick={incrementDislikeCount}>Dislike</button>
+                                                        <button className="buttonlike" onClick=${incrementLikeCount()}>Like</button> 
+                                                        <button className="buttonflag" onClick=${changeFlag()}>Flag</button> 
+                                                        <button className="buttondislike" onClick=${incrementDislikeCount()}>Dislike</button>
                                                     </div>
                                                     
                                                 </ListGroup.Item>
@@ -466,6 +483,7 @@ export const GoogleMapContainer = (props) => {
                                             }
                                         }
                                         average_rating = average_rating / undeleted_reviews;
+                                        
                                         reviewlist = reviewlist.concat('</ListGroup>');
 
                                         amenity_id = waterAmenity.id;
@@ -510,6 +528,11 @@ export const GoogleMapContainer = (props) => {
                                         reviewlist = '<ListGroup>';
                                         for (let i = 0; i < reviewData.length; i++) {
                                             if (reviewData[i].is_deleted === false) {
+                                                setLikeCount(reviewData[i].upvotes);
+                                                setDislikeCount(reviewData[i].downvotes);
+                                                setRating_val(reviewData[i].rating);
+                                                setReview_text(reviewData[i].review);
+                                                setReview_id(reviewData[i].id);
                                                 reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
@@ -574,6 +597,11 @@ export const GoogleMapContainer = (props) => {
                                         reviewlist = '<ListGroup>';
                                         for (let i = 0; i < reviewData.length; i++) {
                                             if (reviewData[i].is_deleted === false) {
+                                                setLikeCount(reviewData[i].upvotes);
+                                                setDislikeCount(reviewData[i].downvotes);
+                                                setRating_val(reviewData[i].rating);
+                                                setReview_text(reviewData[i].review);
+                                                setReview_id(reviewData[i].id);
                                                 reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
@@ -638,6 +666,11 @@ export const GoogleMapContainer = (props) => {
                                         reviewlist = '<ListGroup>';
                                         for (let i = 0; i < reviewData.length; i++) {
                                             if (reviewData[i].is_deleted === false) {
+                                                setLikeCount(reviewData[i].upvotes);
+                                                setDislikeCount(reviewData[i].downvotes);
+                                                setRating_val(reviewData[i].rating);
+                                                setReview_text(reviewData[i].review);
+                                                setReview_id(reviewData[i].id);
                                                 reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
@@ -702,6 +735,11 @@ export const GoogleMapContainer = (props) => {
                                         reviewlist = '<ListGroup>';
                                         for (let i = 0; i < reviewData.length; i++) {
                                             if (reviewData[i].is_deleted === false) {
+                                                setLikeCount(reviewData[i].upvotes);
+                                                setDislikeCount(reviewData[i].downvotes);
+                                                setRating_val(reviewData[i].rating);
+                                                setReview_text(reviewData[i].review);
+                                                setReview_id(reviewData[i].id);
                                                 reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                                 
                                                 <div className="ms-2 me-auto">
