@@ -39,7 +39,7 @@ deploy:
    region: 'us-west-2'
    app: 'nycstaging'
    env: 'nycprod-env'
-   bucket_name: 'elasticbeanstalk-us-west-2-868930267900'
+   bucket_name: 'travis-prod-bucket'
    on:
      branch: master
 
