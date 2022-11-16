@@ -253,13 +253,16 @@ export const GoogleMapContainer = (props) => {
                     </a>
                     <br></br>
 
-                    <Button variant="primary" onClick={() => { setShowModal(true) }}>Add Review</Button>
+                    {authenticatedUser?.token?.length > 0
+                        ? <Button variant="primary" onClick={() => { setShowModal(true) }}>Add Review</Button>
+                        : null}
 
 
                     <ReviewList
                         reviews={reviews}
                         selectedAmenity={selectedAmenity}
                         setReviews={setReviews}
+                        authenticatedUser={authenticatedUser}
                     />
                     {console.log("reviews", reviews)}
 
