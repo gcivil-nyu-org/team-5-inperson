@@ -23,6 +23,7 @@ const containerStyle = {
     height: '92vh'
 };
 
+
 var offcanvastitle = '';
 var reviewlist = '';
 var rating_average = '';
