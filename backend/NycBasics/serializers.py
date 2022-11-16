@@ -71,7 +71,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("user_id", "password", "token", "username")
+        fields = ("user_id", "password", "token", "username", "id")
 
         read_only_fields = ("token", "username")
 
@@ -135,6 +135,13 @@ class parking_modelSerializer(serializers.ModelSerializer):
 
 
 class rating_modelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating_Review
+        fields = "__all__"
+        depth = 1
+
+
+class review_modelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating_Review
         fields = "__all__"

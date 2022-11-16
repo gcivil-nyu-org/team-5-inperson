@@ -134,4 +134,18 @@ export class ApiService {
         return data
 
     }
+
+    async updateReview(updatedReview) {
+        const res = await fetch (`${this.baseUrl}/review/${updatedReview.id}/` , {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedReview)
+        })
+
+        const data = await res.json();
+        return data
+
+    }
 }

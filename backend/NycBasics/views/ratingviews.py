@@ -9,6 +9,7 @@ from django.db.models import Avg
 from ..serializers import (
     rating_modelSerializer,
     avgrating_modelSerializer,
+    review_modelSerializer,
 )
 
 from rest_framework import generics
@@ -24,11 +25,18 @@ class rating_List(generics.ListAPIView):
         relevant_ratings = rating_all.filter(
             amenity_type=pk1,
             amenity_id=pk2,
-        )
+        ).select_related("user")
 
         return relevant_ratings
 
     serializer_class = rating_modelSerializer
+
+
+class all_ratings(generics.RetrieveUpdateAPIView):
+    def get_queryset(self):
+        return Rating_Review.objects.all()
+
+    serializer_class = review_modelSerializer
 
 
 class create_Rating(generics.CreateAPIView):

@@ -227,3 +227,7 @@ button {
 .offcanvas-top.h-auto {
   bottom: initial;
 }
+
+.max-width {
+  width: 100%;
+}
