@@ -122,16 +122,26 @@ export class ApiService {
     }
 
     async addReview(newReview) {
-        const res = fetch (`${this.baseUrl}/create_rating/` , {
+        const res = await fetch (`${this.baseUrl}/create_rating/` , {
             method: 'POST',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newReview)
         })
 
-        const data = res.json();
-        return data
+        const data = await res.json();
+        // return data
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("addReview res", res)
+            console.log("addReview res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
 
     }
 }

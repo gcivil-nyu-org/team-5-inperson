@@ -167,11 +167,9 @@ export const GoogleMapContainer = (props) => {
 
 
         const apiService = new ApiService();
-        const resultPromise = apiService.addReview(newReview);
+        const addReviewResponse = await apiService.addReview(newReview);
 
-        resultPromise.then((result) => {
-            console.log(result)
-        })
+        console.log("addReviewResponse", addReviewResponse)
 
         
 
