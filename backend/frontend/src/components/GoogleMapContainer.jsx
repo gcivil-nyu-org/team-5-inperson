@@ -1,54 +1,50 @@
-import '../styles/Form.css'; 
-import React, { useState } from 'react'
+import '../styles/Form.css';
+import React, { useState, useEffect } from 'react'
 import {
-    GoogleMap, useJsApiLoader,Marker,DirectionsRenderer,Autocomplete,
+    GoogleMap, useJsApiLoader, Marker, DirectionsRenderer, Autocomplete,
 } from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import {
-    IconButton, SkeletonText, Flex, Stack, Box,ButtonGroup, Spacer, Tooltip
+    IconButton, SkeletonText, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip, Center
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
-import parse from 'html-react-parser';
 import { Filters } from './Filters';
-import { useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import { ToastContainer, toast} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ReviewList } from './ReviewList';
 
 const containerStyle = {
     width: '100vw',
     height: '92vh'
 };
 
-
-var offcanvastitle = '';
-var reviewlist = '';
-var rating_average = '';
-var amenity_type = '';
-var amenity_id = '';
 var user = 1;
+
+const apiService = new ApiService();
 
 var Filter = require('bad-words'),
     filter = new Filter();
 
-const mapStyle =
-    [
-        {
-            featureType: "all",
-            elementType: "labels",
-            stylers: [
-                {
-                    visibility: "off"
-                }
-            ]
-        }
-    ]
-
-
 export const GoogleMapContainer = (props) => {
+
+    const [authenticatedUser, setAuthenticatedUser] = useState(JSON.parse(localStorage.getItem('authenticatedUser')))
+
+    useEffect(() => {
+        const onStorage = () => {
+            setAuthenticatedUser(JSON.parse(localStorage.getItem('authenticatedUser')))
+        };
+
+        window.addEventListener('storage', onStorage);
+
+        return () => {
+            window.removeEventListener('storage', onStorage);
+        };
+    }, [])
+
+    console.log("authenticatedUser", authenticatedUser)
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
         mapCenter, setMapCenter,
@@ -70,17 +66,12 @@ export const GoogleMapContainer = (props) => {
     const [autocomplete, setAutocomplete] = useState(null);
     const [map, setMap] = useState(/** @type google.maps.Map */(null))
     const [directionsResponse, setDirectionsResponse] = useState(null)
-    // const [distance, setDistance] = useState('')
-    // const [duration, setDuration] = useState('')
     const [destLat, setDestLat] = useState('')
     const [destLng, setDestLng] = useState('')
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
     const [showModal, setShowModal] = useState(false);
-
-    const handleCloseModal = () => setShowModal(false);
-    const handleShowModal = () => setShowModal(true);
+    const [reviews, setReviews] = useState([]);
+    const [selectedAmenity, setSelectedAmenity] = useState("");
+    const [selectedAmenityId, setSelectedAmenityId] = useState("");
 
     const codepoints = {
         water: "\ue798",
@@ -134,67 +125,67 @@ export const GoogleMapContainer = (props) => {
         setDestLat('')
         setDestLng('')
         //setMap(map)
+        map.panTo(mapCenter)
     }
-
-
-
 
     const [inputs, setInputs] = useState({});
 
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        setInputs(values => ({...values, [name]: value}))
+        setInputs(values => ({ ...values, [name]: value }))
     }
-  
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(inputs);
 
-
         const newReview = {
-            amenity_type: amenity_type,
-            amenity_id: amenity_id, 
-            rating: inputs.rating, 
-            review: filter.clean(inputs.review), 
-            is_flagged: false, 
-            is_deleted: false, 
-            upvotes: 0, 
-            downvotes: 0, 
-            user: user
+            amenity_type: selectedAmenity,
+            amenity_id: selectedAmenityId,
+            rating: inputs.rating,
+            review: filter.clean(inputs.review),
+            is_flagged: false,
+            is_deleted: false,
+            upvotes: 0,
+            downvotes: 0,
+            user: authenticatedUser.id
         }
 
+        console.log("newReview", newReview)
+        const addReviewResponse = await apiService.addReview(newReview);
+        console.log("addReviewResponse", addReviewResponse)
 
-        const apiService = new ApiService();
-        const resultPromise = apiService.addReview(newReview);
 
-        resultPromise.then((result) => {
-            console.log(result)
-        })
+        setShowModal(false)
 
-        
-
+        if (inputs.rating > 5) {
+            alert('Please insert a Rating from 1-5')
+            refreshForm()
+        } else if (inputs.rating < 1) {
+            alert('Please insert a Rating from 1-5')
+            refreshForm()
+        } else if (inputs.rating === undefined || inputs.rating === "") {
+            alert('Please insert a Rating')
+            refreshForm()
+        } else if (inputs.review === undefined || inputs.review === "") {
+            alert('Please insert a Review')
+            refreshForm()
+        } else {
+            alert('Review Successfully Submitted')
+            refreshPage()
+        }
     }
-
-    /*
-    const addSuccess = () => {
-        toast.success('Sucessfully Submitted!', {
-            position: toast.POSITION.TOP_RIGHT
-        })
-    } 
-    */
-    
 
     const refreshForm = () => {
         inputs.review = ""
         inputs.rating = ""
-
     }
 
     function refreshPage() {
         window.location.reload(false);
-      }
-  
+    }
+
     return isLoaded ? (
 
         <GoogleMap
@@ -205,10 +196,8 @@ export const GoogleMapContainer = (props) => {
                 fullscreenControl: false,
                 mapTypeControl: false,
                 streetViewControl: false,
-                // styles: {mapStyle}
             }}
             onLoad={map => setMap(map)}
-        // customMapStyle={mapStyle}
         >
             {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)}
 
@@ -231,32 +220,32 @@ export const GoogleMapContainer = (props) => {
                         outline: `none`,
                         textOverflow: `ellipses`,
                         position: "absolute",
-                        // left: "48%",
                         left: "20px",
                         top: "20px",
-                        // marginLeft: "-120px",
                         backgroundColor: "white"
                     }}
                 />
             </Autocomplete>
 
-            <Offcanvas show={show} onHide={handleClose} scroll={false} backdrop={false} placement={'start'}>
+            <Offcanvas show={show} onHide={() => setShow(false)} scroll={false} backdrop={false} placement={'start'}>
 
                 <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>{offcanvastitle}</Offcanvas.Title>
+                    <Offcanvas.Title>
+                        {selectedAmenity.toUpperCase()}
+                    </Offcanvas.Title>
                 </Offcanvas.Header>
 
                 <Offcanvas.Body>
                     <Button variant="primary"
                         onClick={() => {
                             calculateRoute()
-                            handleClose()
+                            setShow(false)
                         }}
                     >
                         Show Path
                     </Button>{' '}
 
-                    <a class="btn btn-primary"
+                    <a className="btn btn-primary"
                         href={`https://www.google.com/maps?saddr=${mapCenter.lat},${mapCenter.lng}&daddr=${destLat},${destLng}`}
                         target="_blank"
                     >
@@ -264,67 +253,49 @@ export const GoogleMapContainer = (props) => {
                     </a>
                     <br></br>
 
-                    <Button variant="primary" onClick={handleShowModal}>Add Review</Button>
-                    <div className='AverageRating'> {rating_average} </div>
-                    <br></br><br></br>
+                    {authenticatedUser?.token?.length > 0
+                        ? <Button variant="primary" onClick={() => { setShowModal(true) }}>Add Review</Button>
+                        : null}
 
-                    <div className='Review'> {parse(reviewlist)} </div>
-                    
 
-                    
+                    <ReviewList
+                        reviews={reviews}
+                        selectedAmenity={selectedAmenity}
+                        setReviews={setReviews}
+                        authenticatedUser={authenticatedUser}
+                    />
+                    {console.log("reviews", reviews)}
 
-                    <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal show={showModal} onHide={() => setShowModal(false)}>
                         <Modal.Header closeButton>
                             <Modal.Title>New Review</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <form onSubmit={handleSubmit}>
-                            <label>{amenity_type} {amenity_id} </label>
-                            <label>Rating (1-5):
-                            <input 
-                                type="number" 
-                                name="rating" 
-                                value={inputs.rating || ""}
-                                required = "required" 
-                                onChange={handleChange}
-                                min={1}
-                                max={5}
-                            />
-                            </label>
-                            <label>Review:
-                                <input 
-                                    type="text" 
-                                    name="review" 
-                                    value={inputs.review || ""} 
-                                    required = "required" 
-                                    onChange={handleChange}
+                                {/* <label>{amenity_type} {amenity_id} </label> */}
+                                <label>Rating (1-5):
+                                    <input
+                                        type="number"
+                                        name="rating"
+                                        value={inputs.rating || ""}
+                                        required="required"
+                                        onChange={handleChange}
+                                        min={1}
+                                        max={5}
+                                    />
+                                </label>
+                                <label>Review:
+                                    <input
+                                        type="text"
+                                        name="review"
+                                        value={inputs.review || ""}
+                                        required="required"
+                                        onChange={handleChange}
+                                    />
+                                </label>
+                                <input type="submit"
                                 />
-                                </label> {/*onClick={handleCloseModal}*/}
-                                <input type="submit"  
-                                    onClick={() => {
-                                        
-                                        handleCloseModal(); 
-
-                                        if(inputs.rating > 5) {
-                                            alert('Please insert a Rating from 1-5')
-                                            refreshForm()
-                                        } else if (inputs.rating < 1) {
-                                            alert('Please insert a Rating from 1-5')
-                                            refreshForm()
-                                        } else if (inputs.rating === undefined || inputs.rating === "") {
-                                            alert('Please insert a Rating')
-                                            refreshForm()
-                                        }else if (inputs.review === undefined || inputs.review === "") {
-                                            alert('Please insert a Review')
-                                            refreshForm()
-                                        } else { 
-                                            alert('Review Successfully Submitted')
-                                            //addSuccess()
-                                            refreshPage()
-                                        }
-                                        }}
-                                /> 
-                                <ToastContainer/>
+                                <ToastContainer />
                             </form>
                         </Modal.Body>
                     </Modal>
@@ -350,55 +321,16 @@ export const GoogleMapContainer = (props) => {
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: waterAmenity.water_latitude, lng: waterAmenity.water_longitude }}
-                                onClick={() => {
+                                onClick={async () => {
+                                    setDestLat(waterAmenity.water_latitude);
+                                    setDestLng(waterAmenity.water_longitude);
+                                    setSelectedAmenity('water');
+                                    setSelectedAmenityId(waterAmenity.id)
 
-                                    setDestLat(waterAmenity.water_latitude)
-                                    setDestLng(waterAmenity.water_longitude)
+                                    const reviewData = await apiService.getReview('water', waterAmenity.id);
 
-                                    const apiService = new ApiService();
-                                    const reviewDataPromise = apiService.getReview('water', waterAmenity.id);
-
-                                    reviewDataPromise.then((reviewData) => {
-
-                                        var average_rating = 0;
-                                        var undeleted_reviews = 0;
-
-                                        reviewlist = '<ListGroup>';
-                                        for (let i = 0; i < reviewData.length; i++) {
-                                            if (reviewData[i].is_deleted === false) {
-                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-                                                
-                                                <div className="ms-2 me-auto">
-                                                 
-                                                    <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
-                                                        ${reviewData[i].review}
-                                                        <br></br>
-                                                        Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
-                                                        <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
-                                                    </div>
-                                                    
-                                                </ListGroup.Item>
-                                                `);
-                                                average_rating = average_rating + reviewData[i].rating;
-                                                undeleted_reviews++;
-
-                                            }
-                                        }
-                                        average_rating = average_rating / undeleted_reviews;
-                                        reviewlist = reviewlist.concat('</ListGroup>');
-
-                                        amenity_id = waterAmenity.id;
-                                        amenity_type = 'water';
-
-                                        offcanvastitle = 'Water Amenity, ID:' + waterAmenity.id + ' ';
-                                        if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + Math.round(average_rating);
-                                        } else {
-                                            rating_average = 'No Reviews Yet';
-                                        }
-                                        handleShow();
-                                    });
+                                    setReviews(reviewData);
+                                    setShow(true)
                                 }} />
                         ))
                         : null}
@@ -414,55 +346,16 @@ export const GoogleMapContainer = (props) => {
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: toiletAmenity.toilet_latitude, lng: toiletAmenity.toilet_longitude }}
-                                onClick={() => {
-
+                                onClick={async () => {
                                     setDestLat(toiletAmenity.toilet_latitude)
                                     setDestLng(toiletAmenity.toilet_longitude)
+                                    setSelectedAmenity('toilet');
+                                    setSelectedAmenityId(toiletAmenity.id)
 
-                                    const apiService = new ApiService();
-                                    const reviewDataPromise = apiService.getReview('toilet', toiletAmenity.id);
+                                    const reviewData = await apiService.getReview('toilet', toiletAmenity.id);
 
-                                    reviewDataPromise.then((reviewData) => {
-
-                                        var average_rating = 0;
-                                        var undeleted_reviews = 0;
-
-                                        reviewlist = '<ListGroup>';
-                                        for (let i = 0; i < reviewData.length; i++) {
-                                            if (reviewData[i].is_deleted === false) {
-                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-                                                
-                                                <div className="ms-2 me-auto">
-                                                 
-                                                    <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
-                                                        ${reviewData[i].review}
-                                                        <br></br>
-                                                        Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
-                                                        <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
-                                                    </div>
-                                                    
-                                                </ListGroup.Item>
-                                                `);
-                                                average_rating = average_rating + reviewData[i].rating;
-                                                undeleted_reviews++;
-
-                                            }
-                                        }
-                                        average_rating = average_rating / undeleted_reviews;
-                                        reviewlist = reviewlist.concat('</ListGroup>');
-
-                                        amenity_id = toiletAmenity.id;
-                                        amenity_type = 'toilet';
-
-                                        offcanvastitle = 'Toilet Amenity, ID:' + toiletAmenity.id + ' ';
-                                        if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + Math.round(average_rating);
-                                        } else {
-                                            rating_average = 'No Reviews Yet';
-                                        }
-                                        handleShow();
-                                    });
+                                    setReviews(reviewData);
+                                    setShow(true)
                                 }} />
                         ))
                         : null}
@@ -478,55 +371,16 @@ export const GoogleMapContainer = (props) => {
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: wifiAmenity.wifi_latitude, lng: wifiAmenity.wifi_longitude }}
-                                onClick={() => {
-
+                                onClick={async () => {
                                     setDestLat(wifiAmenity.wifi_latitude)
                                     setDestLng(wifiAmenity.wifi_longitude)
+                                    setSelectedAmenity('wifi');
+                                    setSelectedAmenityId(wifiAmenity.id)
 
-                                    const apiService = new ApiService();
-                                    const reviewDataPromise = apiService.getReview('wifi', wifiAmenity.id);
+                                    const reviewData = await apiService.getReview('wifi', wifiAmenity.id);
 
-                                    reviewDataPromise.then((reviewData) => {
-
-                                        var average_rating = 0;
-                                        var undeleted_reviews = 0;
-
-                                        reviewlist = '<ListGroup>';
-                                        for (let i = 0; i < reviewData.length; i++) {
-                                            if (reviewData[i].is_deleted === false) {
-                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-                                                
-                                                <div className="ms-2 me-auto">
-                                                 
-                                                    <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
-                                                        ${reviewData[i].review}
-                                                        <br></br>
-                                                        Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
-                                                        <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
-                                                    </div>
-                                                    
-                                                </ListGroup.Item>
-                                                `);
-                                                average_rating = average_rating + reviewData[i].rating;
-                                                undeleted_reviews++;
-
-                                            }
-                                        }
-                                        average_rating = average_rating / undeleted_reviews;
-                                        reviewlist = reviewlist.concat('</ListGroup>');
-
-                                        amenity_id = wifiAmenity.id;
-                                        amenity_type = 'wifi';
-
-                                        offcanvastitle = 'Wifi Amenity, ID:' + wifiAmenity.id + ' ';
-                                        if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + Math.round(average_rating);
-                                        } else {
-                                            rating_average = 'No Reviews Yet';
-                                        }
-                                        handleShow();
-                                    });
+                                    setReviews(reviewData);
+                                    setShow(true)
                                 }} />
                         ))
                         : null}
@@ -542,55 +396,16 @@ export const GoogleMapContainer = (props) => {
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: parkingAmenity.parking_latitude, lng: parkingAmenity.parking_longitude }}
-                                onClick={() => {
-
+                                onClick={async () => {
                                     setDestLat(parkingAmenity.parking_latitude)
                                     setDestLng(parkingAmenity.parking_longitude)
+                                    setSelectedAmenity('parking');
+                                    setSelectedAmenityId(parkingAmenity.id)
 
-                                    const apiService = new ApiService();
-                                    const reviewDataPromise = apiService.getReview('parking', parkingAmenity.id);
+                                    const reviewData = await apiService.getReview('parking', parkingAmenity.id);
 
-                                    reviewDataPromise.then((reviewData) => {
-
-                                        var average_rating = 0;
-                                        var undeleted_reviews = 0;
-
-                                        reviewlist = '<ListGroup>';
-                                        for (let i = 0; i < reviewData.length; i++) {
-                                            if (reviewData[i].is_deleted === false) {
-                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-                                                
-                                                <div className="ms-2 me-auto">
-                                                 
-                                                    <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
-                                                        ${reviewData[i].review}
-                                                        <br></br>
-                                                        Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
-                                                        <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
-                                                    </div>
-                                                    
-                                                </ListGroup.Item>
-                                                `);
-                                                average_rating = average_rating + reviewData[i].rating;
-                                                undeleted_reviews++;
-
-                                            }
-                                        }
-                                        average_rating = average_rating / undeleted_reviews;
-                                        reviewlist = reviewlist.concat('</ListGroup>');
-
-                                        amenity_id = parkingAmenity.id;
-                                        amenity_type = 'parking';
-
-                                        offcanvastitle = 'Parking Amenity, ID:' + parkingAmenity.id + ' ';
-                                        if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + Math.round(average_rating);
-                                        } else {
-                                            rating_average = 'No Reviews Yet';
-                                        }
-                                        handleShow();
-                                    });
+                                    setReviews(reviewData);
+                                    setShow(true)
                                 }} />
                         ))
                         : null}
@@ -606,59 +421,19 @@ export const GoogleMapContainer = (props) => {
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: benchAmenity.bench_latitude, lng: benchAmenity.bench_longitude }}
-                                onClick={() => {
-
+                                onClick={async () => {
                                     setDestLat(benchAmenity.bench_latitude)
                                     setDestLng(benchAmenity.bench_longitude)
+                                    setSelectedAmenity('bench');
+                                    setSelectedAmenityId(benchAmenity.id)
 
-                                    const apiService = new ApiService();
-                                    const reviewDataPromise = apiService.getReview('bench', benchAmenity.id);
+                                    const reviewData = await apiService.getReview('bench', benchAmenity.id);
 
-                                    reviewDataPromise.then((reviewData) => {
-
-                                        var average_rating = 0;
-                                        var undeleted_reviews = 0;
-
-                                        reviewlist = '<ListGroup>';
-                                        for (let i = 0; i < reviewData.length; i++) {
-                                            if (reviewData[i].is_deleted === false) {
-                                                reviewlist = reviewlist.concat(`<ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-                                                
-                                                <div className="ms-2 me-auto">
-                                                 
-                                                    <div className="fw-bold">User ID: ${reviewData[i].user}  |  Rating: ${reviewData[i].rating} </div>
-                                                        ${reviewData[i].review}
-                                                        <br></br>
-                                                        Likes: ${reviewData[i].upvotes} Dislikes: ${reviewData[i].downvotes} 
-                                                        <br></br>
-                                                        <button className="buttonlike">Like</button> <button className="buttonflag">Flag</button> <button className="buttondislike">Dislike</button>
-                                                    </div>
-                                                    
-                                                </ListGroup.Item>
-                                                `);
-                                                average_rating = average_rating + reviewData[i].rating;
-                                                undeleted_reviews++;
-
-                                            }
-                                        }
-                                        average_rating = average_rating / undeleted_reviews;
-                                        reviewlist = reviewlist.concat('</ListGroup>');
-
-                                        amenity_id = benchAmenity.id;
-                                        amenity_type = 'bench';
-
-                                        offcanvastitle = 'Bench Amenity, ID:' + benchAmenity.id + ' ';
-                                        if (undeleted_reviews > 0) {
-                                            rating_average = "Average Rating: " + Math.round(average_rating);
-                                        } else {
-                                            rating_average = 'No Reviews Yet';
-                                        }
-                                        handleShow();
-                                    });
+                                    setReviews(reviewData);
+                                    setShow(true)
                                 }} />
                         ))
                         : null}
-
                 </>
                 : null}
 
@@ -696,7 +471,6 @@ export const GoogleMapContainer = (props) => {
                                     onClick={() => { map.panTo(mapCenter) }}
                                 />
                             </Tooltip>
-
 
                             {directionsResponse ?
                                 <Tooltip hasArrow label='Clear Navigation' placement='left' openDelay="500">
