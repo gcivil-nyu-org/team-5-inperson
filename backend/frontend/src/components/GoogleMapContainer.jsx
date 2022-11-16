@@ -1,12 +1,12 @@
-import '../styles/Form.css'; 
+import '../styles/Form.css';
 import React, { useState } from 'react'
 import {
-    GoogleMap, useJsApiLoader,Marker,DirectionsRenderer,Autocomplete,
+    GoogleMap, useJsApiLoader, Marker, DirectionsRenderer, Autocomplete,
 } from '@react-google-maps/api';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import {
-    IconButton, SkeletonText, Flex, Stack, Box,ButtonGroup, Spacer, Tooltip
+    IconButton, SkeletonText, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
@@ -15,7 +15,7 @@ import { Filters } from './Filters';
 import { useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { ToastContainer, toast} from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const containerStyle = {
@@ -144,34 +144,63 @@ export const GoogleMapContainer = (props) => {
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        setInputs(values => ({...values, [name]: value}))
+        setInputs(values => ({ ...values, [name]: value }))
     }
-  
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(inputs);
+
+    const handleSubmit = async (event) => {
+        // event.preventDefault();
+        console.log("inputs", inputs);
+
+        const newReview = {
+            'amenity_type': amenity_type,
+            'amenity_id': amenity_id,
+            'rating': inputs.rating,
+            'review': filter.clean(inputs.review),
+            'is_flagged': false,
+            'is_deleted': false,
+            'upvotes': 0,
+            'downvotes': 0,
+            'user': user
+        }
+
+        const apiService = new ApiService();
+
+        try {
+            const addReviewResponse = await apiService.addReview(newReview);
+            console.log("addReviewResponse", addReviewResponse)
+        }
+        catch (error) {
+            console.error(error['non_field_errors'])
+        }
+
+        handleCloseModal();
+
+        if (inputs.rating > 5) {
+            alert('Please insert a Rating from 1-5')
+            // refreshForm()
+        } else if (inputs.rating < 1) {
+            alert('Please insert a Rating from 1-5')
+            // refreshForm()
+        } else if (inputs.rating === undefined || inputs.rating === "") {
+            alert('Please insert a Rating')
+            // refreshForm()
+        } else if (inputs.review === undefined || inputs.review === "") {
+            alert('Please insert a Review')
+            // refreshForm()
+        } else {
+            alert('Review Successfully Submitted')
+            //addSuccess()
+            // refreshPage()
+        }
 
         // console.log("authenticatedUser", authenticatedUser)
 
-        const newReview = {
-            amenity_type: amenity_type,
-            amenity_id: amenity_id, 
-            rating: inputs.rating, 
-            review: filter.clean(inputs.review), 
-            is_flagged: false, 
-            is_deleted: false, 
-            upvotes: 0, 
-            downvotes: 0, 
-            user: user
-        }
 
 
-        const apiService = new ApiService();
-        const addReviewResponse = await apiService.addReview(newReview);
 
-        console.log("addReviewResponse", addReviewResponse)
 
-        
+
+
 
     }
 
@@ -182,7 +211,7 @@ export const GoogleMapContainer = (props) => {
         })
     } 
     */
-    
+
 
     const refreshForm = () => {
         inputs.review = ""
@@ -192,8 +221,8 @@ export const GoogleMapContainer = (props) => {
 
     function refreshPage() {
         window.location.reload(false);
-      }
-  
+    }
+
     return isLoaded ? (
 
         <GoogleMap
@@ -268,9 +297,9 @@ export const GoogleMapContainer = (props) => {
                     <br></br><br></br>
 
                     <div className='Review'> {parse(reviewlist)} </div>
-                    
 
-                    
+
+
 
                     <Modal show={showModal} onHide={handleCloseModal}>
                         <Modal.Header closeButton>
@@ -278,52 +307,30 @@ export const GoogleMapContainer = (props) => {
                         </Modal.Header>
                         <Modal.Body>
                             <form onSubmit={handleSubmit}>
-                            <label>{amenity_type} {amenity_id} </label>
-                            <label>Rating (1-5):
-                            <input 
-                                type="number" 
-                                name="rating" 
-                                value={inputs.rating || ""}
-                                required = "required" 
-                                onChange={handleChange}
-                                min={1}
-                                max={5}
-                            />
-                            </label>
-                            <label>Review:
-                                <input 
-                                    type="text" 
-                                    name="review" 
-                                    value={inputs.review || ""} 
-                                    required = "required" 
-                                    onChange={handleChange}
-                                />
+                                <label>{amenity_type} {amenity_id} </label>
+                                <label>Rating (1-5):
+                                    <input
+                                        type="number"
+                                        name="rating"
+                                        value={inputs.rating || ""}
+                                        required="required"
+                                        onChange={handleChange}
+                                        min={1}
+                                        max={5}
+                                    />
+                                </label>
+                                <label>Review:
+                                    <input
+                                        type="text"
+                                        name="review"
+                                        value={inputs.review || ""}
+                                        required="required"
+                                        onChange={handleChange}
+                                    />
                                 </label> {/*onClick={handleCloseModal}*/}
-                                <input type="submit"  
-                                    onClick={() => {
-                                        
-                                        handleCloseModal(); 
-
-                                        if(inputs.rating > 5) {
-                                            alert('Please insert a Rating from 1-5')
-                                            refreshForm()
-                                        } else if (inputs.rating < 1) {
-                                            alert('Please insert a Rating from 1-5')
-                                            refreshForm()
-                                        } else if (inputs.rating === undefined || inputs.rating === "") {
-                                            alert('Please insert a Rating')
-                                            refreshForm()
-                                        }else if (inputs.review === undefined || inputs.review === "") {
-                                            alert('Please insert a Review')
-                                            refreshForm()
-                                        } else { 
-                                            alert('Review Successfully Submitted')
-                                            //addSuccess()
-                                            refreshPage()
-                                        }
-                                        }}
-                                /> 
-                                <ToastContainer/>
+                                <input type="submit"
+                                />
+                                <ToastContainer />
                             </form>
                         </Modal.Body>
                     </Modal>
