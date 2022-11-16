@@ -6,7 +6,7 @@ import {
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import {
-    IconButton, SkeletonText, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip
+    IconButton, SkeletonText, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip, Center
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
@@ -117,50 +117,6 @@ export const GoogleMapContainer = (props) => {
 
     const [inputs, setInputs] = useState({});
 
-    // const updateReview = {
-    //     amenity_type: amenity_type,
-    //     amenity_id: amenity_id,
-    //     rating: rating_val,
-    //     review: review_text,//filter.clean(inputs.review), 
-    //     is_flagged: false,
-    //     is_deleted: false,
-    //     upvotes: likeCount,
-    //     downvotes: dislikeCount,
-    //     user: user
-    // }
-    
-    // const changeFlag = (event) => {
-    //     event.preventDefault();
-    //     console.log('Flag status change');
-    //     /*    const updateReview = {
-    //         amenity_type: amenity_type,
-    //         amenity_id: amenity_id, 
-    //         rating: inputs.rating, 
-    //         review: filter.clean(inputs.review), 
-    //         is_flagged: false, 
-    //         is_deleted: false, 
-    //         upvotes: likeCount, 
-    //         downvotes: dislikeCount,
-    //         user: user
-    //     }*/
-    //     if (reviewFlag)
-    //         updateReview.is_flagged = false
-    //     else
-    //         updateReview.is_flagged = true
-    //     console.log(event)
-    //     const result = fetch('http://127.0.0.1:8000/NycBasics/api/review/' + review_id + '/', {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(updateReview)
-    //     })
-    
-    //     const resultInJson = result.json();
-    //     console.log(resultInJson)
-    //     return ''
-    // }
-
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -233,10 +189,8 @@ export const GoogleMapContainer = (props) => {
                         outline: `none`,
                         textOverflow: `ellipses`,
                         position: "absolute",
-                        // left: "48%",
                         left: "20px",
                         top: "20px",
-                        // marginLeft: "-120px",
                         backgroundColor: "white"
                     }}
                 />
@@ -245,7 +199,9 @@ export const GoogleMapContainer = (props) => {
             <Offcanvas show={show} onHide={() => setShow(false)} scroll={false} backdrop={false} placement={'start'}>
 
                 <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>{selectedAmenity.toUpperCase()}</Offcanvas.Title>
+                    <Offcanvas.Title>
+                        {selectedAmenity.toUpperCase()}
+                    </Offcanvas.Title>
                 </Offcanvas.Header>
 
                 <Offcanvas.Body>
