@@ -76,7 +76,6 @@ class UserLoginSerializer(serializers.ModelSerializer):
         read_only_fields = ("token", "username")
 
 
-
 class UserLogoutSerializer(serializers.ModelSerializer):
     token = serializers.CharField()
     status = serializers.CharField(required=False, read_only=True)
@@ -141,9 +140,10 @@ class rating_modelSerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 1
 
+
 class review_modelSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Rating_Review
+        model = Rating_Review
         fields = "__all__"
 
 

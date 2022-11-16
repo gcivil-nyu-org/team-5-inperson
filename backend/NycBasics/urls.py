@@ -80,5 +80,4 @@ urlpatterns = [
         ratingviews.average_Rating.as_view(),
         name="averagerating",
     ),
-    
 ]
