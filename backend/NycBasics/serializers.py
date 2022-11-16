@@ -67,6 +67,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
         user.token = data["token"]
         user.save()
         data["username"] = user.username
+        data["id"] = user.id
         return data
 
     class Meta:
@@ -138,7 +139,7 @@ class rating_modelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating_Review
         fields = "__all__"
-        depth = 1
+        # depth = 1
 
 
 class review_modelSerializer(serializers.ModelSerializer):

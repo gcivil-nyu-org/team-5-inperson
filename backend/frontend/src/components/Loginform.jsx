@@ -21,6 +21,7 @@ function Loginform() {
       console.log("loginResponse", loginResponse)
       let authenticatedUserObj = {
         'token': loginResponse['token'],
+        'id': loginResponse['id'],
         'username': loginResponse['username']
       }
       localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUserObj));

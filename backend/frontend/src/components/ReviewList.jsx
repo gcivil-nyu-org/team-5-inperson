@@ -11,7 +11,7 @@ const apiService = new ApiService();
 
 export const ReviewList = (props) => {
 
-    const { reviews, selectedAmenity, setReviews } = props;
+    const { reviews, selectedAmenity, setReviews, authenticatedUser } = props;
     const sortedValidReviews = reviews.filter((review) => !review.is_deleted).sort((a, b) => {
         if (a.id > b.id) {
             return 1
@@ -62,81 +62,87 @@ export const ReviewList = (props) => {
                                     <hr />
                                     <br></br>
 
-                                    <Flex>
-                                        <div>
-                                            <div className="fw-bold">
-                                                User: {review.user.username}
+                                    {authenticatedUser?.token?.length > 0
+                                        ? <Flex>
+                                            <div>
+                                                <div className="fw-bold">
+                                                    User ID: {review.user}
 
+                                                </div>
+                                                <div className="fw-bold">
+                                                    Rating: {review.rating}
+
+                                                </div>
                                             </div>
-                                            <div className="fw-bold">
-                                                Rating: {review.rating}
-
-                                            </div>
-                                        </div>
 
 
-                                        <Spacer />
+                                            <Spacer />
 
-                                        <Stack spacing='2px' direction="row">
+                                            <Stack spacing='2px' direction="row">
 
-                                            <IconButton
-                                                colorScheme='blue'
-                                                size='sm'
-                                                variant="outline"
-                                                aria-label='Search database'
-                                                icon={<AiOutlineLike color='black' />}
-                                                onClick={async () => {
-                                                    const updatedReview = {
-                                                        ...review,
-                                                        upvotes: review.upvotes + 1,
-                                                        user: review.user.id
-                                                    };
-                                                    await updateReview(updatedReview)
+                                                <IconButton
+                                                    colorScheme='blue'
+                                                    size='sm'
+                                                    variant="outline"
+                                                    aria-label='Search database'
+                                                    icon={<AiOutlineLike color='black' />}
+                                                    onClick={async () => {
+                                                        const updatedReview = {
+                                                            ...review,
+                                                            upvotes: review.upvotes + 1,
+                                                            user: review.user,
+                                                            amenity_type: selectedAmenity
+                                                        };
+                                                        await updateReview(updatedReview)
 
-                                                }}
-                                            />
+                                                    }}
+                                                />
 
-                                            <IconButton
-                                                colorScheme='blue'
-                                                size='sm'
-                                                variant="outline"
-                                                aria-label='Search database'
-                                                icon={<AiOutlineDislike color='black' />}
-                                                onClick={async () => {
-                                                    const updatedReview = {
-                                                        ...review,
-                                                        downvotes: review.downvotes + 1,
-                                                        user: review.user.id
-                                                    };
-                                                    await updateReview(updatedReview)
+                                                <IconButton
+                                                    colorScheme='blue'
+                                                    size='sm'
+                                                    variant="outline"
+                                                    aria-label='Search database'
+                                                    icon={<AiOutlineDislike color='black' />}
+                                                    onClick={async () => {
+                                                        const updatedReview = {
+                                                            ...review,
+                                                            downvotes: review.downvotes + 1,
+                                                            user: review.user,
+                                                            amenity_type: selectedAmenity
+                                                        };
+                                                        await updateReview(updatedReview)
 
-                                                }}
-                                            />
+                                                    }}
+                                                />
 
-                                            <IconButton
-                                                colorScheme='blue'
-                                                size='sm'
-                                                variant="outline"
-                                                aria-label='Search database'
-                                                icon={<BiFlag color='red' />}
-                                                onClick={async () => {
-                                                    const updatedReview = {
-                                                        ...review,
-                                                        user: review.user.id
-                                                    };
-                                                    if (updatedReview.is_flagged === true) {
-                                                        updatedReview.is_flagged = false
-                                                    }
-                                                    else {
-                                                        updatedReview.is_flagged = true
-                                                    }
-                                                    await updateReview(updatedReview)
+                                                <IconButton
+                                                    colorScheme='blue'
+                                                    size='sm'
+                                                    variant="outline"
+                                                    aria-label='Search database'
+                                                    icon={<BiFlag color='red' />}
+                                                    onClick={async () => {
+                                                        const updatedReview = {
+                                                            ...review,
+                                                            user: review.user,
+                                                            amenity_type: selectedAmenity
+                                                        };
+                                                        if (updatedReview.is_flagged === true) {
+                                                            updatedReview.is_flagged = false
+                                                        }
+                                                        else {
+                                                            updatedReview.is_flagged = true
+                                                        }
+                                                        await updateReview(updatedReview)
 
-                                                }}
-                                            />
+                                                    }}
+                                                />
 
-                                        </Stack>
-                                    </Flex>
+                                            </Stack>
+                                        </Flex>
+                                        : null}
+
                                     {review.review}
 
                                     <br></br>
