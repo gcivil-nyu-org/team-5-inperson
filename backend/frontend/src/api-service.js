@@ -120,4 +120,18 @@ export class ApiService {
         const data = await res.json();
         return data;
     }
+
+    async addReview(newReview) {
+        const res = fetch (`${this.baseUrl}/create_rating/` , {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newReview)
+        })
+
+        const data = res.json();
+        return data
+
+    }
 }
