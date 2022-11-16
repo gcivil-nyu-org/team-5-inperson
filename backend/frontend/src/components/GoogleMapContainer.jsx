@@ -1,4 +1,4 @@
-import '../styles/Form.css';
+import '../styles/Form.css'; 
 import React, { useState } from 'react'
 import {
     GoogleMap, useJsApiLoader,Marker,DirectionsRenderer,Autocomplete,
@@ -15,11 +15,14 @@ import { Filters } from './Filters';
 import { useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const containerStyle = {
     width: '100vw',
     height: '92vh'
 };
+
 
 var offcanvastitle = '';
 var reviewlist = '';
@@ -92,7 +95,6 @@ export const GoogleMapContainer = (props) => {
     }
     
     const onLoad = (autocomplete) => {
-        console.log('autocomplete: ', autocomplete)
         setAutocomplete(autocomplete)
     }
 
@@ -138,6 +140,9 @@ export const GoogleMapContainer = (props) => {
         //setMap(map)
         map.panTo(mapCenter)
     }
+
+
+
 
     const [inputs, setInputs] = useState({});
     const updateReview = {
@@ -258,18 +263,36 @@ export const GoogleMapContainer = (props) => {
             user: user
         }
 
-        const result = fetch ('http://127.0.0.1:8000/NycBasics/api/create_rating/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newReview)
+
+        const apiService = new ApiService();
+        const resultPromise = apiService.addReview(newReview);
+
+        resultPromise.then((result) => {
+            console.log(result)
         })
 
-        const resultInJson = result.json();
-        console.log(resultInJson)
+        
 
     }
+
+    /*
+    const addSuccess = () => {
+        toast.success('Sucessfully Submitted!', {
+            position: toast.POSITION.TOP_RIGHT
+        })
+    } 
+    */
+    
+
+    const refreshForm = () => {
+        inputs.review = ""
+        inputs.rating = ""
+
+    }
+
+    function refreshPage() {
+        window.location.reload(false);
+      }
   
     return isLoaded ? (
 
@@ -339,15 +362,16 @@ export const GoogleMapContainer = (props) => {
                     >
                         GMaps Nav
                     </a>
-                    <br></br><br></br>
+                    <br></br>
 
+                    <Button variant="primary" onClick={handleShowModal}>Add Review</Button>
                     <div className='AverageRating'> {rating_average} </div>
                     <br></br><br></br>
 
                     <div className='Review'> {parse(reviewlist)} </div>
-                    <br></br><br></br>
+                    
 
-                    <Button variant="primary" onClick={handleShowModal}>Add Review</Button>
+                    
 
                     <Modal show={showModal} onHide={handleCloseModal}>
                         <Modal.Header closeButton>
@@ -377,20 +401,30 @@ export const GoogleMapContainer = (props) => {
                                 />
                                 </label> {/*onClick={handleCloseModal}*/}
                                 <input type="submit"  
-                                onClick={() => {handleCloseModal(); 
+                                    onClick={() => {
+                                        
+                                        handleCloseModal(); 
 
-                                    if(inputs.rating > 5) {
-                                        console.log(alert('Please insert a Rating from 1-5'))
-                                    } else if (inputs.rating < 1) {
-                                        console.log(alert('Please insert a Rating from 1-5'))
-                                    } else if (inputs.rating === undefined) {
-                                        console.log(alert('Please insert a Rating'))
-                                    }else if (inputs.review === undefined) {
-                                        console.log(alert('Please insert something in Review'))
-                                    } else { 
-                                    console.log(alert('Successfuly Submitted!'))
-                                    }
-                                    }}/>
+                                        if(inputs.rating > 5) {
+                                            alert('Please insert a Rating from 1-5')
+                                            refreshForm()
+                                        } else if (inputs.rating < 1) {
+                                            alert('Please insert a Rating from 1-5')
+                                            refreshForm()
+                                        } else if (inputs.rating === undefined || inputs.rating === "") {
+                                            alert('Please insert a Rating')
+                                            refreshForm()
+                                        }else if (inputs.review === undefined || inputs.review === "") {
+                                            alert('Please insert a Review')
+                                            refreshForm()
+                                        } else { 
+                                            alert('Review Successfully Submitted')
+                                            //addSuccess()
+                                            refreshPage()
+                                        }
+                                        }}
+                                /> 
+                                <ToastContainer/>
                             </form>
                         </Modal.Body>
                     </Modal>
