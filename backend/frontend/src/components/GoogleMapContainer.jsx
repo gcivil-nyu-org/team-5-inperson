@@ -91,7 +91,6 @@ export const GoogleMapContainer = (props) => {
     }
 
     const onLoad = (autocomplete) => {
-        console.log('autocomplete: ', autocomplete)
         setAutocomplete(autocomplete)
     }
 
@@ -302,22 +301,24 @@ export const GoogleMapContainer = (props) => {
                                 />
                                 </label> {/*onClick={handleCloseModal}*/}
                                 <input type="submit"  
-                                    onClick={() => {handleCloseModal(); 
+                                    onClick={() => {
+                                        
+                                        handleCloseModal(); 
 
                                         if(inputs.rating > 5) {
-                                            console.log(alert('Please insert a Rating from 1-5'))
+                                            alert('Please insert a Rating from 1-5')
                                             refreshForm()
                                         } else if (inputs.rating < 1) {
-                                            console.log(alert('Please insert a Rating from 1-5'))
+                                            alert('Please insert a Rating from 1-5')
                                             refreshForm()
                                         } else if (inputs.rating === undefined || inputs.rating === "") {
-                                            console.log(alert('Please insert a Rating'))
+                                            alert('Please insert a Rating')
                                             refreshForm()
                                         }else if (inputs.review === undefined || inputs.review === "") {
-                                            console.log(alert('Please insert something in Review'))
+                                            alert('Please insert a Review')
                                             refreshForm()
                                         } else { 
-                                            console.log(alert('Successfully Submitted'))
+                                            alert('Review Successfully Submitted')
                                             //addSuccess()
                                             refreshPage()
                                         }
