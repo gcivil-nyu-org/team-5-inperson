@@ -1,5 +1,5 @@
 import '../styles/Form.css';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     GoogleMap, useJsApiLoader, Marker, DirectionsRenderer, Autocomplete,
 } from '@react-google-maps/api';
@@ -21,8 +21,6 @@ const containerStyle = {
     height: '92vh'
 };
 
-var amenity_type = '';
-var amenity_id = '';
 var user = 1;
 
 const apiService = new ApiService();
@@ -31,6 +29,22 @@ var Filter = require('bad-words'),
     filter = new Filter();
 
 export const GoogleMapContainer = (props) => {
+
+    const [authenticatedUser, setAuthenticatedUser] = useState(JSON.parse(localStorage.getItem('authenticatedUser')))
+
+    useEffect(() => {
+        const onStorage = () => {
+            setAuthenticatedUser(JSON.parse(localStorage.getItem('authenticatedUser')))
+        };
+
+        window.addEventListener('storage', onStorage);
+
+        return () => {
+            window.removeEventListener('storage', onStorage);
+        };
+    }, [])
+
+    console.log("authenticatedUser", authenticatedUser)
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
         mapCenter, setMapCenter,
@@ -55,10 +69,9 @@ export const GoogleMapContainer = (props) => {
     const [destLat, setDestLat] = useState('')
     const [destLng, setDestLng] = useState('')
     const [showModal, setShowModal] = useState(false);
-    const handleCloseModal = () => setShowModal(false);
-    const handleShowModal = () => setShowModal(true);
     const [reviews, setReviews] = useState([]);
     const [selectedAmenity, setSelectedAmenity] = useState("");
+    const [selectedAmenityId, setSelectedAmenityId] = useState("");
 
     const codepoints = {
         water: "\ue798",
@@ -123,27 +136,45 @@ export const GoogleMapContainer = (props) => {
         setInputs(values => ({ ...values, [name]: value }))
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(inputs);
 
         const newReview = {
-            amenity_type: amenity_type,
-            amenity_id: amenity_id,
+            amenity_type: selectedAmenity,
+            amenity_id: selectedAmenityId,
             rating: inputs.rating,
             review: filter.clean(inputs.review),
             is_flagged: false,
             is_deleted: false,
             upvotes: 0,
             downvotes: 0,
-            user: user
+            user: authenticatedUser.id
         }
 
-        const resultPromise = apiService.addReview(newReview);
+        console.log("newReview", newReview)
+        const addReviewResponse = await apiService.addReview(newReview);
+        console.log("addReviewResponse", addReviewResponse)
 
-        resultPromise.then((result) => {
-            console.log(result)
-        })
+
+        setShowModal(false)
+
+        if (inputs.rating > 5) {
+            alert('Please insert a Rating from 1-5')
+            refreshForm()
+        } else if (inputs.rating < 1) {
+            alert('Please insert a Rating from 1-5')
+            refreshForm()
+        } else if (inputs.rating === undefined || inputs.rating === "") {
+            alert('Please insert a Rating')
+            refreshForm()
+        } else if (inputs.review === undefined || inputs.review === "") {
+            alert('Please insert a Review')
+            refreshForm()
+        } else {
+            alert('Review Successfully Submitted')
+            refreshPage()
+        }
     }
 
     const refreshForm = () => {
@@ -222,7 +253,7 @@ export const GoogleMapContainer = (props) => {
                     </a>
                     <br></br>
 
-                    <Button variant="primary" onClick={handleShowModal}>Add Review</Button>
+                    <Button variant="primary" onClick={() => { setShowModal(true) }}>Add Review</Button>
 
 
                     <ReviewList
@@ -230,14 +261,15 @@ export const GoogleMapContainer = (props) => {
                         selectedAmenity={selectedAmenity}
                         setReviews={setReviews}
                     />
+                    {console.log("reviews", reviews)}
 
-                    <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal show={showModal} onHide={() => setShowModal(false)}>
                         <Modal.Header closeButton>
                             <Modal.Title>New Review</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <form onSubmit={handleSubmit}>
-                                <label>{amenity_type} {amenity_id} </label>
+                                {/* <label>{amenity_type} {amenity_id} </label> */}
                                 <label>Rating (1-5):
                                     <input
                                         type="number"
@@ -257,29 +289,8 @@ export const GoogleMapContainer = (props) => {
                                         required="required"
                                         onChange={handleChange}
                                     />
-                                </label> {/*onClick={handleCloseModal}*/}
+                                </label>
                                 <input type="submit"
-                                    onClick={() => {
-
-                                        handleCloseModal();
-
-                                        if (inputs.rating > 5) {
-                                            alert('Please insert a Rating from 1-5')
-                                            refreshForm()
-                                        } else if (inputs.rating < 1) {
-                                            alert('Please insert a Rating from 1-5')
-                                            refreshForm()
-                                        } else if (inputs.rating === undefined || inputs.rating === "") {
-                                            alert('Please insert a Rating')
-                                            refreshForm()
-                                        } else if (inputs.review === undefined || inputs.review === "") {
-                                            alert('Please insert a Review')
-                                            refreshForm()
-                                        } else {
-                                            alert('Review Successfully Submitted')
-                                            refreshPage()
-                                        }
-                                    }}
                                 />
                                 <ToastContainer />
                             </form>
@@ -311,6 +322,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLat(waterAmenity.water_latitude);
                                     setDestLng(waterAmenity.water_longitude);
                                     setSelectedAmenity('water');
+                                    setSelectedAmenityId(waterAmenity.id)
 
                                     const reviewData = await apiService.getReview('water', waterAmenity.id);
 
@@ -335,6 +347,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLat(toiletAmenity.toilet_latitude)
                                     setDestLng(toiletAmenity.toilet_longitude)
                                     setSelectedAmenity('toilet');
+                                    setSelectedAmenityId(toiletAmenity.id)
 
                                     const reviewData = await apiService.getReview('toilet', toiletAmenity.id);
 
@@ -359,6 +372,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLat(wifiAmenity.wifi_latitude)
                                     setDestLng(wifiAmenity.wifi_longitude)
                                     setSelectedAmenity('wifi');
+                                    setSelectedAmenityId(wifiAmenity.id)
 
                                     const reviewData = await apiService.getReview('wifi', wifiAmenity.id);
 
@@ -383,6 +397,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLat(parkingAmenity.parking_latitude)
                                     setDestLng(parkingAmenity.parking_longitude)
                                     setSelectedAmenity('parking');
+                                    setSelectedAmenityId(parkingAmenity.id)
 
                                     const reviewData = await apiService.getReview('parking', parkingAmenity.id);
 
@@ -407,6 +422,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLat(benchAmenity.bench_latitude)
                                     setDestLng(benchAmenity.bench_longitude)
                                     setSelectedAmenity('bench');
+                                    setSelectedAmenityId(benchAmenity.id)
 
                                     const reviewData = await apiService.getReview('bench', benchAmenity.id);
 

@@ -28,6 +28,7 @@ function BasicsNavbar() {
     console.log("logoutResponse", logoutResponse)
     let authenticatedUserObj = {
       'token': null,
+      'id': null,
       'username': null
     }
     localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUserObj));

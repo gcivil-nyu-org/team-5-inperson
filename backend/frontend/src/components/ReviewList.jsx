@@ -65,7 +65,7 @@ export const ReviewList = (props) => {
                                     <Flex>
                                         <div>
                                             <div className="fw-bold">
-                                                User: {review.user.username}
+                                                User ID: {review.user}
 
                                             </div>
                                             <div className="fw-bold">
@@ -89,7 +89,8 @@ export const ReviewList = (props) => {
                                                     const updatedReview = {
                                                         ...review,
                                                         upvotes: review.upvotes + 1,
-                                                        user: review.user.id
+                                                        user: review.user,
+                                                        amenity_type: selectedAmenity
                                                     };
                                                     await updateReview(updatedReview)
 
@@ -106,7 +107,8 @@ export const ReviewList = (props) => {
                                                     const updatedReview = {
                                                         ...review,
                                                         downvotes: review.downvotes + 1,
-                                                        user: review.user.id
+                                                        user: review.user,
+                                                        amenity_type: selectedAmenity
                                                     };
                                                     await updateReview(updatedReview)
 
@@ -122,7 +124,8 @@ export const ReviewList = (props) => {
                                                 onClick={async () => {
                                                     const updatedReview = {
                                                         ...review,
-                                                        user: review.user.id
+                                                        user: review.user,
+                                                        amenity_type: selectedAmenity
                                                     };
                                                     if (updatedReview.is_flagged === true) {
                                                         updatedReview.is_flagged = false

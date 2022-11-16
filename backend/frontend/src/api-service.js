@@ -122,7 +122,7 @@ export class ApiService {
     }
 
     async addReview(newReview) {
-        const res = fetch (`${this.baseUrl}/create_rating/` , {
+        const res = await fetch (`${this.baseUrl}/create_rating/` , {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -130,7 +130,9 @@ export class ApiService {
             body: JSON.stringify(newReview)
         })
 
-        const data = res.json();
+        console.log("res", res)
+
+        const data = await res.json();
         return data
 
     }
