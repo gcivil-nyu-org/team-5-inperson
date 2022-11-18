@@ -182,6 +182,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
     "http://staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
     "http://www.staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
+    "https://www.staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
     "http://nycbasics5.gq",
     "https://nycbasics5.gq",
     "https://www.nycbasics5.gq",
@@ -194,5 +195,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
     "http://www.nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
     "http://www.nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
+    "https://www.nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
+    "https://www.nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
 ]
 # may need to add aws eb cname here above
