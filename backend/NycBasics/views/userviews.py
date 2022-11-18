@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from ..models import User
 from ..serializers import UserSerializer, UserLoginSerializer, UserLogoutSerializer
-
+import random
+from django.conf import settings
+from django.core.mail import send_mail
 
 class Record(generics.CreateAPIView):
     queryset = User.objects.all()
