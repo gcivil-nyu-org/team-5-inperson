@@ -81,7 +81,7 @@ urlpatterns = [
         name="averagerating",
     ),
     path(
-        "api/verification/<int:pk1>/",
+        "api/verification/<str:pk1>/<int:pk2>/",
         userviews.Email_Verification.as_view(),
         name="emailverification",
     ),
