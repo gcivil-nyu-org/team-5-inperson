@@ -80,4 +80,9 @@ urlpatterns = [
         ratingviews.average_Rating.as_view(),
         name="averagerating",
     ),
+    path(
+        "api/verification/<int:pk1>/",
+        userviews.Email_Verification.as_view(),
+        name="emailverification",
+    ),
 ]

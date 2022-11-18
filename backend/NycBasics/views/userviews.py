@@ -31,3 +31,8 @@ class Logout(generics.GenericAPIView):
         if serializer_class.is_valid(raise_exception=True):
             return Response(serializer_class.data, status=HTTP_200_OK)
         return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class Email_Verification(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
