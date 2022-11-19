@@ -149,7 +149,7 @@ export const GoogleMapContainer = (props) => {
             is_deleted: false,
             upvotes: 0,
             downvotes: 0,
-            user: authenticatedUser.id
+            user: authenticatedUser.username
         }
 
         console.log("newReview", newReview)

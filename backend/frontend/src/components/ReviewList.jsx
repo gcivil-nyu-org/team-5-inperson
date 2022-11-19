@@ -133,8 +133,15 @@ export const ReviewList = (props) => {
                                                     size='sm'
                                                     variant="outline"
                                                     aria-label='Search database'
-                                                    icon={<BiFlag color='red' />}
+                                                    icon={<AiOutlineLike color='red' />} //using same flag for edit review
                                                     onClick={async () => {
+                                                        const deletedReview = {
+                                                            ...review,
+                                                            user: review.user,
+                                                            amenity_type: selectedAmenity
+                                                        };
+                                                        await deleteReview(deletedReview)
+                                                        
                                                         /*const updatedReview = {
                                                             ...review,
                                                             user: review.user,
@@ -148,12 +155,7 @@ export const ReviewList = (props) => {
                                                         }
                                                         await updateReview(updatedReview)
                                                         */
-                                                        const deletedReview = {
-                                                            ...review,
-                                                            user: review.user,
-                                                            amenity_type: selectedAmenity
-                                                        };
-                                                        await deleteReview(deletedReview)
+                                                        
                                                     }}
                                                 />
 
