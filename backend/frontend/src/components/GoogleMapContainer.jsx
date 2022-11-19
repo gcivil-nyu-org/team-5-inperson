@@ -44,7 +44,7 @@ export const GoogleMapContainer = (props) => {
         };
     }, [])
 
-    console.log("authenticatedUser", authenticatedUser)
+    // console.log("authenticatedUser", authenticatedUser)
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
         mapCenter, setMapCenter,
@@ -264,7 +264,7 @@ export const GoogleMapContainer = (props) => {
                         setReviews={setReviews}
                         authenticatedUser={authenticatedUser}
                     />
-                    {console.log("reviews", reviews)}
+                    {/* {console.log("reviews", reviews)} */}
 
                     <Modal show={showModal} onHide={() => setShowModal(false)}>
                         <Modal.Header closeButton>
