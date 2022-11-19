@@ -5,7 +5,7 @@ from ..models import User
 from ..serializers import UserSerializer, UserLoginSerializer, UserLogoutSerializer
 
 
-class Record(generics.CreateAPIView):
+class Record(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

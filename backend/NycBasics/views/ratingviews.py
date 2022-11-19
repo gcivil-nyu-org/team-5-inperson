@@ -32,7 +32,7 @@ class rating_List(generics.ListAPIView):
     serializer_class = rating_modelSerializer
 
 
-class all_ratings(generics.RetrieveUpdateAPIView):
+class all_ratings(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Rating_Review.objects.all()
 

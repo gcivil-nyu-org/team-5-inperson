@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { ApiService } from '../api-service';
 import Button from 'react-bootstrap/Button';
 import { IconButton, Stack, Flex, Spacer } from '@chakra-ui/react';
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete } from 'react-icons/ai';
 import { BiFlag } from 'react-icons/bi';
 
 
@@ -36,6 +36,18 @@ export const ReviewList = (props) => {
         catch (error) {
             console.error(error)
 
+        }
+    }
+
+    const deleteReview = async (deletedReview) => {
+        try {
+            const deleteReviewResponse = await apiService.deleteReview(deletedReview);
+            if (deleteReviewResponse){console.log("deleteReviewResponse", deleteReviewResponse)}
+            const reviewData = await apiService.getReview(selectedAmenity, deletedReview.amenity_id);
+            setReviews(reviewData);
+        }
+        catch (error) {
+            console.log(error)
         }
     }
 
@@ -123,7 +135,7 @@ export const ReviewList = (props) => {
                                                     aria-label='Search database'
                                                     icon={<BiFlag color='red' />}
                                                     onClick={async () => {
-                                                        const updatedReview = {
+                                                        /*const updatedReview = {
                                                             ...review,
                                                             user: review.user,
                                                             amenity_type: selectedAmenity
@@ -135,6 +147,29 @@ export const ReviewList = (props) => {
                                                             updatedReview.is_flagged = true
                                                         }
                                                         await updateReview(updatedReview)
+                                                        */
+                                                        const deletedReview = {
+                                                            ...review,
+                                                            user: review.user,
+                                                            amenity_type: selectedAmenity
+                                                        };
+                                                        await deleteReview(deletedReview)
+                                                    }}
+                                                />
+
+                                                <IconButton
+                                                    colorScheme='blue'
+                                                    size='sm'
+                                                    variant="outline"
+                                                    aria-label='Search database'
+                                                    icon={<AiOutlineDelete color='black' />}
+                                                    onClick={async () => {
+                                                        const deletedReview = {
+                                                            ...review,
+                                                            user: review.user,
+                                                            amenity_type: selectedAmenity
+                                                        };
+                                                        await deleteReview(deletedReview)
 
                                                     }}
                                                 />

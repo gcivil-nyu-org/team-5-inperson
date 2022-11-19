@@ -150,4 +150,13 @@ export class ApiService {
         return data
 
     }
+
+    async deleteReview(deletedReview) {
+        const res = await fetch (`${this.baseUrl}/review/${deletedReview.id}/` , {
+            method: 'DELETE',
+            body: JSON.stringify(this.state)
+        })
+        const data = await res.json();
+        return data
+    }
 }
