@@ -44,10 +44,10 @@ export const GoogleMapContainer = (props) => {
         };
     }, [])
 
-    console.log("authenticatedUser", authenticatedUser)
+    // console.log("authenticatedUser", authenticatedUser)
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
-        mapCenter, setMapCenter,
+        mapCenter, setMapCenter, userLocation, setUserLocation, searchLocation, setSearchLocation,
         waterOn, wifiOn, benchOn, parkingOn, toiletOn,
         setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
 
@@ -72,6 +72,7 @@ export const GoogleMapContainer = (props) => {
     const [reviews, setReviews] = useState([]);
     const [selectedAmenity, setSelectedAmenity] = useState("");
     const [selectedAmenityId, setSelectedAmenityId] = useState("");
+    
 
     const codepoints = {
         water: "\ue798",
@@ -88,12 +89,13 @@ export const GoogleMapContainer = (props) => {
     const onPlaceChanged = () => {
         if (autocomplete !== null) {
             const place = autocomplete.getPlace()
-            console.log(place.geometry.location.lat(), place.geometry.location.lng())
-            const searchLocation = {
+            // console.log(place.geometry.location.lat(), place.geometry.location.lng())
+            const searchLatLng = {
                 lat: place.geometry.location.lat(),
                 lng: place.geometry.location.lng()
             };
-            setMapCenter(searchLocation)
+            setSearchLocation(searchLatLng)
+            // setMapCenter(searchLatLng)
         } else {
             console.log('Autocomplete is not loaded yet!')
         }
@@ -264,7 +266,7 @@ export const GoogleMapContainer = (props) => {
                         setReviews={setReviews}
                         authenticatedUser={authenticatedUser}
                     />
-                    {console.log("reviews", reviews)}
+                    {/* {console.log("reviews", reviews)} */}
 
                     <Modal show={showModal} onHide={() => setShowModal(false)}>
                         <Modal.Header closeButton>
@@ -468,7 +470,13 @@ export const GoogleMapContainer = (props) => {
                                     aria-label='center back'
                                     icon={<FaLocationArrow />}
                                     colorScheme="green"
-                                    onClick={() => { map.panTo(mapCenter) }}
+                                    onClick={() => { 
+                                        userLocation?.lat?.length > 0 
+                                        ? map.panTo(userLocation)
+                                        : searchLocation?.lat?.length > 0 
+                                            ? map.panTo(searchLocation)
+                                            : map.panTo(mapCenter)
+                                    }}
                                 />
                             </Tooltip>
 
