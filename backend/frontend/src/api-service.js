@@ -71,6 +71,7 @@ export class ApiService {
                 username: userData['username'],
                 email: userData['email'],
                 password: userData['password'],
+                system_otp: "123456",
             })
         });
         const data = await res.json();

@@ -111,6 +111,7 @@ DATABASES = {
         "NAME": str(BASE_DIR / "db.sqlite3"),
     }
 }
+
 """
 
 DATABASES = {

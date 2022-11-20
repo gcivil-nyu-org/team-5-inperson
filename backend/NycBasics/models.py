@@ -8,12 +8,10 @@ class User(models.Model):
     ifLogged = models.BooleanField(default=False)
     token = models.CharField(max_length=500, null=True, default="")
     is_email_verified = models.BooleanField(null=True, default=False)
-    #when object is first created
+    #when object is first created->auto_now_add
     system_timestamp = models.DateTimeField(auto_now=True)
     system_otp = models.IntegerField(null=True)     
-    #user_otp = models.IntegerField(null=True)
-    #everytime object is saved
-    #user_otp_timestamp = models.DateTimeField(auto_now=True)
+    
 
 
 class water_model(models.Model):

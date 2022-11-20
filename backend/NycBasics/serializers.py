@@ -18,7 +18,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
-
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True, validators=[UniqueValidator(queryset=User.objects.all())]
@@ -27,83 +26,49 @@ class UserSerializer(serializers.ModelSerializer):
         required=True, validators=[UniqueValidator(queryset=User.objects.all())]
     )
     password = serializers.CharField(max_length=8)
-
-     # system_otp = serializers.IntegerField()
-
-    
-
-
-
-
-    # def generate_activation_code():
-
-    #     return int(''.join([str(random.randint(0,10)) for _ in range(6)]))
-
-
-
-
-    # def send_verification_mail(email, system_otp):
-
-        
-
-    #     subject = 'NYC Basics Verification Code'
-
-    #     message = f'Your verification code:\n{system_otp}..'
-
-    #     from_email = settings.EMAIL_HOST_USER
-
-    #     recipient_list=[email, ]
-
-    #     send_mail(subject, message, from_email, recipient_list)
-
-    #     print("mail sent")
-
-
-
-
-    # def post(self, request, *args, **kwargs):
-
-    #     serializer_class = UserSerializer(data=request.data)
-
-
-
-
-    #     if serializer_class.is_valid(raise_exception=True):
-
-    #         print("inside serializer_class.is_valid")
-
-    #         # email = serializer_class.validated_data['email']
-
-    #         # print("validated email", email)
-
-    #         # self.send_verification_mail(email)
-
-    #         print("after methods.send_verification_mail")
-
-    #         return Response(serializer_class.data, status=HTTP_200_OK)
-
-    #     return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
-
-
-
-
-
-
-
-    # system_otp = generate_activation_code()
-
-    # print("system_otp", system_otp)
-
-
-
-
-    # send_verification_mail(email, system_otp)
-
-    # print("send_verification_mail")
+    system_otp = serializers.IntegerField(required=True)
 
     class Meta:
         model = User
-        fields = ("username", "email", "password")
+        fields = ("username", "email", "password", "system_otp","system_timestamp","is_email_verified")
+
+
+
+class UserSerializer_SendEmail(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=True, validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+    username = serializers.CharField(
+        required=True, validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+    password = serializers.CharField(max_length=8)
+    system_otp = serializers.IntegerField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password", "system_otp")
+
+
+    def save(self):
+        email = self.validated_data['email']
+        system_otp = self.validated_data['system_otp']       
+        subject = 'NYC Basics Verification Code'
+        message = f'Your verification code:\n{system_otp}..'
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list=[email, ]
+        send_mail(subject, message, from_email, recipient_list)
+        print("mail sent")
+
+
+
+class EmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "is_email_verified",
+            "username",
+        )
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
