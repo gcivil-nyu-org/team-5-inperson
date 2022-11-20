@@ -86,4 +86,19 @@ urlpatterns = [
         userviews.Email_Verification.as_view(),
         name="emailverification",
     ),
+    path(
+        "api/reset_password/<str:pk1>/<int:pk2>/",
+        userviews.Reset_Password.as_view(),
+        name="reset_password",
+    ),
+    path(
+        "api/reset_password_SendEmail/",
+        userviews.Reset_Password_SendEmail.as_view(),
+        name="reset_password_SendEmail",
+    ),
+    path(
+        "api/reset_password_verification/<str:pk1>/<int:pk2>/<str:pk3>",
+        userviews.Reset_Password_Verification.as_view(),
+        name="reset_password_verification",
+    ),
 ]
