@@ -8,86 +8,154 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='average_rating_model',
+            name="average_rating_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amenity_type', models.CharField(max_length=10, null=True)),
-                ('amenity_id', models.IntegerField(default=0, null=True)),
-                ('average_rating', models.IntegerField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("amenity_type", models.CharField(max_length=10, null=True)),
+                ("amenity_id", models.IntegerField(default=0, null=True)),
+                ("average_rating", models.IntegerField()),
             ],
         ),
         migrations.CreateModel(
-            name='bench_model',
+            name="bench_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('bench_latitude', models.FloatField(null=True)),
-                ('bench_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("bench_latitude", models.FloatField(null=True)),
+                ("bench_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='parking_model',
+            name="parking_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('parking_latitude', models.FloatField(null=True)),
-                ('parking_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("parking_latitude", models.FloatField(null=True)),
+                ("parking_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='toilet_model',
+            name="toilet_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('toilet_latitude', models.FloatField(null=True)),
-                ('toilet_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("toilet_latitude", models.FloatField(null=True)),
+                ("toilet_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('username', models.CharField(max_length=255)),
-                ('email', models.EmailField(max_length=255)),
-                ('password', models.CharField(max_length=50)),
-                ('ifLogged', models.BooleanField(default=False)),
-                ('token', models.CharField(default='', max_length=500, null=True)),
-                ('is_email_verified', models.BooleanField(default=False, null=True)),
-                ('system_timestamp', models.DateTimeField(auto_now=True)),
-                ('system_otp', models.IntegerField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("username", models.CharField(max_length=255)),
+                ("email", models.EmailField(max_length=255)),
+                ("password", models.CharField(max_length=50)),
+                ("ifLogged", models.BooleanField(default=False)),
+                ("token", models.CharField(default="", max_length=500, null=True)),
+                ("is_email_verified", models.BooleanField(default=False, null=True)),
+                ("system_timestamp", models.DateTimeField(auto_now=True)),
+                ("system_otp", models.IntegerField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='water_model',
+            name="water_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('water_latitude', models.FloatField(null=True)),
-                ('water_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("water_latitude", models.FloatField(null=True)),
+                ("water_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='wifi_model',
+            name="wifi_model",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('wifi_latitude', models.FloatField(null=True)),
-                ('wifi_longitude', models.FloatField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("wifi_latitude", models.FloatField(null=True)),
+                ("wifi_longitude", models.FloatField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Rating_Review',
+            name="Rating_Review",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amenity_type', models.CharField(max_length=10)),
-                ('amenity_id', models.IntegerField(default=0)),
-                ('rating', models.IntegerField(default=0)),
-                ('review', models.CharField(max_length=255)),
-                ('is_flagged', models.BooleanField(default=False, null=True)),
-                ('is_deleted', models.BooleanField(default=False, null=True)),
-                ('upvotes', models.IntegerField(default=0, null=True)),
-                ('downvotes', models.IntegerField(default=0, null=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='NycBasics.User')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("amenity_type", models.CharField(max_length=10)),
+                ("amenity_id", models.IntegerField(default=0)),
+                ("rating", models.IntegerField(default=0)),
+                ("review", models.CharField(max_length=255)),
+                ("is_flagged", models.BooleanField(default=False, null=True)),
+                ("is_deleted", models.BooleanField(default=False, null=True)),
+                ("upvotes", models.IntegerField(default=0, null=True)),
+                ("downvotes", models.IntegerField(default=0, null=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="NycBasics.User"
+                    ),
+                ),
             ],
         ),
     ]

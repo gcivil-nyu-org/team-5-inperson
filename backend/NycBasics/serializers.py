@@ -13,7 +13,6 @@ from .models import (
 from django.core.exceptions import ValidationError
 from uuid import uuid4
 from django.db.models import Q
-import random
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -30,8 +29,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password", "system_otp","system_timestamp","is_email_verified")
-
+        fields = (
+            "username",
+            "email",
+            "password",
+            "system_otp",
+            "system_timestamp",
+            "is_email_verified",
+        )
 
 
 class UserSerializer_SendEmail(serializers.ModelSerializer):
@@ -48,17 +53,17 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
         model = User
         fields = ("username", "email", "password", "system_otp")
 
-
     def save(self):
-        email = self.validated_data['email']
-        system_otp = self.validated_data['system_otp']       
-        subject = 'NYC Basics Verification Code'
-        message = f'Thank you for registering with NYC Basics!\n\nEnter the following verification code to complete your sign up. It is only valid for 1hr.\n\n{system_otp}'
+        email = self.validated_data["email"]
+        system_otp = self.validated_data["system_otp"]
+        subject = "NYC Basics Verification Code"
+        message = f"Enter the following code to complete your signup. It is valid for 1 hour.\n{system_otp}"
         from_email = settings.EMAIL_HOST_USER
-        recipient_list=[email, ]
+        recipient_list = [
+            email,
+        ]
         send_mail(subject, message, from_email, recipient_list)
         print("mail sent")
-
 
 
 class EmailSerializer(serializers.ModelSerializer):
@@ -85,6 +90,7 @@ class ResetSerializer(serializers.ModelSerializer):
 class ResetSerializer_SendEmail(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     password_otp = serializers.IntegerField(required=True)
+
     class Meta:
         model = User
         fields = (
@@ -94,12 +100,14 @@ class ResetSerializer_SendEmail(serializers.ModelSerializer):
         )
 
     def save(self):
-        email = self.validated_data['email']
-        password_otp = self.validated_data['password_otp']       
-        subject = 'NYC Basics Password Reset Code'
-        message = f'Your password reset code is :\n{password_otp}'
+        email = self.validated_data["email"]
+        password_otp = self.validated_data["password_otp"]
+        subject = "NYC Basics Password Reset Code"
+        message = f"Your password reset code is :\n{password_otp}"
         from_email = settings.EMAIL_HOST_USER
-        recipient_list=[email, ]
+        recipient_list = [
+            email,
+        ]
         send_mail(subject, message, from_email, recipient_list)
         print("password reset mail sent")
 

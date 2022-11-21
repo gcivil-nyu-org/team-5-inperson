@@ -54,7 +54,11 @@ urlpatterns = [
         name="parkingdetail",
     ),
     path("api/addUser/", userviews.Record.as_view(), name="register"),
-    path("api/addUser_SendEmail/", userviews.Record_SendEmail.as_view(), name="register_SendEmail"),
+    path(
+        "api/addUser_SendEmail/",
+        userviews.Record_SendEmail.as_view(),
+        name="register_SendEmail",
+    ),
     path(
         "api/login/",
         userviews.Login.as_view(),
