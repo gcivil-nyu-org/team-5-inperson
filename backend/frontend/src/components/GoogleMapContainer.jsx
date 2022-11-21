@@ -47,7 +47,7 @@ export const GoogleMapContainer = (props) => {
     // console.log("authenticatedUser", authenticatedUser)
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
-        mapCenter, setMapCenter,
+        mapCenter, setMapCenter, userLocation, setUserLocation, searchLocation, setSearchLocation,
         waterOn, wifiOn, benchOn, parkingOn, toiletOn,
         setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
 
@@ -73,6 +73,12 @@ export const GoogleMapContainer = (props) => {
     const [selectedAmenity, setSelectedAmenity] = useState("");
     const [selectedAmenityId, setSelectedAmenityId] = useState("");
 
+    useEffect(() => {
+        map?.panTo(mapCenter)
+        
+    }, [mapCenter])
+
+
     const codepoints = {
         water: "\ue798",
         wifi: "\ue63e",
@@ -88,12 +94,13 @@ export const GoogleMapContainer = (props) => {
     const onPlaceChanged = () => {
         if (autocomplete !== null) {
             const place = autocomplete.getPlace()
-            console.log(place.geometry.location.lat(), place.geometry.location.lng())
-            const searchLocation = {
+            // console.log(place.geometry.location.lat(), place.geometry.location.lng())
+            const searchLatLng = {
                 lat: place.geometry.location.lat(),
                 lng: place.geometry.location.lng()
             };
-            setMapCenter(searchLocation)
+            setSearchLocation(searchLatLng)
+            setMapCenter(searchLatLng)
         } else {
             console.log('Autocomplete is not loaded yet!')
         }
@@ -126,6 +133,7 @@ export const GoogleMapContainer = (props) => {
         setDestLng('')
         //setMap(map)
         map.panTo(mapCenter)
+        map.setZoom(17)
     }
 
     const [inputs, setInputs] = useState({});
@@ -185,6 +193,9 @@ export const GoogleMapContainer = (props) => {
     function refreshPage() {
         window.location.reload(false);
     }
+
+    console.log('searchLocation', searchLocation);
+    console.log('mapCenter', mapCenter);
 
     return isLoaded ? (
 
@@ -307,8 +318,35 @@ export const GoogleMapContainer = (props) => {
             {isReallyLoaded ?
                 <>
 
-                    <Marker
-                        var position={mapCenter} />
+                    <Marker position={searchLocation} />
+
+                    {/* user location marker */}
+                    <div className='veehu' style={{ borderRadius: "50%", border: '2px solid teal' }}>
+                        <Marker
+                            icon='https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Location_dot_blue.svg/20px-Location_dot_blue.svg.png'
+                            // icon='https://static1.squarespace.com/static/5dd4ce476ba67763d6e8c96b/t/5e6578e6cdda4349baab5502/1583708390468/Blue-Dot-Crosshair-Image.png'
+                            // icon='http://2.bp.blogspot.com/-fQuA-G2XLw8/VX4TFzAtVeI/AAAAAAAAB-w/-MWtUdnzOAw/s1600/BlueDot64.png'
+                            // icon='/o'
+                            // icon={{
+                            //     icon: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Location_dot_blue.svg',
+                                // eslint-disable-next-line no-undef
+                                // path: google.maps.SymbolPath.CIRCLE,
+                                // scale: 7,
+                                // strokeColor: 'blue',
+                                // path: "M8 12l-4.7023 2.4721.898-5.236L.3916 5.5279l5.2574-.764L8 0l2.3511 4.764 5.2574.7639-3.8043 3.7082.898 5.236z",
+                                // path: "M 8, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0",
+                                // fillColor: "blue",
+                                // fillOpacity: 0.9,
+                                // scale: 1,
+                                // strokeColor: "blue",
+                                // strokeWeight: 2,
+
+                            // }}
+                            
+                            position={userLocation}
+                        >
+                        </Marker>
+                    </div>
 
                     {waterOn ?
                         waterAmenities.map((waterAmenity) => (
@@ -468,7 +506,11 @@ export const GoogleMapContainer = (props) => {
                                     aria-label='center back'
                                     icon={<FaLocationArrow />}
                                     colorScheme="green"
-                                    onClick={() => { map.panTo(mapCenter) }}
+                                    onClick={() => {
+                                        // setMapCenter(mapCenter)
+                                        map?.panTo(mapCenter)
+                                        map.setZoom(17)
+                                    }}
                                 />
                             </Tooltip>
 

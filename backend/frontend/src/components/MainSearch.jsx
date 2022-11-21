@@ -10,15 +10,13 @@ const defaultCenter = {
   lng: -73.99733029154993
 };
 
-const testingCenter = {
-  lat: 40.69447082266228,
-  lng: -73.9863413463988
-};
-
+let oneTimeUserLocCentered2 = false
 
 function MainSearch() {
 
   const [mapCenter, setMapCenter] = useState(defaultCenter)
+  const [userLocation, setUserLocation] = useState(null)
+  const [searchLocation, setSearchLocation] = useState(null)
   const [waterOn, setWaterOn] = useState(false);
   const [wifiOn, setWifiOn] = useState(false);
   const [benchOn, setBenchOn] = useState(false);
@@ -30,26 +28,34 @@ function MainSearch() {
   const [parkingAmenities, setParkingAmenities] = useState([]);
   const [toiletAmenities, setToiletAmenities] = useState([]);
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   // When component mounts
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.watchPosition(function (position) {
-  //         setMapCenter({
-  //           lat: Number(position.coords.latitude),
-  //           lng: Number(position.coords.longitude)
-  //        })
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(function (position) {
+        console.log("location found")
+        if (!oneTimeUserLocCentered2){
+          console.log("inside oneTimeUserLocCentered2", oneTimeUserLocCentered2)
+          setMapCenter({
+            lat: Number(position.coords.latitude),
+            lng: Number(position.coords.longitude)
+          });
+          oneTimeUserLocCentered2 = true;
+        }
 
-  //       // switched to testing location for developer testing by viha
-  //       //setMapCenter(testingCenter)
-  //     },
-  //       function (error) {
-  //         if (error.code === error.PERMISSION_DENIED) {
-  //           console.log("Location Access Rejected")
-  //         }
-  //       });
-  //   }
-  // }, [])
+        setUserLocation({
+          lat: Number(position.coords.latitude),
+          lng: Number(position.coords.longitude)
+        })
+        
+      },
+        function (error) {
+          if (error.code === error.PERMISSION_DENIED) {
+            console.log("Location Access Rejected")
+          }
+        });
+    }
+
+  }, [])
 
 
 
@@ -83,19 +89,6 @@ function MainSearch() {
   return (
     <div className="app">
 
-      {/* <Filters
-        waterOn={waterOn}
-        wifiOn={wifiOn}
-        benchOn={benchOn}
-        parkingOn={parkingOn}
-        toiletOn={toiletOn}
-        setWaterOn={setWaterOn}
-        setWifiOn={setWifiOn}
-        setBenchOn={setBenchOn}
-        setParkingOn={setParkingOn}
-        setToiletOn={setToiletOn}
-
-      /> */}
       <GoogleMapContainer
 
         waterAmenities={waterAmenities}
@@ -105,6 +98,10 @@ function MainSearch() {
         parkingAmenities={parkingAmenities}
         mapCenter={mapCenter}
         setMapCenter={setMapCenter}
+        userLocation={userLocation}
+        setUserLocation={setUserLocation}
+        searchLocation={searchLocation}
+        setSearchLocation={setSearchLocation}
         waterOn={waterOn}
         wifiOn={wifiOn}
         benchOn={benchOn}
