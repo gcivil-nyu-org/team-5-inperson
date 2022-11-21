@@ -5,10 +5,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { ApiService } from '../api-service';
 import { Link } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
 
 function BasicsNavbar() {
 
   const [authenticatedUser, setAuthenticatedUser] = useState(JSON.parse(localStorage.getItem('authenticatedUser')))
+  const toast = useToast()
 
   useEffect(() => {
     const onStorage = () => {
@@ -33,6 +35,14 @@ function BasicsNavbar() {
     }
     localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUserObj));
     window.dispatchEvent(new Event("storage"));
+    toast({
+      title: 'Logout Successful',
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+      position: 'bottom-right',
+      variant: 'left-accent'
+    })
   }
 
 

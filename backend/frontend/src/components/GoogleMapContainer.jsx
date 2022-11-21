@@ -194,9 +194,6 @@ export const GoogleMapContainer = (props) => {
         window.location.reload(false);
     }
 
-    console.log('searchLocation', searchLocation);
-    console.log('mapCenter', mapCenter);
-
     return isLoaded ? (
 
         <GoogleMap
