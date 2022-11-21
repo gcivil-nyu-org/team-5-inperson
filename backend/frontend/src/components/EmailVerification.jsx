@@ -20,7 +20,7 @@ function EmailVerification() {
     const onSubmit = async (data) => {
         data['email'] = location.state.email
 
-        console.log("verify data", data);
+        // console.log("verify data", data);
         const apiService = new ApiService();
 
         if (data['code'].length !== 6){
@@ -30,8 +30,8 @@ function EmailVerification() {
             setCodeError("")
             try {
                 const verifyResponse = await apiService.verifyEmail(data);
-                console.log("verifyResponse", verifyResponse[0])
-                console.log("verifyResponse[0]?.is_email_verified", verifyResponse[0]?.is_email_verified)
+                // console.log("verifyResponse", verifyResponse[0])
+                // console.log("verifyResponse[0]?.is_email_verified", verifyResponse[0]?.is_email_verified)
                 if (verifyResponse[0]?.is_email_verified){
                     toast({
                         title: 'Email Verified.',

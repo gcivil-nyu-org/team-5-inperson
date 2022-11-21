@@ -122,7 +122,7 @@ export const GoogleMapContainer = (props) => {
         setDirectionsResponse(results)
         // setDistance(results.routes[0].legs[0].distance.text)
         // setDuration(results.routes[0].legs[0].duration.text)
-        console.log(('found directions'))
+        // console.log(('found directions'))
     }
 
     function clearRoute() {
@@ -146,7 +146,7 @@ export const GoogleMapContainer = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(inputs);
+        // console.log(inputs);
 
         const newReview = {
             amenity_type: selectedAmenity,
@@ -160,9 +160,9 @@ export const GoogleMapContainer = (props) => {
             user: authenticatedUser.id
         }
 
-        console.log("newReview", newReview)
+        // console.log("newReview", newReview)
         const addReviewResponse = await apiService.addReview(newReview);
-        console.log("addReviewResponse", addReviewResponse)
+        // console.log("addReviewResponse", addReviewResponse)
 
 
         setShowModal(false)

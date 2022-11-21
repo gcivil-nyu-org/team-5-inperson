@@ -27,7 +27,7 @@ function BasicsNavbar() {
   const logout = async () => {
     const apiService = new ApiService();
     const logoutResponse = await apiService.logout(authenticatedUser);
-    console.log("logoutResponse", logoutResponse)
+    // console.log("logoutResponse", logoutResponse)
     let authenticatedUserObj = {
       'token': null,
       'id': null,

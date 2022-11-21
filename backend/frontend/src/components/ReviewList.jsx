@@ -29,7 +29,7 @@ export const ReviewList = (props) => {
     const updateReview = async (updatedReview) => {
         try {
             const updatedReviewResponse = await apiService.updateReview(updatedReview);
-            console.log("updatedReviewResponse", updatedReviewResponse)
+            // console.log("updatedReviewResponse", updatedReviewResponse)
             const reviewData = await apiService.getReview(selectedAmenity, updatedReview.amenity_id);
             setReviews(reviewData);
         }

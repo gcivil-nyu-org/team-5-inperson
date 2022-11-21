@@ -27,8 +27,8 @@ export class ApiService {
         const data = await res.json();
 
         if (res.status >= 200 && res.status < 300) {
-            console.log("logout res", res)
-            console.log("logout res.data", data)
+            // console.log("logout res", res)
+            // console.log("logout res.data", data)
             return data;
         }
         else {
@@ -51,8 +51,8 @@ export class ApiService {
         const data = await res.json();
 
         if (res.status >= 200 && res.status < 300) {
-            console.log("login res", res)
-            console.log("login res.data", data)
+            // console.log("login res", res)
+            // console.log("login res.data", data)
             return data;
         }
         else {
@@ -77,8 +77,8 @@ export class ApiService {
         const data = await res.json();
 
         if (res.status >= 200 && res.status < 300) {
-            console.log("addUser res", res)
-            console.log("addUser res.data", data)
+            // console.log("addUser res", res)
+            // console.log("addUser res.data", data)
             return data;
         }
         else {
@@ -103,8 +103,8 @@ export class ApiService {
         const data = await res.json();
 
         if (res.status >= 200 && res.status < 300) {
-            console.log("addUser res", res)
-            console.log("addUser res.data", data)
+            // console.log("addUser res", res)
+            // console.log("addUser res.data", data)
             return data;
         }
         else {
@@ -117,8 +117,8 @@ export class ApiService {
         const data = await res.json();
 
         if (res.status >= 200 && res.status < 300) {
-            console.log("verifyEmail res", res)
-            console.log("verifyEmail res.data", data)
+            // console.log("verifyEmail res", res)
+            // console.log("verifyEmail res.data", data)
             return data;
         }
         else {
@@ -171,7 +171,7 @@ export class ApiService {
             body: JSON.stringify(newReview)
         })
 
-        console.log("res", res)
+        // console.log("res", res)
 
         const data = await res.json();
         return data

@@ -14,13 +14,13 @@ function Loginform() {
   const loginHandler = async (e) => {
 
     e.preventDefault();
-    console.log("formDetails", formDetails)
+    // console.log("formDetails", formDetails)
     const apiService = new ApiService();
 
     try {
 
       const loginResponse = await apiService.login(formDetails);
-      console.log("loginResponse", loginResponse)
+      // console.log("loginResponse", loginResponse)
       let authenticatedUserObj = {
         'token': loginResponse['token'],
         'id': loginResponse['id'],

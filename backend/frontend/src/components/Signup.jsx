@@ -13,16 +13,16 @@ function Signup() {
 
   const onSubmit = async (data) => {
     data['system_otp'] = Math.floor(100000 + Math.random() * 900000)
-    console.log("signup data", data);
+    // console.log("signup data", data);
     const apiService = new ApiService();
 
-    console.log(watch("password"));
+    // console.log(watch("password"));
 
     try {
       const signupSendEmailResponse = await apiService.addUserSendEmail(data);
-      console.log("signupSendEmailResponse", signupSendEmailResponse)
+      // console.log("signupSendEmailResponse", signupSendEmailResponse)
       const signupResponse = await apiService.addUser(data);
-      console.log("signupResponse", signupResponse)
+      // console.log("signupResponse", signupResponse)
       
       // navigate("/login");
       navigate("/verify", {state:{email: data['email']}});
