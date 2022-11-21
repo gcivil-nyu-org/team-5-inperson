@@ -10,6 +10,7 @@ const defaultCenter = {
   lng: -73.99733029154993
 };
 
+let oneTimeUserLocCentered2 = false
 
 function MainSearch() {
 
@@ -32,14 +33,20 @@ function MainSearch() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(function (position) {
         console.log("location found")
+        if (!oneTimeUserLocCentered2){
+          console.log("inside oneTimeUserLocCentered2", oneTimeUserLocCentered2)
+          setMapCenter({
+            lat: Number(position.coords.latitude),
+            lng: Number(position.coords.longitude)
+          });
+          oneTimeUserLocCentered2 = true;
+        }
+
         setUserLocation({
           lat: Number(position.coords.latitude),
           lng: Number(position.coords.longitude)
         })
-        // setMapCenter({
-        //   lat: Number(position.coords.latitude),
-        //   lng: Number(position.coords.longitude)
-        // })
+        
       },
         function (error) {
           if (error.code === error.PERMISSION_DENIED) {
