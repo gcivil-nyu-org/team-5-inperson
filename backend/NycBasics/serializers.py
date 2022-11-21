@@ -53,7 +53,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
         email = self.validated_data['email']
         system_otp = self.validated_data['system_otp']       
         subject = 'NYC Basics Verification Code'
-        message = f'Your verification code is :\n{system_otp}..'
+        message = f'Thank you for registering with NYC Basics!\n\nEnter the following verification code to complete your sign up. It is only valid for 1hr.\n\n{system_otp}'
         from_email = settings.EMAIL_HOST_USER
         recipient_list=[email, ]
         send_mail(subject, message, from_email, recipient_list)

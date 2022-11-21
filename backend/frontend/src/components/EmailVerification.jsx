@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { ApiService } from '../api-service';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react'
 
 function EmailVerification() {
 
@@ -12,41 +13,38 @@ function EmailVerification() {
     const navigate = useNavigate();
     const location = useLocation();
 
-      const [codeError, setCodeError] = useState("");
+    const [codeError, setCodeError] = useState("");
+    const toast = useToast()
 
 
     const onSubmit = async (data) => {
-        console.log("email prop is", location.state.email)
+        data['email'] = location.state.email
+
         console.log("verify data", data);
-        // const apiService = new ApiService();
+        const apiService = new ApiService();
+
         if (data['code'].length !== 6){
-            setCodeError("Please enter a 6-digit code.")
+            setCodeError("The code must be 6-digits.")
         }
         else {
             setCodeError("")
+            try {
+                const verifyResponse = await apiService.verifyEmail(data);
+                console.log("verifyResponse", verifyResponse[0])
+                console.log("verifyResponse[0]?.is_email_verified", verifyResponse[0]?.is_email_verified)
+                if (verifyResponse[0]?.is_email_verified){
+                    
+                    alert("Successfully Verified. Please login.")
+                }
+                else{
+                    alert("Verification Unsuccessful. Please try again.")
+                }
+                navigate("/login");
+              } catch (error) {
+                console.log("error", error)
+              }
         }
 
-        // console.log(watch("password"));
-
-        // try {
-        //   const signupResponse = await apiService.addUser(data);
-        //   console.log("signupResponse", signupResponse)
-        //   navigate("/login");
-        // } catch (error) {
-        //   console.log("error", error)
-        //   if ("email" in error) {
-        //     setEmailError(error['email'])
-        //   }
-        //   else {
-        //     setEmailError("")
-        //   }
-        //   if ("username" in error) {
-        //     setUsernameError(error['username'])
-        //   }
-        //   else {
-        //     setUsernameError("")
-        //   }
-        // }
     }
 
     return (
@@ -56,14 +54,10 @@ function EmailVerification() {
                 <form id='form' className='form-inner' onSubmit={handleSubmit(onSubmit)}>
                     <h2>Email Verification</h2>
 
-                    <label>Enter your 6-digit verification code.</label>
+                    <label>Please enter the 6-digit verification code sent to your email.</label>
                     <input type='number' {...register("code", { required: true })} placeholder='' />
                     {errors.code?.type === "required" && "Code is Required"}
                     {(codeError !== "") ? (<div className="warning">{codeError}</div>) : ""}
-
-                    {/* {watch("code")?.length > 6 ? (
-                        <p className="warning">Code is greater than 6 digits.</p>
-                    ) : null} */}
 
                     <br></br>
                     <input type="submit" value="Verify" />

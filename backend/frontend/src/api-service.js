@@ -71,7 +71,7 @@ export class ApiService {
                 username: userData['username'],
                 email: userData['email'],
                 password: userData['password'],
-                system_otp: "123456",
+                system_otp: userData['system_otp'],
             })
         });
         const data = await res.json();
@@ -79,6 +79,46 @@ export class ApiService {
         if (res.status >= 200 && res.status < 300) {
             console.log("addUser res", res)
             console.log("addUser res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+    async addUserSendEmail(userData) {
+        const res = await fetch(`${this.baseUrl}/addUser_SendEmail/`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: userData['username'],
+                email: userData['email'],
+                password: userData['password'],
+                system_otp: userData['system_otp'],
+            })
+        });
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("addUser res", res)
+            console.log("addUser res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+    async verifyEmail(userData) {
+        const res = await fetch(`${this.baseUrl}/verification/${userData.email}/${userData.code}/`, this.requestConfig);
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log("verifyEmail res", res)
+            console.log("verifyEmail res.data", data)
             return data;
         }
         else {
