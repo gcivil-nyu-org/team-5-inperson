@@ -9,6 +9,7 @@ from .models import (
     toilet_model,
     Rating_Review,
     average_rating_model,
+    bookmark_model,
 )
 from django.core.exceptions import ValidationError
 from uuid import uuid4
@@ -229,6 +230,12 @@ class rating_modelSerializer(serializers.ModelSerializer):
 class review_modelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating_Review
+        fields = "__all__"
+
+
+class bookmark_modelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = bookmark_model
         fields = "__all__"
 
 

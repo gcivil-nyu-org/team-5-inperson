@@ -61,3 +61,10 @@ class average_rating_model(models.Model):
     amenity_type = models.CharField(max_length=10, null=True)
     amenity_id = models.IntegerField(null=True, default=0)
     average_rating = models.IntegerField(null=False)
+
+
+class bookmark_model(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amenity_type = models.CharField(max_length=10, null=True)
+    amenity_id = models.IntegerField(null=True, default=0)
+    is_bookmarked = models.BooleanField(null=True, default=False)
