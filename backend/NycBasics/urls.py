@@ -1,5 +1,12 @@
 from django.urls import path, re_path
-from .views import userviews, listviews, detailviews, ratingviews, bookmarkviews
+from .views import (
+    userviews, 
+    listviews, 
+    detailviews, 
+    ratingviews, 
+    bookmarkviews,
+    userprofileviews
+)
 
 
 urlpatterns = [
@@ -104,5 +111,15 @@ urlpatterns = [
         "api/bookmark/<str:pk1>/<str:pk2>/<int:pk3>/<int:pk4>/",
         bookmarkviews.Bookmark.as_view(),
         name="bookmark",
+    ),
+    path(
+        "api/user_bookmarks/<str:pk>/",
+        userprofileviews.User_Bookmarks.as_view(),
+        name="user_bookmark",
+    ),
+    path(
+        "api/user_reviews/<str:pk>/",
+        userprofileviews.User_Reviews.as_view(),
+        name="user_reviews",
     ),
 ]
