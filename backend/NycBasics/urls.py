@@ -1,11 +1,11 @@
 from django.urls import path, re_path
 from .views import (
-    userviews, 
-    listviews, 
-    detailviews, 
-    ratingviews, 
+    userviews,
+    listviews,
+    detailviews,
+    ratingviews,
     bookmarkviews,
-    userprofileviews
+    userprofileviews,
 )
 
 
