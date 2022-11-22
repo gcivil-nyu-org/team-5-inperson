@@ -121,7 +121,7 @@ class Email_Verification(generics.ListAPIView):
 
 class Reset_Password_Verification(generics.ListAPIView):
     def get_queryset(self):
-        # email_id, user_entered_otp
+        # email_id, user_entered_otp, newpassword
         pk1 = self.kwargs["pk1"]
         # u_email = pk1[6:]
         # u_otp = pk1[:6]
@@ -140,7 +140,7 @@ class Reset_Password_Verification(generics.ListAPIView):
         print("pass_reset relevant_user_q count: ", relevant_user_q.count())
 
         if relevant_user_q.count() != 0:
-            print("inside if exists relevant_user_q: ", relevant_user_q)
+            # print("inside if exists relevant_user_q: ", relevant_user_q)
             relevant_user = list(relevant_user_q)
             now_aware = timezone.now()
             """

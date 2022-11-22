@@ -84,6 +84,7 @@ class ResetSerializer(serializers.ModelSerializer):
             "password_otp",
             "password_otp_timestamp",
             "system_timestamp",
+            "password",
         )
 
 

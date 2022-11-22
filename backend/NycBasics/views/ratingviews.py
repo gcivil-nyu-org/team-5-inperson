@@ -1,14 +1,10 @@
 from ..models import (
     Rating_Review,
     User,
-    average_rating_model,
 )
-
-from django.db.models import Avg
 
 from ..serializers import (
     rating_modelSerializer,
-    avgrating_modelSerializer,
     review_modelSerializer,
 )
 
@@ -44,6 +40,8 @@ class create_Rating(generics.CreateAPIView):
     serializer_class = rating_modelSerializer
 
 
+"""
+(this code is not correct dont use it)
 class average_Rating(generics.ListAPIView):
     def get_queryset(self):
         pk1 = self.kwargs["pk1"]
@@ -77,3 +75,4 @@ class average_Rating(generics.ListAPIView):
         return relevant_data
 
     serializer_class = avgrating_modelSerializer
+"""
