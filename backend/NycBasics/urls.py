@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import userviews, listviews, detailviews, ratingviews
+from .views import userviews, listviews, detailviews, ratingviews, bookmarkviews
 
 
 urlpatterns = [
@@ -99,5 +99,10 @@ urlpatterns = [
         "api/reset_password_verification/<str:pk1>/<int:pk2>/<str:pk3>",
         userviews.Reset_Password_Verification.as_view(),
         name="reset_password_verification",
+    ),
+    path(
+        "api/bookmark/<str:pk1>/<str:pk2>/<int:pk3>/<int:pk4>/",
+        bookmarkviews.Bookmark.as_view(),
+        name="bookmark",
     ),
 ]
