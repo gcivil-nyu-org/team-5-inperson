@@ -45,6 +45,12 @@ class Bookmark(generics.ListAPIView):
         # print("relevant_bookmark[0].is_bookmarked after:",relevant_bookmark[0].is_bookmarked)
         relevant_bookmark[0].save()
 
-        return bookmark_all
+        relevant_bookmark_return = bookmark_all.filter(
+            user_id=u_id,
+            amenity_type=pk2,
+            amenity_id=pk3,
+        )
+
+        return relevant_bookmark_return
 
     serializer_class = bookmark_modelSerializer
