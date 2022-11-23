@@ -133,7 +133,7 @@ export const ReviewList = (props) => {
                                                     size='sm'
                                                     variant="outline"
                                                     aria-label='Search database'
-                                                    icon={<AiOutlineLike color='red' />} //using same flag for edit review
+                                                    icon={<AiOutlineEdit color='red' />} //using same flag for edit review
                                                     onClick={async () => {
                                                         const deletedReview = {
                                                             ...review,

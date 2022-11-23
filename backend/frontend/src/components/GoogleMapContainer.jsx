@@ -15,6 +15,7 @@ import Modal from 'react-bootstrap/Modal';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ReviewList } from './ReviewList';
+import { AddReview } from './AddReview';
 
 const containerStyle = {
     width: '100vw',
@@ -44,7 +45,7 @@ export const GoogleMapContainer = (props) => {
         };
     }, [])
 
-    console.log("authenticatedUser", authenticatedUser)
+    //console.log("authenticatedUser", authenticatedUser)
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
         mapCenter, setMapCenter,
@@ -130,52 +131,7 @@ export const GoogleMapContainer = (props) => {
 
     const [inputs, setInputs] = useState({});
 
-    const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({ ...values, [name]: value }))
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        console.log(inputs);
-
-        const newReview = {
-            amenity_type: selectedAmenity,
-            amenity_id: selectedAmenityId,
-            rating: inputs.rating,
-            review: filter.clean(inputs.review),
-            is_flagged: false,
-            is_deleted: false,
-            upvotes: 0,
-            downvotes: 0,
-            user: authenticatedUser.username
-        }
-
-        console.log("newReview", newReview)
-        const addReviewResponse = await apiService.addReview(newReview);
-        console.log("addReviewResponse", addReviewResponse)
-
-
-        setShowModal(false)
-
-        if (inputs.rating > 5) {
-            alert('Please insert a Rating from 1-5')
-            refreshForm()
-        } else if (inputs.rating < 1) {
-            alert('Please insert a Rating from 1-5')
-            refreshForm()
-        } else if (inputs.rating === undefined || inputs.rating === "") {
-            alert('Please insert a Rating')
-            refreshForm()
-        } else if (inputs.review === undefined || inputs.review === "") {
-            alert('Please insert a Review')
-            refreshForm()
-        } else {
-            alert('Review Successfully Submitted')
-            refreshPage()
-        }
-    }
+    
 
     const refreshForm = () => {
         inputs.review = ""
@@ -187,7 +143,16 @@ export const GoogleMapContainer = (props) => {
     }
 
     return isLoaded ? (
+        <>
+        <AddReview 
+            refreshForm={refreshForm}
+            refreshPage={refreshPage}
+            setShowModal={setShowModal}
+            showModal={showModal}
+            selectedAmenity={selectedAmenity}
+            selectedAmenityId={selectedAmenityId}
 
+        />
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
@@ -264,41 +229,9 @@ export const GoogleMapContainer = (props) => {
                         setReviews={setReviews}
                         authenticatedUser={authenticatedUser}
                     />
-                    {console.log("reviews", reviews)}
+                   
 
-                    <Modal show={showModal} onHide={() => setShowModal(false)}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>New Review</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <form onSubmit={handleSubmit}>
-                                {/* <label>{amenity_type} {amenity_id} </label> */}
-                                <label>Rating (1-5):
-                                    <input
-                                        type="number"
-                                        name="rating"
-                                        value={inputs.rating || ""}
-                                        required="required"
-                                        onChange={handleChange}
-                                        min={1}
-                                        max={5}
-                                    />
-                                </label>
-                                <label>Review:
-                                    <input
-                                        type="text"
-                                        name="review"
-                                        value={inputs.review || ""}
-                                        required="required"
-                                        onChange={handleChange}
-                                    />
-                                </label>
-                                <input type="submit"
-                                />
-                                <ToastContainer />
-                            </form>
-                        </Modal.Body>
-                    </Modal>
+                    
 
                 </Offcanvas.Body>
             </Offcanvas>
@@ -487,7 +420,7 @@ export const GoogleMapContainer = (props) => {
                 </Box>
             </Flex >
         </GoogleMap>
-
+    </>
     ) : <SkeletonText />
 
 }
