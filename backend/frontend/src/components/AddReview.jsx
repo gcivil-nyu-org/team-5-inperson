@@ -29,7 +29,7 @@ export const AddReview = (props) => {
         };
     }, [])
     
-    //console.log("authenticatedUser", authenticatedUser)
+ 
 
     const {refreshForm, refreshPage, setShowModal, showModal, selectedAmenity, selectedAmenityId} = props;
         
