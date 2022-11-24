@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { ApiService } from '../api-service';
 import Button from 'react-bootstrap/Button';
 import { IconButton, Stack, Flex, Spacer } from '@chakra-ui/react';
-import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete , AiOutlineEdit} from 'react-icons/ai';
 import { BiFlag } from 'react-icons/bi';
 
 
@@ -40,7 +40,9 @@ export const ReviewList = (props) => {
     }
 
     const deleteReview = async (deletedReview) => {
+        console.log(deletedReview)
         try {
+            
             const deleteReviewResponse = await apiService.deleteReview(deletedReview);
             if (deleteReviewResponse){console.log("deleteReviewResponse", deleteReviewResponse)}
             const reviewData = await apiService.getReview(selectedAmenity, deletedReview.amenity_id);
@@ -51,6 +53,7 @@ export const ReviewList = (props) => {
         }
     }
 
+    
     const averageRating = Math.round(totalRating / sortedValidReviews.length);
 
     return (
@@ -135,12 +138,6 @@ export const ReviewList = (props) => {
                                                     aria-label='Search database'
                                                     icon={<AiOutlineEdit color='red' />} //using same flag for edit review
                                                     onClick={async () => {
-                                                        const deletedReview = {
-                                                            ...review,
-                                                            user: review.user,
-                                                            amenity_type: selectedAmenity
-                                                        };
-                                                        await deleteReview(deletedReview)
                                                         
                                                         /*const updatedReview = {
                                                             ...review,
@@ -174,6 +171,7 @@ export const ReviewList = (props) => {
                                                         await deleteReview(deletedReview)
 
                                                     }}
+                                                    
                                                 />
 
                                             </Stack>
