@@ -4,7 +4,7 @@ import { ApiService } from '../api-service';
 import Button from 'react-bootstrap/Button';
 import { IconButton, Stack, Flex, Spacer } from '@chakra-ui/react';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete , AiOutlineEdit} from 'react-icons/ai';
-import { BiFlag } from 'react-icons/bi';
+
 
 
 const apiService = new ApiService();
@@ -136,13 +136,14 @@ export const ReviewList = (props) => {
                                                     size='sm'
                                                     variant="outline"
                                                     aria-label='Search database'
-                                                    icon={<AiOutlineEdit color='red' />} //using same flag for edit review
+                                                    icon={<AiOutlineEdit color='red' />} 
                                                     onClick={async () => {
                                                         
-                                                        /*const updatedReview = {
+                                                        const updatedReview = {
                                                             ...review,
                                                             user: review.user,
                                                             amenity_type: selectedAmenity
+
                                                         };
                                                         if (updatedReview.is_flagged === true) {
                                                             updatedReview.is_flagged = false
@@ -151,7 +152,7 @@ export const ReviewList = (props) => {
                                                             updatedReview.is_flagged = true
                                                         }
                                                         await updateReview(updatedReview)
-                                                        */
+                                                        
                                                         
                                                     }}
                                                 />

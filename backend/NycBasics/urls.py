@@ -79,6 +79,11 @@ urlpatterns = [
         name="ratingdetail",
     ),
     path(
+        "api/allreviews/",
+        ratingviews.all_ratings.as_view(),
+        name="allreviews",
+    ),
+    path(
         "api/review/<int:pk>/",
         ratingviews.all_ratings.as_view(),
         name="ratingdetailall",
