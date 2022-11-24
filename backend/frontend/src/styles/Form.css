@@ -1,11 +1,3 @@
-body {
-  /* background: #0e101c; 
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    */
-}
-
 form {
   max-width: 500px;
   margin: 0 auto;
@@ -22,7 +14,6 @@ form {
 
 h2 {
   font-weight: 100;
-  /* color: rgb(129, 47, 47); */
   text-align: center;
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(79, 98, 148);
@@ -112,7 +103,6 @@ input[type="submit"] {
 button[type="button"] {
   display: block;
   appearance: none;
-  /* background: rgb(25, 127, 7); */
   color: white;
   border: none;
   text-transform: uppercase;
@@ -121,7 +111,7 @@ button[type="button"] {
 }
 
 .buttonlike {
-  background-color: #4CAF50; 
+  background-color: #4CAF50;
   border: none;
   color: white;
   padding: 3px 5px;
@@ -139,7 +129,7 @@ button[type="button"] {
 }
 
 .buttondislike {
-  background-color: #4CAF50; 
+  background-color: #4CAF50;
   border: none;
   color: white;
   padding: 3px 5px;
@@ -157,7 +147,7 @@ button[type="button"] {
 }
 
 .buttonaddreview {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
   border: none;
   color: white;
   padding: 10px 15px;
@@ -172,7 +162,7 @@ button[type="button"] {
 }
 
 .buttonflag {
-  background-color: crimson; 
+  background-color: crimson;
   border: none;
   color: white;
   padding: 3px 5px;
@@ -204,15 +194,13 @@ button {
   border-radius: 4px;
 }
 
-.Review {
-  
-}
+.Review {}
 
 .reviewbuttons {
   float: right;
 }
 
-.AverageRating{
+.AverageRating {
   padding: 10px 15px;
   text-align: center;
   text-decoration: none;

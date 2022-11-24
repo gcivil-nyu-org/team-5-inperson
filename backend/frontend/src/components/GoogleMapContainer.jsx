@@ -1,32 +1,26 @@
 import '../styles/Form.css';
 import React, { useState, useEffect } from 'react'
 import {
-    GoogleMap, useJsApiLoader, Marker, DirectionsRenderer, Autocomplete,
+    GoogleMap, Marker, DirectionsRenderer, Autocomplete,
 } from '@react-google-maps/api';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import Button from 'react-bootstrap/Button';
+
 import {
-    IconButton, SkeletonText, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip, Center
+    IconButton, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
 import { Filters } from './Filters';
-import Modal from 'react-bootstrap/Modal';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ReviewList } from './ReviewList';
+
+import { DetailPanel } from './DetailPanel';
 
 const containerStyle = {
     width: '100vw',
     height: '92vh'
 };
 
-var user = 1;
-
 const apiService = new ApiService();
 
-var Filter = require('bad-words'),
-    filter = new Filter();
+
 
 export const GoogleMapContainer = (props) => {
 
@@ -44,17 +38,10 @@ export const GoogleMapContainer = (props) => {
         };
     }, [])
 
-    // console.log("authenticatedUser", authenticatedUser)
-
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
         mapCenter, setMapCenter, userLocation, setUserLocation, searchLocation, setSearchLocation,
         waterOn, wifiOn, benchOn, parkingOn, toiletOn,
         setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
-
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-    })
 
     const [isReallyLoaded, setIsReallyLoaded] = React.useState(false);
 
@@ -62,20 +49,20 @@ export const GoogleMapContainer = (props) => {
         setIsReallyLoaded(true);
     }, 200);
 
-    const [show, setShow] = useState(false);
+    
     const [autocomplete, setAutocomplete] = useState(null);
     const [map, setMap] = useState(/** @type google.maps.Map */(null))
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [destLat, setDestLat] = useState('')
     const [destLng, setDestLng] = useState('')
-    const [showModal, setShowModal] = useState(false);
+    const [showDetailPanel, setShowDetailPanel] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [selectedAmenity, setSelectedAmenity] = useState("");
     const [selectedAmenityId, setSelectedAmenityId] = useState("");
 
     useEffect(() => {
         map?.panTo(mapCenter)
-        
+
     }, [mapCenter])
 
 
@@ -94,7 +81,6 @@ export const GoogleMapContainer = (props) => {
     const onPlaceChanged = () => {
         if (autocomplete !== null) {
             const place = autocomplete.getPlace()
-            // console.log(place.geometry.location.lat(), place.geometry.location.lng())
             const searchLatLng = {
                 lat: place.geometry.location.lat(),
                 lng: place.geometry.location.lng()
@@ -104,6 +90,16 @@ export const GoogleMapContainer = (props) => {
         } else {
             console.log('Autocomplete is not loaded yet!')
         }
+    }
+
+    
+
+    function clearRoute() {
+        setDirectionsResponse(null)
+        setDestLat('')
+        setDestLng('')
+        map.panTo(mapCenter)
+        map.setZoom(17)
     }
 
     async function calculateRoute() {
@@ -120,81 +116,10 @@ export const GoogleMapContainer = (props) => {
 
         })
         setDirectionsResponse(results)
-        // setDistance(results.routes[0].legs[0].distance.text)
-        // setDuration(results.routes[0].legs[0].duration.text)
-        // console.log(('found directions'))
     }
 
-    function clearRoute() {
-        setDirectionsResponse(null)
-        // setDistance('')
-        // setDuration('')
-        setDestLat('')
-        setDestLng('')
-        //setMap(map)
-        map.panTo(mapCenter)
-        map.setZoom(17)
-    }
-
-    const [inputs, setInputs] = useState({});
-
-    const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({ ...values, [name]: value }))
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        // console.log(inputs);
-
-        const newReview = {
-            amenity_type: selectedAmenity,
-            amenity_id: selectedAmenityId,
-            rating: inputs.rating,
-            review: filter.clean(inputs.review),
-            is_flagged: false,
-            is_deleted: false,
-            upvotes: 0,
-            downvotes: 0,
-            user: authenticatedUser.id
-        }
-
-        // console.log("newReview", newReview)
-        const addReviewResponse = await apiService.addReview(newReview);
-        // console.log("addReviewResponse", addReviewResponse)
-
-
-        setShowModal(false)
-
-        if (inputs.rating > 5) {
-            alert('Please insert a Rating from 1-5')
-            refreshForm()
-        } else if (inputs.rating < 1) {
-            alert('Please insert a Rating from 1-5')
-            refreshForm()
-        } else if (inputs.rating === undefined || inputs.rating === "") {
-            alert('Please insert a Rating')
-            refreshForm()
-        } else if (inputs.review === undefined || inputs.review === "") {
-            alert('Please insert a Review')
-            refreshForm()
-        } else {
-            alert('Review Successfully Submitted')
-            refreshPage()
-        }
-    }
-
-    const refreshForm = () => {
-        inputs.review = ""
-        inputs.rating = ""
-    }
-
-    function refreshPage() {
-        window.location.reload(false);
-    }
-
-    return isLoaded ? (
+    // return isLoaded ? (
+    return (
 
         <GoogleMap
             mapContainerStyle={containerStyle}
@@ -235,81 +160,19 @@ export const GoogleMapContainer = (props) => {
                 />
             </Autocomplete>
 
-            <Offcanvas show={show} onHide={() => setShow(false)} scroll={false} backdrop={false} placement={'start'}>
-
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>
-                        {selectedAmenity.toUpperCase()}
-                    </Offcanvas.Title>
-                </Offcanvas.Header>
-
-                <Offcanvas.Body>
-                    <Button variant="primary"
-                        onClick={() => {
-                            calculateRoute()
-                            setShow(false)
-                        }}
-                    >
-                        Show Path
-                    </Button>{' '}
-
-                    <a className="btn btn-primary"
-                        href={`https://www.google.com/maps?saddr=${mapCenter.lat},${mapCenter.lng}&daddr=${destLat},${destLng}`}
-                        target="_blank"
-                    >
-                        GMaps Nav
-                    </a>
-                    <br></br>
-
-                    {authenticatedUser?.token?.length > 0
-                        ? <Button variant="primary" onClick={() => { setShowModal(true) }}>Add Review</Button>
-                        : null}
-
-
-                    <ReviewList
-                        reviews={reviews}
-                        selectedAmenity={selectedAmenity}
-                        setReviews={setReviews}
-                        authenticatedUser={authenticatedUser}
-                    />
-                    {/* {console.log("reviews", reviews)} */}
-
-                    <Modal show={showModal} onHide={() => setShowModal(false)}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>New Review</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <form onSubmit={handleSubmit}>
-                                {/* <label>{amenity_type} {amenity_id} </label> */}
-                                <label>Rating (1-5):
-                                    <input
-                                        type="number"
-                                        name="rating"
-                                        value={inputs.rating || ""}
-                                        required="required"
-                                        onChange={handleChange}
-                                        min={1}
-                                        max={5}
-                                    />
-                                </label>
-                                <label>Review:
-                                    <input
-                                        type="text"
-                                        name="review"
-                                        value={inputs.review || ""}
-                                        required="required"
-                                        onChange={handleChange}
-                                    />
-                                </label>
-                                <input type="submit"
-                                />
-                                <ToastContainer />
-                            </form>
-                        </Modal.Body>
-                    </Modal>
-
-                </Offcanvas.Body>
-            </Offcanvas>
+            <DetailPanel 
+                selectedAmenity = {selectedAmenity}
+                authenticatedUser = {authenticatedUser}
+                reviews = {reviews}
+                setReviews = {setReviews}
+                showDetailPanel = {showDetailPanel}
+                setShowDetailPanel = {setShowDetailPanel}
+                calculateRoute = {calculateRoute}
+                mapCenter = {mapCenter}
+                destLat = {destLat}
+                destLng = {destLng}
+                selectedAmenityId = {selectedAmenityId}
+            />
 
 
             {isReallyLoaded ?
@@ -318,28 +181,9 @@ export const GoogleMapContainer = (props) => {
                     <Marker position={searchLocation} />
 
                     {/* user location marker */}
-                    <div className='veehu' style={{ borderRadius: "50%", border: '2px solid teal' }}>
+                    <div style={{ borderRadius: "50%", border: '2px solid teal' }}>
                         <Marker
                             icon='https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Location_dot_blue.svg/20px-Location_dot_blue.svg.png'
-                            // icon='https://static1.squarespace.com/static/5dd4ce476ba67763d6e8c96b/t/5e6578e6cdda4349baab5502/1583708390468/Blue-Dot-Crosshair-Image.png'
-                            // icon='http://2.bp.blogspot.com/-fQuA-G2XLw8/VX4TFzAtVeI/AAAAAAAAB-w/-MWtUdnzOAw/s1600/BlueDot64.png'
-                            // icon='/o'
-                            // icon={{
-                            //     icon: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Location_dot_blue.svg',
-                                // eslint-disable-next-line no-undef
-                                // path: google.maps.SymbolPath.CIRCLE,
-                                // scale: 7,
-                                // strokeColor: 'blue',
-                                // path: "M8 12l-4.7023 2.4721.898-5.236L.3916 5.5279l5.2574-.764L8 0l2.3511 4.764 5.2574.7639-3.8043 3.7082.898 5.236z",
-                                // path: "M 8, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0",
-                                // fillColor: "blue",
-                                // fillOpacity: 0.9,
-                                // scale: 1,
-                                // strokeColor: "blue",
-                                // strokeWeight: 2,
-
-                            // }}
-                            
                             position={userLocation}
                         >
                         </Marker>
@@ -365,7 +209,7 @@ export const GoogleMapContainer = (props) => {
                                     const reviewData = await apiService.getReview('water', waterAmenity.id);
 
                                     setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -390,7 +234,7 @@ export const GoogleMapContainer = (props) => {
                                     const reviewData = await apiService.getReview('toilet', toiletAmenity.id);
 
                                     setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -415,7 +259,7 @@ export const GoogleMapContainer = (props) => {
                                     const reviewData = await apiService.getReview('wifi', wifiAmenity.id);
 
                                     setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -440,7 +284,7 @@ export const GoogleMapContainer = (props) => {
                                     const reviewData = await apiService.getReview('parking', parkingAmenity.id);
 
                                     setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -465,7 +309,7 @@ export const GoogleMapContainer = (props) => {
                                     const reviewData = await apiService.getReview('bench', benchAmenity.id);
 
                                     setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -504,7 +348,6 @@ export const GoogleMapContainer = (props) => {
                                     icon={<FaLocationArrow />}
                                     colorScheme="green"
                                     onClick={() => {
-                                        // setMapCenter(mapCenter)
                                         map?.panTo(mapCenter)
                                         map.setZoom(17)
                                     }}
@@ -527,7 +370,8 @@ export const GoogleMapContainer = (props) => {
             </Flex >
         </GoogleMap>
 
-    ) : <SkeletonText />
+    )
+    // ) : <SkeletonText />
 
 }
 
