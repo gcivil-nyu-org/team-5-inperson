@@ -526,7 +526,7 @@ export const GoogleMapContainer = (props) => {
                 </Box>
             </Flex >
         </GoogleMap>
-
+        
     ) : <SkeletonText />
 
 }
