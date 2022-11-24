@@ -158,9 +158,11 @@ class UserLoginSerializer(serializers.ModelSerializer):
         # y=x.replace(day=x.day, hour=1, minute=0, second=0, microsecond=0)
         # delta_t=y-x
         secs = 3600
+
         def logintimeout():
             user.ifLogged = False
             user.token = ""
+
         t = Timer(secs, logintimeout)
         t.start()
         return data
