@@ -38,7 +38,6 @@ ALLOWED_HOSTS = [
     "nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
     "nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
 ]
-# add aws cname here after green eb status
 
 # Application definition
 
