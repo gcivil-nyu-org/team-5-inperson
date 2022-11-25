@@ -32,7 +32,7 @@ deploy:
    bucket_name: 'travis-staging-bucket'
    on:
      branch: develop
-   skip_cleanup: 'true'
+   cleanup: 'false'
 
  - provider: elasticbeanstalk
    access_key_id: $NYCBASICKEY2
@@ -43,5 +43,5 @@ deploy:
    bucket_name: 'travis-prod-bucket'
    on:
      branch: master
-   skip_cleanup: 'true'
+   cleanup: 'false'
 
