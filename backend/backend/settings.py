@@ -30,7 +30,6 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "nycbasics5.ga",
     "nycbasics5prod.ml",
-    "nycbasics5.gq",
     "localhost",
     "nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
     "nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
