@@ -50,7 +50,6 @@ ALLOWED_HOSTS = [
     "www.nycbasics5prod.ml",
     "nycbasics5.gq",
 ]
-# add aws cname here after green eb status
 
 # Application definition
 
