@@ -2,23 +2,25 @@ import '../styles/Form.css';
 import React, { useState } from 'react'
 import { ApiService } from '../api-service';
 import { useNavigate, Link } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react'
 
 function Loginform() {
 
   const [formDetails, setFormDetails] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const toast = useToast()
 
   const loginHandler = async (e) => {
 
     e.preventDefault();
-    console.log("formDetails", formDetails)
+    // console.log("formDetails", formDetails)
     const apiService = new ApiService();
 
     try {
 
       const loginResponse = await apiService.login(formDetails);
-      console.log("loginResponse", loginResponse)
+      // console.log("loginResponse", loginResponse)
       let authenticatedUserObj = {
         'token': loginResponse['token'],
         'id': loginResponse['id'],
@@ -26,6 +28,15 @@ function Loginform() {
       }
       localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUserObj));
       window.dispatchEvent(new Event("storage"));
+      toast({
+        title: 'Login Successful',
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+        position: 'bottom-right',
+        variant: 'left-accent'
+      })
+
       navigate("/home");
 
     } catch (error) {

@@ -12,15 +12,20 @@ function Signup() {
   const [emailError, setEmailError] = useState("");
 
   const onSubmit = async (data) => {
-    console.log("signup data", data);
+    data['system_otp'] = Math.floor(100000 + Math.random() * 900000)
+    // console.log("signup data", data);
     const apiService = new ApiService();
 
-    console.log(watch("password"));
+    // console.log(watch("password"));
 
     try {
+      const signupSendEmailResponse = await apiService.addUserSendEmail(data);
+      // console.log("signupSendEmailResponse", signupSendEmailResponse)
       const signupResponse = await apiService.addUser(data);
-      console.log("signupResponse", signupResponse)
-      navigate("/login");
+      // console.log("signupResponse", signupResponse)
+      
+      // navigate("/login");
+      navigate("/verify", {state:{email: data['email']}});
     } catch (error) {
       console.log("error", error)
       if ("email" in error) {

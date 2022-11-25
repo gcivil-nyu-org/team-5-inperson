@@ -12,7 +12,14 @@ from NycBasics.views.listviews import (
     bench_model,
     toilet_model,
 )
-from NycBasics.views.userviews import Login, Logout, User
+from NycBasics.views.userviews import (
+    Login,
+    Logout,
+    User,
+    Reset_Password,
+    Email_Verification,
+    Reset_Password_Verification,
+)
 from NycBasics.views.ratingviews import rating_List, Rating_Review
 from rest_framework.test import APIClient
 
@@ -31,15 +38,101 @@ const testingCenter = {
 
 
 class ApiTests(TestCase):
+    def test_reset_password(self):
+        view = Reset_Password.as_view()
+        factory = APIRequestFactory()
+        self.client = APIClient()
+
+        User.objects.create(
+            username="user1",
+            email="user1@test.com",
+            password="testpass",
+            password_otp=123456,
+        )
+
+        request = factory.get("/NycBasics/api/reset_password/user1@test.com/123456/")
+        response = view(request, pk1="user1@test.com", pk2="123456")
+
+        isValidStatus = 200 <= response.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        self.assertEqual(response.data[0]["password_otp"], 123456)
+
+    def test_email_verification(self):
+        view = Email_Verification.as_view()
+        factory = APIRequestFactory()
+        self.client = APIClient()
+        User.objects.create(
+            username="user1",
+            email="user1@test.com",
+            password="testpass",
+            system_otp=123456,
+        )
+
+        request = factory.get("/NycBasics/api/verification/user1@test.com/123456/")
+        response = view(request, pk1="user1@test.com", pk2="123456")
+        # print("response.data",response.data)
+
+        isValidStatus = 200 <= response.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        self.assertEqual(response.data[0]["is_email_verified"], True)
+
+        # otp doesnt match case
+
+        request1 = factory.get("/NycBasics/api/verification/user1@test.com/727722/")
+        response1 = view(request1, pk1="user1@test.com", pk2="727722")
+
+        isValidStatus = 200 <= response1.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        self.assertEqual(response1.data, [])
+
+    def test_reset_password_verification(self):
+        view = Reset_Password_Verification.as_view()
+        factory = APIRequestFactory()
+        self.client = APIClient()
+        User.objects.create(
+            username="user1",
+            email="user1@test.com",
+            password="testpass",
+            password_otp=123456,
+        )
+
+        request = factory.get(
+            "api/reset_password_verification/user1@test.com/123456/newpassword"
+        )
+        # print("request.data",request.data)
+        response = view(request, pk1="user1@test.com", pk2="123456", pk3="newpassword")
+        # print("response.data",response.data)
+
+        isValidStatus = 200 <= response.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        self.assertEqual(response.data[0]["password"], "newpassword")
+
+        # otp doesnt match case
+
+        request1 = factory.get(
+            "api/reset_password_verification/user1@test.com/727722/newpassword"
+        )
+
+        response1 = view(
+            request1, pk1="user1@test.com", pk2="727722", pk3="newpassword"
+        )
+
+        isValidStatus = 200 <= response1.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        self.assertEqual(response1.data, [])
+
     def test_valid_rating_review(self):
         view = rating_List.as_view()
         factory = APIRequestFactory()
         self.client = APIClient()
-
         x = User.objects.create(
             username="user1", email="user1@test.com", password="testpass"
         )
-
         Rating_Review.objects.create(
             user_id=x.id,
             amenity_type="water",
@@ -51,13 +144,10 @@ class ApiTests(TestCase):
             upvotes=0,
             downvotes=0,
         )
-
         request = factory.get("/NycBasics/api/rating_review/water/92/")
         response = view(request, pk1="water", pk2="92")
-
         isValidStatus = 200 <= response.status_code < 300
         self.assertTrue(isValidStatus)
-
         self.assertEqual(response.data[0]["review"], "This fountain is nice.")
 
     def test_valid_login(self):

@@ -34,7 +34,7 @@ urllib3==1.26.12
 Pillow==9.0.1
 django-tables2==2.4.1
 django-crispy-forms==1.14.0
-psycopg2-binary==2.9.3
+psycopg2-binary==2.8.6
 chardet==3.0.4
 defusedxml==0.5.0
 Markdown==3.0.1
