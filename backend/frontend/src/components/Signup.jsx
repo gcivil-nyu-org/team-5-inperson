@@ -12,6 +12,14 @@ function Signup() {
     const [emailError, setEmailError] = useState("");
 
     const onSubmit = async (data) => {
+
+        if (data['username'].includes("@")) {
+            setUsernameError("Username should not include '@'")
+            return
+        } 
+        else {
+            setUsernameError("")
+        }
         data['system_otp'] = Math.floor(100000 + Math.random() * 900000)
         const apiService = new ApiService();
 
