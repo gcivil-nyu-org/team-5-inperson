@@ -1,23 +1,47 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Offcanvas, Button } from 'react-bootstrap';
 import { ReviewModal } from './ReviewModal';
 import { ReviewList } from './ReviewList';
+import { ApiService } from '../api-service';
+import { Badge, Text } from '@chakra-ui/react'
 
 export const DetailPanel = (props) => {
 
-
-    const { selectedAmenity, authenticatedUser, reviews, setReviews, showDetailPanel, setShowDetailPanel,
-        calculateRoute, mapCenter, destLat, destLng, selectedAmenityId} = props;
+    const { selectedAmenity, authenticatedUser, showDetailPanel, setShowDetailPanel,
+        calculateRoute, mapCenter, destLat, destLng, selectedAmenityId } = props;
 
     const [showReviewModal, setShowReviewModal] = useState(false);
+    const [reviews, setReviews] = useState([]);
+
+    const getReviews = async () => {
+        if (selectedAmenity && selectedAmenityId) {
+            const apiService = new ApiService();
+            const reviewData = await apiService.getReview(selectedAmenity, selectedAmenityId);
+            setReviews(reviewData);
+        }
+
+    }
+
+
+    useEffect(() => {
+
+
+        getReviews()
+
+    }, [selectedAmenity, selectedAmenityId])
 
     return (
         <>
             <Offcanvas show={showDetailPanel} onHide={() => setShowDetailPanel(false)} scroll={false} backdrop={false} placement={'start'}>
 
                 <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>
-                        {selectedAmenity.toUpperCase()}
+                    <Offcanvas.Title style={{ width: "100%", textAlign: "center" }}>
+                        <Text fontSize='xl' fontWeight='bold'>
+                            <Badge variant='subtle' ml='1' fontSize='2em' colorScheme='green'>
+                                {selectedAmenity.toUpperCase()}
+                            </Badge>
+                        </Text>
+
                     </Offcanvas.Title>
                 </Offcanvas.Header>
 
@@ -47,21 +71,21 @@ export const DetailPanel = (props) => {
                     <ReviewList
                         reviews={reviews}
                         selectedAmenity={selectedAmenity}
-                        setReviews={setReviews}
                         authenticatedUser={authenticatedUser}
+                        getReviews={getReviews}
+
                     />
-
-
 
                 </Offcanvas.Body>
             </Offcanvas>
 
             <ReviewModal
-                selectedAmenity = {selectedAmenity}
-                selectedAmenityId = {selectedAmenityId}
-                authenticatedUser = {authenticatedUser}
-                setShowReviewModal = {setShowReviewModal}
-                showReviewModal = {showReviewModal}
+                selectedAmenity={selectedAmenity}
+                selectedAmenityId={selectedAmenityId}
+                authenticatedUser={authenticatedUser}
+                setShowReviewModal={setShowReviewModal}
+                showReviewModal={showReviewModal}
+                getReviews={getReviews}
             />
         </>
     )

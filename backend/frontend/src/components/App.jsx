@@ -11,22 +11,22 @@ import EmailVerification from './EmailVerification';
 
 function App() {
 
-	return (
-		<div className="app">
-			<ChakraProvider>
-				<BrowserRouter>
-					<BasicsNavbar />
-					<Routes>
-						<Route path='/login' element={<Loginform />}></Route>
-						<Route path='/home' element={<MainSearch />}></Route>
-						<Route path='/signup' element={<Signup />}></Route>
-						<Route path='/verify' element={<EmailVerification />}></Route>
-						<Route path="/" element={<Navigate to="/home" />} />
-					</Routes>
-				</BrowserRouter>
-			</ChakraProvider>
-		</div>
-	);
+    return (
+        <div className="app">
+            <ChakraProvider>
+                <BrowserRouter>
+                    <BasicsNavbar />
+                    <Routes>
+                        <Route path='/login' element={<Loginform />}></Route>
+                        <Route path='/home' element={<MainSearch />}></Route>
+                        <Route path='/signup' element={<Signup />}></Route>
+                        <Route path='/verify' element={<EmailVerification />}></Route>
+                        <Route path="/" element={<Navigate to="/home" />} />
+                    </Routes>
+                </BrowserRouter>
+            </ChakraProvider>
+        </div>
+    );
 }
 
 export default App;

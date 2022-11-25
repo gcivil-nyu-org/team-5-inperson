@@ -20,8 +20,6 @@ const containerStyle = {
 
 const apiService = new ApiService();
 
-
-
 export const GoogleMapContainer = (props) => {
 
     const [authenticatedUser, setAuthenticatedUser] = useState(JSON.parse(localStorage.getItem('authenticatedUser')))
@@ -48,7 +46,6 @@ export const GoogleMapContainer = (props) => {
     setTimeout(() => {
         setIsReallyLoaded(true);
     }, 200);
-
     
     const [autocomplete, setAutocomplete] = useState(null);
     const [map, setMap] = useState(/** @type google.maps.Map */(null))
@@ -56,15 +53,13 @@ export const GoogleMapContainer = (props) => {
     const [destLat, setDestLat] = useState('')
     const [destLng, setDestLng] = useState('')
     const [showDetailPanel, setShowDetailPanel] = useState(false);
-    const [reviews, setReviews] = useState([]);
+
     const [selectedAmenity, setSelectedAmenity] = useState("");
     const [selectedAmenityId, setSelectedAmenityId] = useState("");
 
     useEffect(() => {
         map?.panTo(mapCenter)
-
     }, [mapCenter])
-
 
     const codepoints = {
         water: "\ue798",
@@ -91,7 +86,6 @@ export const GoogleMapContainer = (props) => {
             console.log('Autocomplete is not loaded yet!')
         }
     }
-
     
 
     function clearRoute() {
@@ -118,7 +112,6 @@ export const GoogleMapContainer = (props) => {
         setDirectionsResponse(results)
     }
 
-    // return isLoaded ? (
     return (
 
         <GoogleMap
@@ -163,8 +156,6 @@ export const GoogleMapContainer = (props) => {
             <DetailPanel 
                 selectedAmenity = {selectedAmenity}
                 authenticatedUser = {authenticatedUser}
-                reviews = {reviews}
-                setReviews = {setReviews}
                 showDetailPanel = {showDetailPanel}
                 setShowDetailPanel = {setShowDetailPanel}
                 calculateRoute = {calculateRoute}
@@ -173,7 +164,6 @@ export const GoogleMapContainer = (props) => {
                 destLng = {destLng}
                 selectedAmenityId = {selectedAmenityId}
             />
-
 
             {isReallyLoaded ?
                 <>
@@ -205,10 +195,6 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(waterAmenity.water_longitude);
                                     setSelectedAmenity('water');
                                     setSelectedAmenityId(waterAmenity.id)
-
-                                    const reviewData = await apiService.getReview('water', waterAmenity.id);
-
-                                    setReviews(reviewData);
                                     setShowDetailPanel(true)
                                 }} />
                         ))
@@ -230,10 +216,6 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(toiletAmenity.toilet_longitude)
                                     setSelectedAmenity('toilet');
                                     setSelectedAmenityId(toiletAmenity.id)
-
-                                    const reviewData = await apiService.getReview('toilet', toiletAmenity.id);
-
-                                    setReviews(reviewData);
                                     setShowDetailPanel(true)
                                 }} />
                         ))
@@ -255,10 +237,6 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(wifiAmenity.wifi_longitude)
                                     setSelectedAmenity('wifi');
                                     setSelectedAmenityId(wifiAmenity.id)
-
-                                    const reviewData = await apiService.getReview('wifi', wifiAmenity.id);
-
-                                    setReviews(reviewData);
                                     setShowDetailPanel(true)
                                 }} />
                         ))
@@ -280,10 +258,6 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(parkingAmenity.parking_longitude)
                                     setSelectedAmenity('parking');
                                     setSelectedAmenityId(parkingAmenity.id)
-
-                                    const reviewData = await apiService.getReview('parking', parkingAmenity.id);
-
-                                    setReviews(reviewData);
                                     setShowDetailPanel(true)
                                 }} />
                         ))
@@ -305,10 +279,6 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(benchAmenity.bench_longitude)
                                     setSelectedAmenity('bench');
                                     setSelectedAmenityId(benchAmenity.id)
-
-                                    const reviewData = await apiService.getReview('bench', benchAmenity.id);
-
-                                    setReviews(reviewData);
                                     setShowDetailPanel(true)
                                 }} />
                         ))
@@ -330,7 +300,6 @@ export const GoogleMapContainer = (props) => {
                     setBenchOn={setBenchOn}
                     setParkingOn={setParkingOn}
                     setToiletOn={setToiletOn}
-
                 />
                 <Spacer />
 
@@ -369,9 +338,7 @@ export const GoogleMapContainer = (props) => {
                 </Box>
             </Flex >
         </GoogleMap>
-
     )
-    // ) : <SkeletonText />
 
 }
 
