@@ -14,6 +14,14 @@ from pathlib import Path
 from decouple import config
 import os
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,13 +37,18 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "nycbasics5.ga",
-    "nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
     "nycbasics5prod.ml",
+    "nycbasics5.gq",
     "localhost",
-    "nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
-    "nycprod-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
     "nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
     "nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
+    "www.staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
+    "www.nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
+    "www.nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
+    "www.nycbasics5.ga",
+    "www.nycbasics5prod.ml",
+    "nycbasics5.gq",
 ]
 # add aws cname here after green eb status
 
@@ -98,6 +111,7 @@ DATABASES = {
         "NAME": str(BASE_DIR / "db.sqlite3"),
     }
 }
+
 """
 
 DATABASES = {
@@ -177,19 +191,26 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "http://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
     "http://nycbasics5.ga",
     "https://nycbasics5.ga",
-    "https://NYCbasics-staging.eba-itqvcpc2.us-west-2.elasticbeanstalk.com",
-    "http://nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
+    "https://www.nycbasics5.ga",
     "https://nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
-    "http://nycbasics5prod.ml",
-    "https://nycbasics5prod.ml",
-    "http://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
-    "https://nycstaging-env.eba-6p2tbyi2.us-west-2.elasticbeanstalk.com",
+    "http://nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
     "http://www.nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
     "https://www.nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
+    "http://nycbasics5.gq",
+    "https://nycbasics5.gq",
+    "https://www.nycbasics5.gq",
+    "http://nycbasics5prod.ml",
+    "https://nycbasics5prod.ml",
+    "https://www.nycbasics5prod.ml",
     "http://nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
     "http://nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
+    "https://nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
+    "https://nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
+    "http://www.nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
+    "http://www.nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
+    "https://www.nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
+    "https://www.nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
 ]
 # may need to add aws eb cname here above
