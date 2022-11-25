@@ -32,8 +32,8 @@ deploy:
    bucket_name: 'travis-staging-bucket'
    on:
      branch: develop
-   skip_cleanup: true
-   
+   cleanup: true
+
  - provider: elasticbeanstalk
    access_key_id: $NYCBASICSKEY3
    secret_access_key: $NYCBASICSSECRETKEY3
@@ -43,4 +43,4 @@ deploy:
    bucket_name: 'travis-prod-bucket'
    on:
      branch: master
-   skip_cleanup: true
+   cleanup: true
