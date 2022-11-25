@@ -32,16 +32,14 @@ deploy:
    bucket_name: 'travis-staging-bucket'
    on:
      branch: develop
-   cleanup: 'false'
 
  - provider: elasticbeanstalk
-   access_key_id: $NYCBASICKEY2
-   secret_access_key: $NYCBASICSSECRETSKEY2
+   access_key_id: $NYCBASICSKEY3
+   secret_access_key: $NYCBASICSSECRETKEY3
    region: 'us-west-2'
    app: 'nycbasics-prod'
    env: 'nycbasics-prod-env'
    bucket_name: 'travis-prod-bucket'
    on:
      branch: master
-   cleanup: 'false'
 
