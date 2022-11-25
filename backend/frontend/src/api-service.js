@@ -27,8 +27,6 @@ export class ApiService {
         const data = await res.json();
 
         if (res.status >= 200 && res.status < 300) {
-            console.log("logout res", res)
-            console.log("logout res.data", data)
             return data;
         }
         else {
@@ -36,7 +34,7 @@ export class ApiService {
         }
     }
 
-    async login(userData) {        
+    async login(userData) {
         const res = await fetch(`${this.baseUrl}/login/`, {
             method: "POST",
             headers: {
@@ -51,8 +49,6 @@ export class ApiService {
         const data = await res.json();
 
         if (res.status >= 200 && res.status < 300) {
-            console.log("login res", res)
-            console.log("login res.data", data)
             return data;
         }
         else {
@@ -71,13 +67,48 @@ export class ApiService {
                 username: userData['username'],
                 email: userData['email'],
                 password: userData['password'],
+                system_otp: userData['system_otp'],
             })
         });
         const data = await res.json();
 
         if (res.status >= 200 && res.status < 300) {
-            console.log("addUser res", res)
-            console.log("addUser res.data", data)
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+    async addUserSendEmail(userData) {
+        const res = await fetch(`${this.baseUrl}/addUser_SendEmail/`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: userData['username'],
+                email: userData['email'],
+                password: userData['password'],
+                system_otp: userData['system_otp'],
+            })
+        });
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+    async verifyEmail(userData) {
+        const res = await fetch(`${this.baseUrl}/verification/${userData.email}/${userData.code}/`, this.requestConfig);
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
             return data;
         }
         else {
@@ -115,14 +146,14 @@ export class ApiService {
         return data;
     }
 
-    async getReview(amenity_type,amenity_id) {
+    async getReview(amenity_type, amenity_id) {
         const res = await fetch(`${this.baseUrl}/rating_review/${amenity_type}/${amenity_id}/`, this.requestConfig);
         const data = await res.json();
         return data;
     }
 
     async addReview(newReview) {
-        const res = await fetch (`${this.baseUrl}/create_rating/` , {
+        const res = await fetch(`${this.baseUrl}/create_rating/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -130,15 +161,13 @@ export class ApiService {
             body: JSON.stringify(newReview)
         })
 
-        console.log("res", res)
-
         const data = await res.json();
         return data
 
     }
 
     async updateReview(updatedReview) {
-        const res = await fetch (`${this.baseUrl}/review/${updatedReview.id}/` , {
+        const res = await fetch(`${this.baseUrl}/review/${updatedReview.id}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

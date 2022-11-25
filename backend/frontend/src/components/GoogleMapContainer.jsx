@@ -1,33 +1,24 @@
 import '../styles/Form.css';
 import React, { useState, useEffect } from 'react'
 import {
-    GoogleMap, useJsApiLoader, Marker, DirectionsRenderer, Autocomplete,
+    GoogleMap, Marker, DirectionsRenderer, Autocomplete,
 } from '@react-google-maps/api';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import Button from 'react-bootstrap/Button';
+
 import {
-    IconButton, SkeletonText, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip, Center
+    IconButton, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import { ApiService } from '../api-service';
 import { Filters } from './Filters';
-import Modal from 'react-bootstrap/Modal';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ReviewList } from './ReviewList';
-import { AddReview } from './AddReview';
+
+import { DetailPanel } from './DetailPanel';
 
 const containerStyle = {
     width: '100vw',
     height: '92vh'
 };
 
-var user = 1;
-
 const apiService = new ApiService();
-
-var Filter = require('bad-words'),
-    filter = new Filter();
 
 export const GoogleMapContainer = (props) => {
 
@@ -45,34 +36,30 @@ export const GoogleMapContainer = (props) => {
         };
     }, [])
 
-    //console.log("authenticatedUser", authenticatedUser)
-
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
-        mapCenter, setMapCenter,
+        mapCenter, setMapCenter, userLocation, setUserLocation, searchLocation, setSearchLocation,
         waterOn, wifiOn, benchOn, parkingOn, toiletOn,
         setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
-
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-    })
 
     const [isReallyLoaded, setIsReallyLoaded] = React.useState(false);
 
     setTimeout(() => {
         setIsReallyLoaded(true);
     }, 200);
-
-    const [show, setShow] = useState(false);
+    
     const [autocomplete, setAutocomplete] = useState(null);
     const [map, setMap] = useState(/** @type google.maps.Map */(null))
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [destLat, setDestLat] = useState('')
     const [destLng, setDestLng] = useState('')
-    const [showModal, setShowModal] = useState(false);
-    const [reviews, setReviews] = useState([]);
+    const [showDetailPanel, setShowDetailPanel] = useState(false);
+
     const [selectedAmenity, setSelectedAmenity] = useState("");
     const [selectedAmenityId, setSelectedAmenityId] = useState("");
+
+    useEffect(() => {
+        map?.panTo(mapCenter)
+    }, [mapCenter])
 
     const codepoints = {
         water: "\ue798",
@@ -89,15 +76,24 @@ export const GoogleMapContainer = (props) => {
     const onPlaceChanged = () => {
         if (autocomplete !== null) {
             const place = autocomplete.getPlace()
-            console.log(place.geometry.location.lat(), place.geometry.location.lng())
-            const searchLocation = {
+            const searchLatLng = {
                 lat: place.geometry.location.lat(),
                 lng: place.geometry.location.lng()
             };
-            setMapCenter(searchLocation)
+            setSearchLocation(searchLatLng)
+            setMapCenter(searchLatLng)
         } else {
             console.log('Autocomplete is not loaded yet!')
         }
+    }
+    
+
+    function clearRoute() {
+        setDirectionsResponse(null)
+        setDestLat('')
+        setDestLng('')
+        map.panTo(mapCenter)
+        map.setZoom(17)
     }
 
     async function calculateRoute() {
@@ -114,45 +110,11 @@ export const GoogleMapContainer = (props) => {
 
         })
         setDirectionsResponse(results)
-        // setDistance(results.routes[0].legs[0].distance.text)
-        // setDuration(results.routes[0].legs[0].duration.text)
-        console.log(('found directions'))
     }
 
-    function clearRoute() {
-        setDirectionsResponse(null)
-        // setDistance('')
-        // setDuration('')
-        setDestLat('')
-        setDestLng('')
-        //setMap(map)
-        map.panTo(mapCenter)
-    }
+    return (
 
-    const [inputs, setInputs] = useState({});
-
-    
-
-    const refreshForm = () => {
-        inputs.review = ""
-        inputs.rating = ""
-    }
-
-    function refreshPage() {
-        window.location.reload(false);
-    }
-
-    return isLoaded ? (
-        <>
-        <AddReview 
-            refreshForm={refreshForm}
-            refreshPage={refreshPage}
-            setShowModal={setShowModal}
-            showModal={showModal}
-            selectedAmenity={selectedAmenity}
-            selectedAmenityId={selectedAmenityId}
-
-        />
+        
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
@@ -192,56 +154,31 @@ export const GoogleMapContainer = (props) => {
                 />
             </Autocomplete>
 
-            <Offcanvas show={show} onHide={() => setShow(false)} scroll={false} backdrop={false} placement={'start'}>
-
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>
-                        {selectedAmenity.toUpperCase()}
-                    </Offcanvas.Title>
-                </Offcanvas.Header>
-
-                <Offcanvas.Body>
-                    <Button variant="primary"
-                        onClick={() => {
-                            calculateRoute()
-                            setShow(false)
-                        }}
-                    >
-                        Show Path
-                    </Button>{' '}
-
-                    <a className="btn btn-primary"
-                        href={`https://www.google.com/maps?saddr=${mapCenter.lat},${mapCenter.lng}&daddr=${destLat},${destLng}`}
-                        target="_blank"
-                    >
-                        GMaps Nav
-                    </a>
-                    <br></br>
-
-                    {authenticatedUser?.token?.length > 0
-                        ? <Button variant="primary" onClick={() => { setShowModal(true) }}>Add Review</Button>
-                        : null}
-
-
-                    <ReviewList
-                        reviews={reviews}
-                        selectedAmenity={selectedAmenity}
-                        setReviews={setReviews}
-                        authenticatedUser={authenticatedUser}
-                    />
-                   
-
-                    
-
-                </Offcanvas.Body>
-            </Offcanvas>
-
+            <DetailPanel 
+                selectedAmenity = {selectedAmenity}
+                authenticatedUser = {authenticatedUser}
+                showDetailPanel = {showDetailPanel}
+                setShowDetailPanel = {setShowDetailPanel}
+                calculateRoute = {calculateRoute}
+                mapCenter = {mapCenter}
+                destLat = {destLat}
+                destLng = {destLng}
+                selectedAmenityId = {selectedAmenityId}
+            />
 
             {isReallyLoaded ?
                 <>
 
-                    <Marker
-                        var position={mapCenter} />
+                    <Marker position={searchLocation} />
+
+                    {/* user location marker */}
+                    <div style={{ borderRadius: "50%", border: '2px solid teal' }}>
+                        <Marker
+                            icon='https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Location_dot_blue.svg/20px-Location_dot_blue.svg.png'
+                            position={userLocation}
+                        >
+                        </Marker>
+                    </div>
 
                     {waterOn ?
                         waterAmenities.map((waterAmenity) => (
@@ -259,11 +196,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(waterAmenity.water_longitude);
                                     setSelectedAmenity('water');
                                     setSelectedAmenityId(waterAmenity.id)
-
-                                    const reviewData = await apiService.getReview('water', waterAmenity.id);
-
-                                    setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -284,11 +217,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(toiletAmenity.toilet_longitude)
                                     setSelectedAmenity('toilet');
                                     setSelectedAmenityId(toiletAmenity.id)
-
-                                    const reviewData = await apiService.getReview('toilet', toiletAmenity.id);
-
-                                    setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -309,11 +238,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(wifiAmenity.wifi_longitude)
                                     setSelectedAmenity('wifi');
                                     setSelectedAmenityId(wifiAmenity.id)
-
-                                    const reviewData = await apiService.getReview('wifi', wifiAmenity.id);
-
-                                    setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -334,11 +259,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(parkingAmenity.parking_longitude)
                                     setSelectedAmenity('parking');
                                     setSelectedAmenityId(parkingAmenity.id)
-
-                                    const reviewData = await apiService.getReview('parking', parkingAmenity.id);
-
-                                    setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -359,11 +280,7 @@ export const GoogleMapContainer = (props) => {
                                     setDestLng(benchAmenity.bench_longitude)
                                     setSelectedAmenity('bench');
                                     setSelectedAmenityId(benchAmenity.id)
-
-                                    const reviewData = await apiService.getReview('bench', benchAmenity.id);
-
-                                    setReviews(reviewData);
-                                    setShow(true)
+                                    setShowDetailPanel(true)
                                 }} />
                         ))
                         : null}
@@ -384,7 +301,6 @@ export const GoogleMapContainer = (props) => {
                     setBenchOn={setBenchOn}
                     setParkingOn={setParkingOn}
                     setToiletOn={setToiletOn}
-
                 />
                 <Spacer />
 
@@ -401,7 +317,10 @@ export const GoogleMapContainer = (props) => {
                                     aria-label='center back'
                                     icon={<FaLocationArrow />}
                                     colorScheme="green"
-                                    onClick={() => { map.panTo(mapCenter) }}
+                                    onClick={() => {
+                                        map?.panTo(mapCenter)
+                                        map.setZoom(17)
+                                    }}
                                 />
                             </Tooltip>
 
@@ -420,8 +339,7 @@ export const GoogleMapContainer = (props) => {
                 </Box>
             </Flex >
         </GoogleMap>
-    </>
-    ) : <SkeletonText />
+    )
 
 }
 

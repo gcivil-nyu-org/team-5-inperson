@@ -14,6 +14,14 @@ from pathlib import Path
 from decouple import config
 import os
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,6 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-*s62_zi-k=3ys38hfsh4zi4d(ctav0f6uig7p^mjh7bx5+aq-o"
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = config("DEBUG_MODE")
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -32,7 +41,7 @@ ALLOWED_HOSTS = [
     "nycbasics5prod.ml",
     "nycbasics5.gq",
     "localhost",
-    "staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
+    "nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
     "nycbasics-prod-env.eba-s8mf4mpn.us-west-2.elasticbeanstalk.com",
     "nycbasics-staging-env.eba-gvsq4xxk.us-west-2.elasticbeanstalk.com",
     "www.staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
@@ -42,7 +51,6 @@ ALLOWED_HOSTS = [
     "www.nycbasics5prod.ml",
     "nycbasics5.gq",
 ]
-# add aws cname here after green eb status
 
 # Application definition
 
@@ -103,6 +111,7 @@ DATABASES = {
         "NAME": str(BASE_DIR / "db.sqlite3"),
     }
 }
+
 """
 
 DATABASES = {
@@ -185,10 +194,10 @@ CORS_ORIGIN_WHITELIST = [
     "http://nycbasics5.ga",
     "https://nycbasics5.ga",
     "https://www.nycbasics5.ga",
-    "https://staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
-    "http://staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
-    "http://www.staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
-    "https://www.staging-secure-env.eba-p6pdbcm5.us-west-2.elasticbeanstalk.com",
+    "https://nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
+    "http://nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
+    "http://www.nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
+    "https://www.nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
     "http://nycbasics5.gq",
     "https://nycbasics5.gq",
     "https://www.nycbasics5.gq",

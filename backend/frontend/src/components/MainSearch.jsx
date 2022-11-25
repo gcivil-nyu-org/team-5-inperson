@@ -1,124 +1,118 @@
 import '../styles/App.css';
 import { GoogleMapContainer } from './GoogleMapContainer';
-import { Filters } from './Filters';
 import React, { useEffect, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ApiService } from '../api-service';
 
 const defaultCenter = {
-  lat: 40.73122901747168,
-  lng: -73.99733029154993
+    lat: 40.73122901747168,
+    lng: -73.99733029154993
 };
 
-const testingCenter = {
-  lat: 40.69447082266228,
-  lng: -73.9863413463988
-};
-
+let oneTimeUserLocCentered = false
 
 function MainSearch() {
 
-  const [mapCenter, setMapCenter] = useState(defaultCenter)
-  const [waterOn, setWaterOn] = useState(false);
-  const [wifiOn, setWifiOn] = useState(false);
-  const [benchOn, setBenchOn] = useState(false);
-  const [parkingOn, setParkingOn] = useState(false);
-  const [toiletOn, setToiletOn] = useState(false);
-  const [waterAmenities, setWaterAmenities] = useState([]);
-  const [wifiAmenities, setWifiAmenities] = useState([]);
-  const [benchAmenities, setBenchAmenities] = useState([]);
-  const [parkingAmenities, setParkingAmenities] = useState([]);
-  const [toiletAmenities, setToiletAmenities] = useState([]);
+    const [mapCenter, setMapCenter] = useState(defaultCenter)
+    const [userLocation, setUserLocation] = useState(null)
+    const [searchLocation, setSearchLocation] = useState(null)
+    const [waterOn, setWaterOn] = useState(false);
+    const [wifiOn, setWifiOn] = useState(false);
+    const [benchOn, setBenchOn] = useState(false);
+    const [parkingOn, setParkingOn] = useState(false);
+    const [toiletOn, setToiletOn] = useState(false);
+    const [waterAmenities, setWaterAmenities] = useState([]);
+    const [wifiAmenities, setWifiAmenities] = useState([]);
+    const [benchAmenities, setBenchAmenities] = useState([]);
+    const [parkingAmenities, setParkingAmenities] = useState([]);
+    const [toiletAmenities, setToiletAmenities] = useState([]);
 
     useEffect(() => {
 
-       // When component mounts
-       if (navigator.geolocation) {
-         navigator.geolocation.watchPosition(function (position) {
-             setMapCenter({
-               lat: Number(position.coords.latitude),
-               lng: Number(position.coords.longitude)
-            })
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(function (position) {
+                if (!oneTimeUserLocCentered) {
+                    setMapCenter({
+                        lat: Number(position.coords.latitude),
+                        lng: Number(position.coords.longitude)
+                    });
+                    oneTimeUserLocCentered = true;
+                }
 
-           // switched to testing location for developer testing by viha
-           //setMapCenter(testingCenter)
-         },
-           function (error) {
-             if (error.code === error.PERMISSION_DENIED) {
-               console.log("Location Access Rejected")
-             }
-           });
-       }
+                setUserLocation({
+                    lat: Number(position.coords.latitude),
+                    lng: Number(position.coords.longitude)
+                })
+
+            },
+                function (error) {
+                    if (error.code === error.PERMISSION_DENIED) {
+                        console.log("Location Access Rejected")
+                    }
+                });
+        }
+
     }, [])
 
 
 
-  useEffect(() => {
-    async function getAmenities() {
-      const apiService = new ApiService();
+    useEffect(() => {
+        async function getAmenities() {
+            const apiService = new ApiService();
 
-      const waterData = await apiService.getWater(mapCenter);
-      setWaterAmenities(waterData);
+            const waterData = await apiService.getWater(mapCenter);
+            setWaterAmenities(waterData);
 
-      const wifiData = await apiService.getWifi(mapCenter);
-      setWifiAmenities(wifiData);
+            const wifiData = await apiService.getWifi(mapCenter);
+            setWifiAmenities(wifiData);
 
-      const benchData = await apiService.getBench(mapCenter);
-      setBenchAmenities(benchData);
+            const benchData = await apiService.getBench(mapCenter);
+            setBenchAmenities(benchData);
 
-      const parkingData = await apiService.getParking(mapCenter);
-      setParkingAmenities(parkingData);
+            const parkingData = await apiService.getParking(mapCenter);
+            setParkingAmenities(parkingData);
 
-      const toiletData = await apiService.getToilet(mapCenter);
-      setToiletAmenities(toiletData);
-
-
-    }
-
-    getAmenities()
-
-  }, [mapCenter])
+            const toiletData = await apiService.getToilet(mapCenter);
+            setToiletAmenities(toiletData);
 
 
-  return (
-    <div className="app">
+        }
 
-      {/* <Filters
-        waterOn={waterOn}
-        wifiOn={wifiOn}
-        benchOn={benchOn}
-        parkingOn={parkingOn}
-        toiletOn={toiletOn}
-        setWaterOn={setWaterOn}
-        setWifiOn={setWifiOn}
-        setBenchOn={setBenchOn}
-        setParkingOn={setParkingOn}
-        setToiletOn={setToiletOn}
+        getAmenities()
 
-      /> */}
-      <GoogleMapContainer
+    }, [mapCenter])
 
-        waterAmenities={waterAmenities}
-        wifiAmenities={wifiAmenities}
-        benchAmenities={benchAmenities}
-        toiletAmenities={toiletAmenities}
-        parkingAmenities={parkingAmenities}
-        mapCenter={mapCenter}
-        setMapCenter={setMapCenter}
-        waterOn={waterOn}
-        wifiOn={wifiOn}
-        benchOn={benchOn}
-        parkingOn={parkingOn}
-        toiletOn={toiletOn}
-        setWaterOn={setWaterOn}
-        setWifiOn={setWifiOn}
-        setBenchOn={setBenchOn}
-        setParkingOn={setParkingOn}
-        setToiletOn={setToiletOn}
 
-      />
-    </div>
-  );
+    return (
+        <div className="app">
+
+            <GoogleMapContainer
+
+                waterAmenities={waterAmenities}
+                wifiAmenities={wifiAmenities}
+                benchAmenities={benchAmenities}
+                toiletAmenities={toiletAmenities}
+                parkingAmenities={parkingAmenities}
+                mapCenter={mapCenter}
+                setMapCenter={setMapCenter}
+                userLocation={userLocation}
+                setUserLocation={setUserLocation}
+                searchLocation={searchLocation}
+                setSearchLocation={setSearchLocation}
+                waterOn={waterOn}
+                wifiOn={wifiOn}
+                benchOn={benchOn}
+                parkingOn={parkingOn}
+                toiletOn={toiletOn}
+                setWaterOn={setWaterOn}
+                setWifiOn={setWifiOn}
+                setBenchOn={setBenchOn}
+                setParkingOn={setParkingOn}
+                setToiletOn={setToiletOn}
+
+            />
+        </div>
+    );
 }
 
 export default MainSearch;

@@ -64,6 +64,11 @@ urlpatterns = [
         name="viewusers"
     ),
     path(
+        "api/addUser_SendEmail/",
+        userviews.Record_SendEmail.as_view(),
+        name="register_SendEmail",
+    ),
+    path(
         "api/login/",
         userviews.Login.as_view(),
         name="login",
@@ -94,8 +99,23 @@ urlpatterns = [
         name="createrating",
     ),
     path(
-        "api/average_rating/<str:pk1>/<int:pk2>/",
-        ratingviews.average_Rating.as_view(),
-        name="averagerating",
+        "api/verification/<str:pk1>/<int:pk2>/",
+        userviews.Email_Verification.as_view(),
+        name="emailverification",
+    ),
+    path(
+        "api/reset_password/<str:pk1>/<int:pk2>/",
+        userviews.Reset_Password.as_view(),
+        name="reset_password",
+    ),
+    path(
+        "api/reset_password_SendEmail/",
+        userviews.Reset_Password_SendEmail.as_view(),
+        name="reset_password_SendEmail",
+    ),
+    path(
+        "api/reset_password_verification/<str:pk1>/<int:pk2>/<str:pk3>",
+        userviews.Reset_Password_Verification.as_view(),
+        name="reset_password_verification",
     ),
 ]

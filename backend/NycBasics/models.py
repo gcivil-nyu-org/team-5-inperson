@@ -7,6 +7,13 @@ class User(models.Model):
     password = models.CharField(max_length=50)
     ifLogged = models.BooleanField(default=False)
     token = models.CharField(max_length=500, null=True, default="")
+    token_timestamp = models.DateTimeField(auto_now=True)
+    is_email_verified = models.BooleanField(null=True, default=False)
+    # when object is first created->auto_now_add
+    system_timestamp = models.DateTimeField(auto_now_add=True)
+    system_otp = models.IntegerField(null=True)
+    password_otp_timestamp = models.DateTimeField(auto_now=True)
+    password_otp = models.IntegerField(null=True)
 
 
 class water_model(models.Model):
