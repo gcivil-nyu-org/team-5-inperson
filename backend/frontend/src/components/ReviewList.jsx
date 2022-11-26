@@ -36,11 +36,9 @@ export const ReviewList = (props) => {
     }
 
     const deleteReview = async (deletedReview) => {
-        console.log(deletedReview)
         try {
             
-            const deleteReviewResponse = await apiService.deleteReview(deletedReview);
-            if (deleteReviewResponse){console.log("deleteReviewResponse", deleteReviewResponse)}
+            await apiService.deleteReview(deletedReview);
             const reviewData = await apiService.getReview(selectedAmenity, deletedReview.amenity_id);
             setReviews(reviewData);
         }
