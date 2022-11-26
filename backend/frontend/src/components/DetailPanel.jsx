@@ -12,7 +12,7 @@ export const DetailPanel = (props) => {
 
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [reviews, setReviews] = useState([]);
-    const [newReviewCheck, setNewReviewCheck] = useState(true);
+    const [selectedReview, setSelectedReview] = useState({});
 
     const getReviews = async () => {
         if (selectedAmenity && selectedAmenityId) {
@@ -20,16 +20,12 @@ export const DetailPanel = (props) => {
             const reviewData = await apiService.getReview(selectedAmenity, selectedAmenityId);
             setReviews(reviewData);
         }
-
     }
 
 
     useEffect(() => {
-
-
-        getReviews()
-
-    }, [selectedAmenity, selectedAmenityId])
+        getReviews();
+    }, [selectedAmenity, selectedAmenityId]);
 
     return (
         <>
@@ -65,7 +61,7 @@ export const DetailPanel = (props) => {
                     <br></br>
 
                     {authenticatedUser?.token?.length > 0
-                        ? <Button variant="primary" onClick={() => { setShowReviewModal(true) ;setNewReviewCheck(true);}}>Add Review</Button>
+                        ? <Button variant="primary" onClick={() => { setShowReviewModal(true) }}>Add Review</Button>
                         : null}
 
 
@@ -74,12 +70,10 @@ export const DetailPanel = (props) => {
                         selectedAmenity={selectedAmenity}
                         authenticatedUser={authenticatedUser}
                         getReviews={getReviews}
-                        selectedAmenityId={selectedAmenityId}
-                        setShowReviewModal={setShowReviewModal}
-                        showReviewModal={showReviewModal}
-                        newReviewCheck={newReviewCheck}
-                        setNewReviewCheck={setNewReviewCheck}
-
+                        onEditReview={(review) => {
+                            setSelectedReview(review);
+                            setShowReviewModal(true);
+                        }}
                     />
 
                 </Offcanvas.Body>
@@ -89,10 +83,17 @@ export const DetailPanel = (props) => {
                 selectedAmenity={selectedAmenity}
                 selectedAmenityId={selectedAmenityId}
                 authenticatedUser={authenticatedUser}
-                setShowReviewModal={setShowReviewModal}
+                onModalClose={() => {
+                    // Resetting selected review when modal is closed
+                    setSelectedReview({});
+                    setShowReviewModal(false);
+                }}
+                onReviewSubmit={async () => {
+                    // To-be called after the modal is submitted
+                    await getReviews();
+                }}
                 showReviewModal={showReviewModal}
-                getReviews={getReviews}
-                newReviewCheck={newReviewCheck}
+                selectedReview={selectedReview}
             />
         </>
     )
