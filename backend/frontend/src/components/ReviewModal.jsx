@@ -10,7 +10,7 @@ var Filter = require('bad-words'),
 
 export const ReviewModal = (props) => {
 
-    const { selectedAmenity, selectedAmenityId, authenticatedUser, setShowReviewModal, showReviewModal, getReviews, newReviewCheck, reviewId, likes, dislikes } = props;
+    const { selectedAmenity, selectedAmenityId, authenticatedUser, setShowReviewModal, showReviewModal, getReviews, newReviewCheck, reviewId, likes, dislikes, review } = props;
 
     const [inputs, setInputs] = useState({rating:"", review:""});
     const toast = useToast()
@@ -20,7 +20,7 @@ export const ReviewModal = (props) => {
         const value = event.target.value;
         setInputs(values => ({ ...values, [name]: value }))
     }
-
+    
     const submitReview = async (event) => {
         event.preventDefault();
         if (newReviewCheck)
@@ -122,7 +122,7 @@ export const ReviewModal = (props) => {
         else
         {
             const updatedReview = {
-            id:reviewId,
+            /*
             amenity_type: selectedAmenity,
             amenity_id: selectedAmenityId,
             rating: inputs.rating,
@@ -131,6 +131,10 @@ export const ReviewModal = (props) => {
             is_deleted: false,
             upvotes: likes,
             downvotes: dislikes,
+            user: authenticatedUser.id*/
+            ...review,
+            rating: inputs.rating,
+            review: filter.clean(inputs.review),
             user: authenticatedUser.id
             }
 

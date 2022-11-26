@@ -14,6 +14,15 @@ export const ReviewList = (props) => {
     const [reviewId, setReviewId]= useState(0)
     const [likes, setLikes]= useState(0)
     const [dislikes, setDislikes]= useState(0)
+    const [review, setReview]= useState("rev",{amenity_type: selectedAmenity,
+        amenity_id: selectedAmenityId,
+        rating: "",
+        review: "",
+        is_flagged: false,
+        is_deleted: false,
+        upvotes: 0,
+        downvotes: 0,
+        user: authenticatedUser.id})
     const sortedValidReviews = reviews.filter((review) => !review.is_deleted).sort((a, b) => {
         if (a.id < b.id) {
             return 1
@@ -142,6 +151,20 @@ export const ReviewList = (props) => {
                                                         setReviewId(review.id);
                                                         setLikes(review.likes);
                                                         setDislikes(review.dislikes);
+                                                        setReview(function(rev){
+                                                            rev.id=review.id,
+                                                            rev.amenity_type= review.selectedAmenity,
+                                                            rev.amenity_id= review.selectedAmenityId,
+                                                            rev.rating= review.rating,
+                                                            review= review.review,
+                                                            rev.is_flagged= review.is_flagged,
+                                                            rev.is_deleted= review.is_deleted,
+                                                            rev.upvotes= review.upvotes,
+                                                            rev.downvotes= review.downvotes,
+                                                            rev.user= authenticatedUser.id
+
+
+                                                        })
                                                     }}
                                                 />
 
@@ -201,6 +224,7 @@ export const ReviewList = (props) => {
                     reviewId={reviewId}
                     likes={likes}
                     dislikes={dislikes}
+                    review={review}
                 />
         </>
     )
