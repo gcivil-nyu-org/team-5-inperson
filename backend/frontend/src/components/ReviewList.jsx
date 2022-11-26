@@ -3,14 +3,17 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { ApiService } from '../api-service';
 import { IconButton, Stack, Flex, Spacer } from '@chakra-ui/react';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete , AiOutlineEdit} from 'react-icons/ai';
-
+import { ReviewModal } from './ReviewModal';
 
 
 const apiService = new ApiService();
 
 export const ReviewList = (props) => {
 
-    const { reviews, selectedAmenity, getReviews, authenticatedUser } = props;
+    const { reviews, selectedAmenity, getReviews, authenticatedUser, selectedAmenityId, setShowReviewModal, showReviewModal, newReviewCheck, setNewReviewCheck } = props;
+    const [reviewId, setReviewId]= useState(0)
+    const [likes, setLikes]= useState(0)
+    const [dislikes, setDislikes]= useState(0)
     const sortedValidReviews = reviews.filter((review) => !review.is_deleted).sort((a, b) => {
         if (a.id < b.id) {
             return 1
@@ -36,11 +39,10 @@ export const ReviewList = (props) => {
     }
 
     const deleteReview = async (deletedReview) => {
+        
         try {
-            
             await apiService.deleteReview(deletedReview);
-            const reviewData = await apiService.getReview(selectedAmenity, deletedReview.amenity_id);
-            setReviews(reviewData);
+            await getReviews();
         }
         catch (error) {
             console.log(error)
@@ -62,7 +64,7 @@ export const ReviewList = (props) => {
 
                     <div className='Review'>
                         {sortedValidReviews.map((review) => (
-
+                            
                             <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
 
 
@@ -119,35 +121,27 @@ export const ReviewList = (props) => {
                                                             downvotes: review.downvotes + 1,
                                                             user: review.user,
                                                             amenity_type: selectedAmenity
+                                                            
                                                         };
                                                         await updateReview(updatedReview)
-
+                                                        
                                                     }}
                                                 />
-
+                                                {authenticatedUser?.id === review.user
+                                                ?
+                                                <>
                                                 <IconButton
                                                     colorScheme='blue'
                                                     size='sm'
                                                     variant="outline"
                                                     aria-label='Search database'
                                                     icon={<AiOutlineEdit color='red' />} 
-                                                    onClick={async () => {
-                                                        
-                                                        const updatedReview = {
-                                                            ...review,
-                                                            user: review.user,
-                                                            amenity_type: selectedAmenity
-
-                                                        };
-                                                        if (updatedReview.is_flagged === true) {
-                                                            updatedReview.is_flagged = false
-                                                        }
-                                                        else {
-                                                            updatedReview.is_flagged = true
-                                                        }
-                                                        await updateReview(updatedReview)
-                                                        
-                                                        
+                                                    onClick={async () =>  { 
+                                                        setShowReviewModal(true);
+                                                        setNewReviewCheck(false);
+                                                        setReviewId(review.id);
+                                                        setLikes(review.likes);
+                                                        setDislikes(review.dislikes);
                                                     }}
                                                 />
 
@@ -168,7 +162,8 @@ export const ReviewList = (props) => {
                                                     }}
                                                     
                                                 />
-
+                                                </>
+                                                :null}
                                             </Stack>
                                         </Flex>
                                         : null}
@@ -195,6 +190,18 @@ export const ReviewList = (props) => {
                 : <div className='AverageRating'>
                     No Reviews Yet
                 </div>}
+                <ReviewModal
+                    selectedAmenity={selectedAmenity}
+                    selectedAmenityId={selectedAmenityId}
+                    authenticatedUser={authenticatedUser}
+                    setShowReviewModal={setShowReviewModal}
+                    showReviewModal={showReviewModal}
+                    getReviews={getReviews}
+                    newReviewCheck={newReviewCheck}
+                    reviewId={reviewId}
+                    likes={likes}
+                    dislikes={dislikes}
+                />
         </>
     )
 

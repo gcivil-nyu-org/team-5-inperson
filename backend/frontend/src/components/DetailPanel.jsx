@@ -12,6 +12,7 @@ export const DetailPanel = (props) => {
 
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [reviews, setReviews] = useState([]);
+    const [newReviewCheck, setNewReviewCheck] = useState(true);
 
     const getReviews = async () => {
         if (selectedAmenity && selectedAmenityId) {
@@ -64,7 +65,7 @@ export const DetailPanel = (props) => {
                     <br></br>
 
                     {authenticatedUser?.token?.length > 0
-                        ? <Button variant="primary" onClick={() => { setShowReviewModal(true) }}>Add Review</Button>
+                        ? <Button variant="primary" onClick={() => { setShowReviewModal(true) ;setNewReviewCheck(true);}}>Add Review</Button>
                         : null}
 
 
@@ -73,6 +74,11 @@ export const DetailPanel = (props) => {
                         selectedAmenity={selectedAmenity}
                         authenticatedUser={authenticatedUser}
                         getReviews={getReviews}
+                        selectedAmenityId={selectedAmenityId}
+                        setShowReviewModal={setShowReviewModal}
+                        showReviewModal={showReviewModal}
+                        newReviewCheck={newReviewCheck}
+                        setNewReviewCheck={setNewReviewCheck}
 
                     />
 
@@ -86,6 +92,7 @@ export const DetailPanel = (props) => {
                 setShowReviewModal={setShowReviewModal}
                 showReviewModal={showReviewModal}
                 getReviews={getReviews}
+                newReviewCheck={newReviewCheck}
             />
         </>
     )

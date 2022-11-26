@@ -10,7 +10,7 @@ var Filter = require('bad-words'),
 
 export const ReviewModal = (props) => {
 
-    const { selectedAmenity, selectedAmenityId, authenticatedUser, setShowReviewModal, showReviewModal, getReviews } = props;
+    const { selectedAmenity, selectedAmenityId, authenticatedUser, setShowReviewModal, showReviewModal, getReviews, newReviewCheck, reviewId, likes, dislikes } = props;
 
     const [inputs, setInputs] = useState({rating:"", review:""});
     const toast = useToast()
@@ -23,74 +23,119 @@ export const ReviewModal = (props) => {
 
     const submitReview = async (event) => {
         event.preventDefault();
+        if (newReviewCheck)
+        {
+            if (inputs.rating > 5) {
+                toast({
+                    title: 'Please insert a Rating from 1-5',
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                    position: 'bottom-right',
+                    variant: 'left-accent'
+                })
 
-        if (inputs.rating > 5) {
-            toast({
-                title: 'Please insert a Rating from 1-5',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
+            } else if (inputs.rating < 1) {
+                toast({
+                    title: 'Please insert a Rating from 1-5',
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                    position: 'bottom-right',
+                    variant: 'left-accent'
+                })
 
-        } else if (inputs.rating < 1) {
-            toast({
-                title: 'Please insert a Rating from 1-5',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
+            } else if (inputs.rating === undefined || inputs.rating === "") {
+                toast({
+                    title: 'Please insert a Rating',
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                    position: 'bottom-right',
+                    variant: 'left-accent'
+                })
 
-        } else if (inputs.rating === undefined || inputs.rating === "") {
-            toast({
-                title: 'Please insert a Rating',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
+            } else if (inputs.review === undefined || inputs.review === "") {
+                toast({
+                    title: 'Please insert a Review',
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                    position: 'bottom-right',
+                    variant: 'left-accent'
+                })
 
-        } else if (inputs.review === undefined || inputs.review === "") {
-            toast({
-                title: 'Please insert a Review',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
+            } else if (inputs.review.length > 250) {
+                toast({
+                    title: 'Review Length Exceeded',
+                    description: "Please enter a shorter review",
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                    position: 'bottom-right',
+                    variant: 'left-accent'
+                })
 
-        } else if (inputs.review.length > 250) {
-            toast({
-                title: 'Review Length Exceeded',
-                description: "Please enter a shorter review",
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
+            } else {
 
-        } else {
+                const newReview = {
+                    amenity_type: selectedAmenity,
+                    amenity_id: selectedAmenityId,
+                    rating: inputs.rating,
+                    review: filter.clean(inputs.review),
+                    is_flagged: false,
+                    is_deleted: false,
+                    upvotes: 0,
+                    downvotes: 0,
+                    user: authenticatedUser.id
+                }
 
-            const newReview = {
-                amenity_type: selectedAmenity,
-                amenity_id: selectedAmenityId,
-                rating: inputs.rating,
-                review: filter.clean(inputs.review),
-                is_flagged: false,
-                is_deleted: false,
-                upvotes: 0,
-                downvotes: 0,
-                user: authenticatedUser.id
+                try {
+                    const addReviewResponse = await apiService.addReview(newReview);
+                    await getReviews()
+
+                    toast({
+                        title: 'Review Successfully Submitted',
+                        status: 'success',
+                        duration: 4000,
+                        isClosable: true,
+                        position: 'bottom-right',
+                        variant: 'left-accent'
+                    })
+                    
+                }
+                catch {
+                    toast({
+                        title: 'Add Review Failed. Please try again.',
+                        status: 'error',
+                        duration: 4000,
+                        isClosable: true,
+                        position: 'bottom-right',
+                        variant: 'left-accent'
+                    })
+                }
+
+                closeReviewModal()
+                
+            }
+        }
+        else
+        {
+            const updatedReview = {
+            id:reviewId,
+            amenity_type: selectedAmenity,
+            amenity_id: selectedAmenityId,
+            rating: inputs.rating,
+            review: filter.clean(inputs.review),
+            is_flagged: false,
+            is_deleted: false,
+            upvotes: likes,
+            downvotes: dislikes,
+            user: authenticatedUser.id
             }
 
             try {
-                const addReviewResponse = await apiService.addReview(newReview);
+                await apiService.updateReview(updatedReview);
                 await getReviews()
 
                 toast({
@@ -105,7 +150,7 @@ export const ReviewModal = (props) => {
             }
             catch {
                 toast({
-                    title: 'Add Review Failed. Please try again.',
+                    title: 'Edit Review Failed. Please try again.',
                     status: 'error',
                     duration: 4000,
                     isClosable: true,
@@ -115,7 +160,8 @@ export const ReviewModal = (props) => {
             }
 
             closeReviewModal()
-            
+                
+               
         }
     }
 
