@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { ApiService } from '../api-service';
-import { IconButton, Stack, Flex, Spacer } from '@chakra-ui/react';
+import { IconButton, Stack, Flex, Spacer, useToast } from '@chakra-ui/react';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
-import { ReviewModal } from './ReviewModal';
-
 
 const apiService = new ApiService();
 
 export const ReviewList = (props) => {
     const { reviews, selectedAmenity, getReviews, onEditReview, authenticatedUser } = props;
+    const toast = useToast();
     const sortedValidReviews = reviews.filter((review) => !review.is_deleted).sort((a, b) => {
         if (a.id < b.id) {
             return 1
@@ -35,13 +34,31 @@ export const ReviewList = (props) => {
     }
 
     const deleteReview = async (deletedReview) => {
-
         try {
-            await apiService.deleteReview(deletedReview);
-            await getReviews();
+            const confirmation = window.confirm('Are yoy sure you want to delete this review?');
+            if (confirmation) {
+                await apiService.deleteReview(deletedReview);
+                await getReviews();
+                toast({
+                    title: 'Review Deleted Successfully',
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true,
+                    position: 'bottom-right',
+                    variant: 'left-accent'
+                });
+            }
         }
         catch (error) {
-            console.log(error)
+            console.log(error);
+            toast({
+                title: 'Review Delete Failed',
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+                position: 'bottom-right',
+                variant: 'left-accent'
+            });
         }
     }
 
@@ -72,11 +89,11 @@ export const ReviewList = (props) => {
                                     {authenticatedUser?.token?.length > 0
                                         ? <Flex>
                                             <div>
-                                                <div className="fw-bold">
+                                                <div>
                                                     User ID: {review.user}
 
                                                 </div>
-                                                <div className="fw-bold">
+                                                <div>
                                                     Rating: {review.rating}
 
                                                 </div>
@@ -86,7 +103,6 @@ export const ReviewList = (props) => {
                                             <Spacer />
 
                                             <Stack spacing='2px' direction="row">
-
                                                 <IconButton
                                                     colorScheme='blue'
                                                     size='sm'
@@ -104,7 +120,6 @@ export const ReviewList = (props) => {
 
                                                     }}
                                                 />
-
                                                 <IconButton
                                                     colorScheme='blue'
                                                     size='sm'
@@ -131,7 +146,7 @@ export const ReviewList = (props) => {
                                                             size='sm'
                                                             variant="outline"
                                                             aria-label='Search database'
-                                                            icon={<AiOutlineEdit color='red' />}
+                                                            icon={<AiOutlineEdit color='grey' />}
                                                             onClick={() => onEditReview(review)}
                                                         />
 
@@ -140,7 +155,7 @@ export const ReviewList = (props) => {
                                                             size='sm'
                                                             variant="outline"
                                                             aria-label='Search database'
-                                                            icon={<AiOutlineDelete color='black' />}
+                                                            icon={<AiOutlineDelete color='red' />}
                                                             onClick={async () => {
                                                                 const deletedReview = {
                                                                     ...review,
@@ -158,11 +173,11 @@ export const ReviewList = (props) => {
                                         </Flex>
                                         : null}
 
-                                    {review.review}
+                                    <div className='fw-bold'>{review.review}</div>
 
                                     <br></br>
                                     <div style={{ color: 'grey' }}>
-                                        Likes: {review.upvotes} | Dislikes: {review.downvotes} | Flagged: {String(review.is_flagged)}
+                                        Likes: {review.upvotes} | Dislikes: {review.downvotes}
 
                                     </div>
 

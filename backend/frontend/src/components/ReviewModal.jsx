@@ -14,6 +14,8 @@ export const ReviewModal = (props) => {
     const [inputs, setInputs] = useState({ rating: "", review: "" });
     const toast = useToast();
 
+    const isNewReview = !Boolean(selectedReview?.rating);
+
     useEffect(() => {
         setInputs({
             rating: selectedReview.rating,
@@ -51,7 +53,7 @@ export const ReviewModal = (props) => {
                 variant: 'left-accent'
             })
         } else {
-            if (!selectedReview) {
+            if (isNewReview) {
                 const newReview = {
                     amenity_type: selectedAmenity,
                     amenity_id: selectedAmenityId,
@@ -120,7 +122,7 @@ export const ReviewModal = (props) => {
     return (
         <Modal show={showReviewModal} onHide={clearAndCloseModal}>
             <Modal.Header closeButton>
-                <Modal.Title>{!selectedReview ? 'New' : 'Edit'} Review</Modal.Title>
+                <Modal.Title>{isNewReview ? 'New' : 'Edit'} Review</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={submitReview}>
