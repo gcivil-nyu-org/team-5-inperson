@@ -179,4 +179,13 @@ export class ApiService {
         return data
 
     }
+
+    async deleteReview(deletedReview) {
+        const res = await fetch (`${this.baseUrl}/review/${deletedReview.id}/` , {
+            method: 'DELETE',
+            body: JSON.stringify(this.state)   //no JSON data returned. Don't need headers.
+        })
+        const data = await res;
+        return data
+    }
 }

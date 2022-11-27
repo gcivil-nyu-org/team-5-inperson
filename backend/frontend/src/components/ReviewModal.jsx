@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap';
 import { ApiService } from '../api-service';
 import { useToast } from '@chakra-ui/react'
@@ -9,62 +9,40 @@ var Filter = require('bad-words'),
     filter = new Filter();
 
 export const ReviewModal = (props) => {
-
-    const { selectedAmenity, selectedAmenityId, authenticatedUser, setShowReviewModal, showReviewModal, getReviews } = props;
-
-    const [inputs, setInputs] = useState({rating:"", review:""});
-    const toast = useToast()
+    const { selectedAmenity, selectedAmenityId, authenticatedUser, selectedReview, showReviewModal, onModalClose, onReviewSubmit } = props;
     
+    const [inputs, setInputs] = useState({ rating: "", review: "" });
+    const toast = useToast();
+
+    const isNewReview = !Boolean(selectedReview?.rating);
+
+    useEffect(() => {
+        setInputs({
+            rating: selectedReview.rating,
+            review: selectedReview.review,
+        });
+    }, [selectedReview]);
+
     const handleInputChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setInputs(values => ({ ...values, [name]: value }))
-    }
+    };
+
+    const clearForm = () => {
+        inputs.review = "";
+        inputs.rating = "";
+    };
+
+    const clearAndCloseModal = () => {
+        clearForm();
+        onModalClose();
+    };
 
     const submitReview = async (event) => {
         event.preventDefault();
-
-        if (inputs.rating > 5) {
-            toast({
-                title: 'Please insert a Rating from 1-5',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
-
-        } else if (inputs.rating < 1) {
-            toast({
-                title: 'Please insert a Rating from 1-5',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
-
-        } else if (inputs.rating === undefined || inputs.rating === "") {
-            toast({
-                title: 'Please insert a Rating',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
-
-        } else if (inputs.review === undefined || inputs.review === "") {
-            toast({
-                title: 'Please insert a Review',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
-            })
-
-        } else if (inputs.review.length > 250) {
+        // Error validation
+        if (inputs.review.length > 250) {
             toast({
                 title: 'Review Length Exceeded',
                 description: "Please enter a shorter review",
@@ -74,66 +52,77 @@ export const ReviewModal = (props) => {
                 position: 'bottom-right',
                 variant: 'left-accent'
             })
-
         } else {
+            if (isNewReview) {
+                const newReview = {
+                    amenity_type: selectedAmenity,
+                    amenity_id: selectedAmenityId,
+                    rating: inputs.rating,
+                    review: filter.clean(inputs.review),
+                    is_flagged: false,
+                    is_deleted: false,
+                    upvotes: 0,
+                    downvotes: 0,
+                    user: authenticatedUser.id
+                }
 
-            const newReview = {
-                amenity_type: selectedAmenity,
-                amenity_id: selectedAmenityId,
-                rating: inputs.rating,
-                review: filter.clean(inputs.review),
-                is_flagged: false,
-                is_deleted: false,
-                upvotes: 0,
-                downvotes: 0,
-                user: authenticatedUser.id
+                try {
+                    await apiService.addReview(newReview);
+                    toast({
+                        title: 'Review Successfully Added',
+                        status: 'success',
+                        duration: 4000,
+                        isClosable: true,
+                        position: 'bottom-right',
+                        variant: 'left-accent'
+                    })
+                } catch {
+                    toast({
+                        title: 'Add Review Failed. Please try again.',
+                        status: 'error',
+                        duration: 4000,
+                        isClosable: true,
+                        position: 'bottom-right',
+                        variant: 'left-accent'
+                    })
+                }
+            } else {
+                const updatedReview = {
+                    ...selectedReview,
+                    rating: inputs.rating,
+                    review: filter.clean(inputs.review)
+                };
+                try {
+                    await apiService.updateReview(updatedReview);
+                    toast({
+                        title: 'Review Successfully Edited',
+                        status: 'success',
+                        duration: 4000,
+                        isClosable: true,
+                        position: 'bottom-right',
+                        variant: 'left-accent'
+                    })
+                } catch {
+                    toast({
+                        title: 'Edit Review Failed. Please try again.',
+                        status: 'error',
+                        duration: 4000,
+                        isClosable: true,
+                        position: 'bottom-right',
+                        variant: 'left-accent'
+                    })
+                }
             }
-
-            try {
-                const addReviewResponse = await apiService.addReview(newReview);
-                await getReviews()
-
-                toast({
-                    title: 'Review Successfully Submitted',
-                    status: 'success',
-                    duration: 4000,
-                    isClosable: true,
-                    position: 'bottom-right',
-                    variant: 'left-accent'
-                })
-                
-            }
-            catch {
-                toast({
-                    title: 'Add Review Failed. Please try again.',
-                    status: 'error',
-                    duration: 4000,
-                    isClosable: true,
-                    position: 'bottom-right',
-                    variant: 'left-accent'
-                })
-            }
-
-            closeReviewModal()
-            
+            await onReviewSubmit();
+            clearAndCloseModal();
         }
-    }
-
-    const clearForm = () => {
-        inputs.review = ""
-        inputs.rating = ""
-    }
-
-    const closeReviewModal = () => {
-        setShowReviewModal(false)
-        clearForm()
     }
 
 
     return (
-        <Modal show={showReviewModal} onHide={() => closeReviewModal()}>
+        <Modal show={showReviewModal} onHide={clearAndCloseModal}>
             <Modal.Header closeButton>
-                <Modal.Title>New Review</Modal.Title>
+                <Modal.Title>{isNewReview ? 'New' : 'Edit'} Review</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={submitReview}>
@@ -151,20 +140,13 @@ export const ReviewModal = (props) => {
                     </label>
 
                     <label>Review:
-                        {/* <input
+                        <textarea
                             type="text"
                             name="review"
                             value={inputs.review || ""}
                             required="required"
                             onChange={handleInputChange}
-                        /> */}
-                        <textarea 
-                            type="text"
-                            name="review"
-                            value={inputs.review || ""}
-                            required="required"
-                            onChange={handleInputChange} 
-                            cols="40" 
+                            cols="40"
                             rows="5" />
                     </label>
 
