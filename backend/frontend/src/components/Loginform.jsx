@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { ApiService } from '../api-service';
 import { useNavigate, Link } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react'
-import { Badge, Text } from '@chakra-ui/react'
+import { Badge } from '@chakra-ui/react'
 
 function Loginform() {
 
@@ -29,11 +29,7 @@ function Loginform() {
             window.dispatchEvent(new Event("storage"));
             toast({
                 title: 'Login Successful',
-                status: 'success',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
+                status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
             })
 
             navigate("/home");

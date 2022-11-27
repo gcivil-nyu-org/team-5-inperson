@@ -41,11 +41,7 @@ export const ReviewList = (props) => {
                 await getReviews();
                 toast({
                     title: 'Review Deleted Successfully',
-                    status: 'success',
-                    duration: 4000,
-                    isClosable: true,
-                    position: 'bottom-right',
-                    variant: 'left-accent'
+                    status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                 });
             }
         }
@@ -53,11 +49,7 @@ export const ReviewList = (props) => {
             console.log(error);
             toast({
                 title: 'Review Delete Failed',
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
+                status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
             });
         }
     }

@@ -220,6 +220,8 @@ export class ApiService {
         const res = await fetch(`${this.baseUrl}/reset_password_verification/${userData.email}/${userData.code}/${userData.password}/`, this.requestConfig);
         const data = await res.json();
 
+        console.log("resetPasswordUpdate data", data)
+
         if (res.status >= 200 && res.status < 300) {
             return data;
         }

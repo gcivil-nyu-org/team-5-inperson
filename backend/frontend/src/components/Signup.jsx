@@ -16,7 +16,7 @@ function Signup() {
         if (data['username'].includes("@")) {
             setUsernameError("Username should not include '@'")
             return
-        } 
+        }
         else {
             setUsernameError("")
         }
@@ -63,11 +63,11 @@ function Signup() {
 
                     <label htmlFor="password">Password: </label>
                     <input type='password' {...register("password", { required: true })} placeholder='' />
-                    {(errors.password?.type === "required") ? (<div className="warning">Password is Required.</div>) : ""}
+                    {(errors.password?.type === "required") ? (<div className="warning">Password is Required</div>) : ""}
 
                     <label>Confirm Password: </label>
                     <input type='password' {...register("confirmpwd", { required: true })} placeholder='' />
-                    {(errors.confirmpwd?.type === "required") ? (<div className="warning">Please Confirm your Password.</div>) : ""}
+                    {(errors.confirmpwd?.type === "required") ? (<div className="warning">Please Confirm your Password</div>) : ""}
 
                     {watch("confirmpwd") !== watch("password") &&
                         getValues("confirmpwd") ? (

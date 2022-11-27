@@ -2,21 +2,15 @@ import '../styles/Form.css';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ApiService } from '../api-service';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom';
 
 function ResetPassword() {
 
     const { register, handleSubmit, formState: { errors } } = useForm()
-
+    const [emailError, setEmailError] = useState("");
     const navigate = useNavigate();
 
-
-    const [emailError, setEmailError] = useState("");
-    const toast = useToast()
-
     const apiService = new ApiService();
-
 
     const onSubmit = async (data) => {
 
@@ -30,15 +24,10 @@ function ResetPassword() {
             console.log("resetPasswordSendEmailResponse", resetPasswordSendEmailResponse)
 
             navigate("/reset-pass-2", { state: { email: data['email'] } });
-
-
-
         } catch (error) {
-            console.log("Reset Password error", error)
             console.error(error['email'])
             setEmailError(error['email'])
         }
-
     }
 
     return (

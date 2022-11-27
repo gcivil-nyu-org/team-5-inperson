@@ -33,11 +33,7 @@ function BasicsNavbar() {
         window.dispatchEvent(new Event("storage"));
         toast({
             title: 'Logout Successful',
-            status: 'success',
-            duration: 4000,
-            isClosable: true,
-            position: 'bottom-right',
-            variant: 'left-accent'
+            status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
         })
     }
 

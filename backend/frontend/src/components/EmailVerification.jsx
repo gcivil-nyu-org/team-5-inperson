@@ -22,7 +22,7 @@ function EmailVerification() {
         data['email'] = location.state.email
 
         if (data['code'].length !== 6) {
-            setCodeError("The code must be 6-digits.")
+            setCodeError("The code must be 6 digits")
         }
         else {
             setCodeError("")
@@ -33,11 +33,7 @@ function EmailVerification() {
                     toast({
                         title: 'Email Verified.',
                         description: "Verification Successful. Please login.",
-                        status: 'success',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
+                        status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
                     navigate("/login");
                 }
@@ -45,11 +41,7 @@ function EmailVerification() {
                     toast({
                         title: 'Email Not Verified.',
                         description: "Verification Unsuccessful. Please signup again.",
-                        status: 'error',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
+                        status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
                     navigate("/signup");
                 }
