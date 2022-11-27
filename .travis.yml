@@ -37,8 +37,8 @@ deploy:
    access_key_id: $NYCBASICKEY2
    secret_access_key: $NYCBASICSSECRETSKEY2
    region: 'us-west-2'
-   app: 'nycbasics-prod'
-   env: 'nycbasics-prod-env'
+   app: 'prod-nycbasics'
+   env: 'prod-nycbasics-env'
    bucket_name: 'travis-prod-bucket'
    on:
      branch: master
