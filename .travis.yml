@@ -42,3 +42,4 @@ deploy:
    bucket_name: 'travis-prod-bucket'
    on:
      branch: master
+   cleanup: True
