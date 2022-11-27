@@ -8,6 +8,7 @@ import MainSearch from './MainSearch';
 import Loginform from './Loginform';
 import Signup from './Signup';
 import EmailVerification from './EmailVerification';
+import ResetPassword from './ResetPassword';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
                         <Route path='/home' element={<MainSearch />}></Route>
                         <Route path='/signup' element={<Signup />}></Route>
                         <Route path='/verify' element={<EmailVerification />}></Route>
+                        <Route path='/reset-pass' element={<ResetPassword />}></Route>
                         <Route path="/" element={<Navigate to="/home" />} />
                     </Routes>
                 </BrowserRouter>
