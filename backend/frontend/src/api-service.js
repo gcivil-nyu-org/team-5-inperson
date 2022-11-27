@@ -216,6 +216,20 @@ export class ApiService {
         }
     }
 
+    async resetPasswordUpdate(userData) {
+        const res = await fetch(`${this.baseUrl}/reset_password_verification/${userData.email}/${userData.code}/${userData.password}/`, this.requestConfig);
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+
+
     async deleteReview(deletedReview) {
         const res = await fetch (`${this.baseUrl}/review/${deletedReview.id}/` , {
             method: 'DELETE',

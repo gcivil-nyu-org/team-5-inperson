@@ -8,7 +8,6 @@ import {
     IconButton, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
-import { ApiService } from '../api-service';
 import { Filters } from './Filters';
 
 import { DetailPanel } from './DetailPanel';
@@ -17,8 +16,6 @@ const containerStyle = {
     width: '100vw',
     height: '92vh'
 };
-
-const apiService = new ApiService();
 
 export const GoogleMapContainer = (props) => {
 
@@ -37,7 +34,7 @@ export const GoogleMapContainer = (props) => {
     }, [])
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
-        mapCenter, setMapCenter, userLocation, setUserLocation, searchLocation, setSearchLocation,
+        mapCenter, setMapCenter, userLocation, searchLocation, setSearchLocation,
         waterOn, wifiOn, benchOn, parkingOn, toiletOn,
         setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
 

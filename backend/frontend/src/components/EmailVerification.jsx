@@ -68,10 +68,12 @@ function EmailVerification() {
                 <form id='form' className='form-inner' onSubmit={handleSubmit(onSubmit)}>
                     <h2>Email Verification</h2>
 
-                    <label>Please enter the 6-digit verification
-                        code sent to your email.</label>
+                    <label>Please enter the 6-digit verification code sent to your email.</label>
+
+                    <label>Code:</label>
                     <input type='number' {...register("code", { required: true })} placeholder='' />
-                    {errors.code?.type === "required" && "Code is Required"}
+                    {/* {errors.code?.type === "required" && "Code is Required"} */}
+                    {(errors.code?.type === "required") ? (<div className="warning">Code is Required</div>) : ""}
                     {(codeError !== "") ? (<div className="warning">{codeError}</div>) : ""}
 
                     <br></br>

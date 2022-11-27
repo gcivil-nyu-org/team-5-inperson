@@ -55,6 +55,7 @@ export const DetailPanel = (props) => {
                     <a className="btn btn-primary"
                         href={`https://www.google.com/maps?saddr=${mapCenter.lat},${mapCenter.lng}&daddr=${destLat},${destLng}`}
                         target="_blank"
+                        rel="noreferrer"
                     >
                         GMaps Nav
                     </a>

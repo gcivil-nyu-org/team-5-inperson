@@ -10,53 +10,33 @@ function ResetPassword() {
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const [codeError, setCodeError] = useState("");
+
+    const [emailError, setEmailError] = useState("");
     const toast = useToast()
 
     const apiService = new ApiService();
 
 
     const onSubmit = async (data) => {
-        data['email'] = location.state.email
 
-        if (data['code'].length !== 6) {
-            setCodeError("The code must be 6-digits.")
-        }
-        else {
-            setCodeError("")
-            try {
-                const verifyResponse = await apiService.verifyEmail(data);
+        data['code'] = Math.floor(100000 + Math.random() * 900000)
 
-                if (verifyResponse[0]?.is_email_verified) {
-                    toast({
-                        title: 'Email Verified.',
-                        description: "Verification Successful. Please login.",
-                        status: 'success',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
-                    })
-                    navigate("/login");
-                }
-                else {
-                    toast({
-                        title: 'Email Not Verified.',
-                        description: "Verification Unsuccessful. Please signup again.",
-                        status: 'error',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
-                    })
-                    navigate("/signup");
-                }
+        try {
+            const resetPasswordResponse = await apiService.resetPassword(data);
+            console.log("resetPasswordResponse", resetPasswordResponse)
 
-            } catch (error) {
-                console.log("error", error)
-            }
+            const resetPasswordSendEmailResponse = await apiService.resetPasswordSendEmail(data);
+            console.log("resetPasswordSendEmailResponse", resetPasswordSendEmailResponse)
+
+            navigate("/reset-pass-2", { state: { email: data['email'] } });
+
+
+
+        } catch (error) {
+            console.log("Reset Password error", error)
+            console.error(error['email'])
+            setEmailError(error['email'])
         }
 
     }
@@ -70,10 +50,8 @@ function ResetPassword() {
 
                     <label htmlFor="email">Please enter your registered email. </label>
                     <input type='text' {...register("email", { required: true })} placeholder='' />
-                    {errors.email?.type === "required" && "Email is Required"}
-                    {/* {(codeError !== "") ? (<div className="warning">{codeError}</div>) : ""} */}
-
-                    
+                    {(errors.email?.type === "required") ? (<div className="warning">Email is Required</div>) : ""}
+                    {(emailError !== "") ? (<div className="warning">{emailError}</div>) : ""}
 
                     <br></br>
                     <input type="submit" value="Send Email" />

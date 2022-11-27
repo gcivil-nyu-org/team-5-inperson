@@ -24,8 +24,8 @@ function Signup() {
         const apiService = new ApiService();
 
         try {
-            const signupSendEmailResponse = await apiService.addUserSendEmail(data);
-            const signupResponse = await apiService.addUser(data);
+            await apiService.addUserSendEmail(data);
+            await apiService.addUser(data);
             navigate("/verify", { state: { email: data['email'] } });
         } catch (error) {
             console.log("error", error)
