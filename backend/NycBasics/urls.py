@@ -54,6 +54,7 @@ urlpatterns = [
         name="parkingdetail",
     ),
     path("api/addUser/", userviews.Record.as_view(), name="register"),
+    path("api/users/", userviews.Record.as_view(), name="viewusers"),
     path(
         "api/addUser_SendEmail/",
         userviews.Record_SendEmail.as_view(),
@@ -69,6 +70,11 @@ urlpatterns = [
         "api/rating_review/<str:pk1>/<int:pk2>/",
         ratingviews.rating_List.as_view(),
         name="ratingdetail",
+    ),
+    path(
+        "api/allreviews/",
+        ratingviews.all_ratings.as_view(),
+        name="allreviews",
     ),
     path(
         "api/review/<int:pk>/",

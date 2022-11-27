@@ -12,7 +12,7 @@ install:
 
 script:
   - python -m black . --check
-  - python -m flake8 . --ignore=W605,W292
+  - python -m flake8 .
   - python -m coverage run manage.py test --noinput
 
 after_script:
