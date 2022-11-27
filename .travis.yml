@@ -12,7 +12,7 @@ install:
 
 script:
   - python -m black . --check
-  - python -m flake8 . --ignore=W605,W292
+  - python -m flake8 .
   - python -m coverage run manage.py test --noinput
 
 after_script:
@@ -39,6 +39,6 @@ deploy:
    region: 'us-west-2'
    app: 'prod-nycbasics'
    env: 'prod-nycbasics-env'
-   bucket_name: 'travis-prod-bucket'
+   bucket_name: 'elasticbeanstalk-us-west-2-176854219775'
    on:
      branch: master
