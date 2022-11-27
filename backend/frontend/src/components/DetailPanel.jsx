@@ -12,6 +12,7 @@ export const DetailPanel = (props) => {
 
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [reviews, setReviews] = useState([]);
+    const [selectedReview, setSelectedReview] = useState({});
 
     const getReviews = async () => {
         if (selectedAmenity && selectedAmenityId) {
@@ -19,16 +20,12 @@ export const DetailPanel = (props) => {
             const reviewData = await apiService.getReview(selectedAmenity, selectedAmenityId);
             setReviews(reviewData);
         }
-
     }
 
 
     useEffect(() => {
-
-
-        getReviews()
-
-    }, [selectedAmenity, selectedAmenityId])
+        getReviews();
+    }, [selectedAmenity, selectedAmenityId]);
 
     return (
         <>
@@ -73,7 +70,10 @@ export const DetailPanel = (props) => {
                         selectedAmenity={selectedAmenity}
                         authenticatedUser={authenticatedUser}
                         getReviews={getReviews}
-
+                        onEditReview={(review) => {
+                            setSelectedReview(review);
+                            setShowReviewModal(true);
+                        }}
                     />
 
                 </Offcanvas.Body>
@@ -83,9 +83,17 @@ export const DetailPanel = (props) => {
                 selectedAmenity={selectedAmenity}
                 selectedAmenityId={selectedAmenityId}
                 authenticatedUser={authenticatedUser}
-                setShowReviewModal={setShowReviewModal}
+                onModalClose={() => {
+                    // Resetting selected review when modal is closed
+                    setSelectedReview({});
+                    setShowReviewModal(false);
+                }}
+                onReviewSubmit={async () => {
+                    // To-be called after the modal is submitted
+                    await getReviews();
+                }}
                 showReviewModal={showReviewModal}
-                getReviews={getReviews}
+                selectedReview={selectedReview}
             />
         </>
     )

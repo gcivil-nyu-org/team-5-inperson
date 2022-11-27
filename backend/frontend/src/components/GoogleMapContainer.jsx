@@ -114,6 +114,7 @@ export const GoogleMapContainer = (props) => {
 
     return (
 
+        
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
@@ -173,7 +174,7 @@ export const GoogleMapContainer = (props) => {
                     {/* user location marker */}
                     <div style={{ borderRadius: "50%", border: '2px solid teal' }}>
                         <Marker
-                            icon='https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Location_dot_blue.svg/20px-Location_dot_blue.svg.png'
+                            icon='https://i.ibb.co/z5GmCCg/bluedot-28x28.png'
                             position={userLocation}
                         >
                         </Marker>
