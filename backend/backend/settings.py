@@ -51,7 +51,7 @@ ALLOWED_HOSTS = [
     "www.nycbasics5prod.ml",
     "nycbasics5.gq",
     "nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
-    "prod-nycbasics-env.eba-3eua6rjz.us-west-2.elasticbeanstalk.com"
+    "prod-nycbasics-env.eba-3eua6rjz.us-west-2.elasticbeanstalk.com",
 ]
 
 # Application definition
@@ -217,6 +217,6 @@ CORS_ORIGIN_WHITELIST = [
     "https://nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com",
     "http://nycbasics-prod-env.eba-mpfgwn2u.us-west-2.elasticbeanstalk.com"
     "https://prod-nycbasics-env.eba-3eua6rjz.us-west-2.elasticbeanstalk.com",
-    "http://prod-nycbasics-env.eba-3eua6rjz.us-west-2.elasticbeanstalk.com"
+    "http://prod-nycbasics-env.eba-3eua6rjz.us-west-2.elasticbeanstalk.com",
 ]
 # may need to add aws eb cname here above
