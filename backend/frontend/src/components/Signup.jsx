@@ -51,21 +51,21 @@ function Signup() {
                 <form id='form' className='form-inner' onSubmit={handleSubmit(onSubmit)}>
                     <h2>Signup Form</h2>
 
-                    <label htmlFor="email">Username: </label>
+                    <label>Username: </label>
                     <input type='text' {...register("username", { required: true })} placeholder='' />
-                    {errors.username?.type === "required" && "Username is Required"}
+                    {(errors.username?.type === "required") ? (<div className="warning">Username is Required</div>) : ""}
                     {(usernameError !== "") ? (<div className="warning">{usernameError}</div>) : ""}
 
                     <label htmlFor="email">Email: </label>
                     <input type='text' {...register("email", { required: true })} placeholder='' />
-                    {errors.email?.type === "required" && "Email is Required"}
+                    {(errors.email?.type === "required") ? (<div className="warning">Email is Required</div>) : ""}
                     {(emailError !== "") ? (<div className="warning">{emailError}</div>) : ""}
 
                     <label htmlFor="password">Password: </label>
                     <input type='password' {...register("password", { required: true })} placeholder='' />
                     {(errors.password?.type === "required") ? (<div className="warning">Password is Required.</div>) : ""}
 
-                    <label htmlFor="confirmpassword">Confirm Password: </label>
+                    <label>Confirm Password: </label>
                     <input type='password' {...register("confirmpwd", { required: true })} placeholder='' />
                     {(errors.confirmpwd?.type === "required") ? (<div className="warning">Please Confirm your Password.</div>) : ""}
 

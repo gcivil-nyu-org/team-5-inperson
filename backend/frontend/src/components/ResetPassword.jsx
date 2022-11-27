@@ -68,14 +68,15 @@ function ResetPassword() {
                 <form id='form' className='form-inner' onSubmit={handleSubmit(onSubmit)}>
                     <h2>Reset Password</h2>
 
-                    <label>Please enter the 6-digit verification
-                        code sent to your email.</label>
-                    <input type='number' {...register("code", { required: true })} placeholder='' />
-                    {errors.code?.type === "required" && "Code is Required"}
-                    {(codeError !== "") ? (<div className="warning">{codeError}</div>) : ""}
+                    <label htmlFor="email">Please enter your registered email. </label>
+                    <input type='text' {...register("email", { required: true })} placeholder='' />
+                    {errors.email?.type === "required" && "Email is Required"}
+                    {/* {(codeError !== "") ? (<div className="warning">{codeError}</div>) : ""} */}
+
+                    
 
                     <br></br>
-                    <input type="submit" value="Verify" />
+                    <input type="submit" value="Send Email" />
                 </form>
             </div>
         </section>
