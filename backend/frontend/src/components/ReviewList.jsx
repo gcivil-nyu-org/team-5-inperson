@@ -1,28 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { ApiService } from '../api-service';
-import { IconButton, Stack, Flex, Spacer } from '@chakra-ui/react';
-import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete , AiOutlineEdit} from 'react-icons/ai';
-import { ReviewModal } from './ReviewModal';
-
+import { IconButton, Stack, Flex, Spacer, useToast } from '@chakra-ui/react';
+import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 
 const apiService = new ApiService();
 
 export const ReviewList = (props) => {
-
-    const { reviews, selectedAmenity, getReviews, authenticatedUser, selectedAmenityId, setShowReviewModal, showReviewModal, newReviewCheck, setNewReviewCheck } = props;
-    const [reviewId, setReviewId]= useState(0)
-    const [likes, setLikes]= useState(0)
-    const [dislikes, setDislikes]= useState(0)
-    const [review, setReview]= useState("rev",{amenity_type: selectedAmenity,
-        amenity_id: selectedAmenityId,
-        rating: "",
-        review: "",
-        is_flagged: false,
-        is_deleted: false,
-        upvotes: 0,
-        downvotes: 0,
-        user: authenticatedUser.id})
+    const { reviews, selectedAmenity, getReviews, onEditReview, authenticatedUser } = props;
+    const toast = useToast();
     const sortedValidReviews = reviews.filter((review) => !review.is_deleted).sort((a, b) => {
         if (a.id < b.id) {
             return 1
@@ -48,17 +34,35 @@ export const ReviewList = (props) => {
     }
 
     const deleteReview = async (deletedReview) => {
-        
         try {
-            await apiService.deleteReview(deletedReview);
-            await getReviews();
+            const confirmation = window.confirm('Are yoy sure you want to delete this review?');
+            if (confirmation) {
+                await apiService.deleteReview(deletedReview);
+                await getReviews();
+                toast({
+                    title: 'Review Deleted Successfully',
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true,
+                    position: 'bottom-right',
+                    variant: 'left-accent'
+                });
+            }
         }
         catch (error) {
-            console.log(error)
+            console.log(error);
+            toast({
+                title: 'Review Delete Failed',
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+                position: 'bottom-right',
+                variant: 'left-accent'
+            });
         }
     }
 
-    
+
     const averageRating = Math.round(totalRating / sortedValidReviews.length);
 
     return (
@@ -73,7 +77,7 @@ export const ReviewList = (props) => {
 
                     <div className='Review'>
                         {sortedValidReviews.map((review) => (
-                            
+
                             <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
 
 
@@ -85,11 +89,11 @@ export const ReviewList = (props) => {
                                     {authenticatedUser?.token?.length > 0
                                         ? <Flex>
                                             <div>
-                                                <div className="fw-bold">
+                                                <div>
                                                     User ID: {review.user}
 
                                                 </div>
-                                                <div className="fw-bold">
+                                                <div>
                                                     Rating: {review.rating}
 
                                                 </div>
@@ -99,7 +103,6 @@ export const ReviewList = (props) => {
                                             <Spacer />
 
                                             <Stack spacing='2px' direction="row">
-
                                                 <IconButton
                                                     colorScheme='blue'
                                                     size='sm'
@@ -117,7 +120,6 @@ export const ReviewList = (props) => {
 
                                                     }}
                                                 />
-
                                                 <IconButton
                                                     colorScheme='blue'
                                                     size='sm'
@@ -130,72 +132,52 @@ export const ReviewList = (props) => {
                                                             downvotes: review.downvotes + 1,
                                                             user: review.user,
                                                             amenity_type: selectedAmenity
-                                                            
+
                                                         };
                                                         await updateReview(updatedReview)
-                                                        
+
                                                     }}
                                                 />
                                                 {authenticatedUser?.id === review.user
-                                                ?
-                                                <>
-                                                <IconButton
-                                                    colorScheme='blue'
-                                                    size='sm'
-                                                    variant="outline"
-                                                    aria-label='Search database'
-                                                    icon={<AiOutlineEdit color='red' />} 
-                                                    onClick={async () =>  { 
-                                                        setShowReviewModal(true);
-                                                        setNewReviewCheck(false);
-                                                        setReviewId(review.id);
-                                                        setLikes(review.likes);
-                                                        setDislikes(review.dislikes);
-                                                        setReview(function(rev){
-                                                            rev.id=review.id,
-                                                            rev.amenity_type= review.selectedAmenity,
-                                                            rev.amenity_id= review.selectedAmenityId,
-                                                            rev.rating= review.rating,
-                                                            review= review.review,
-                                                            rev.is_flagged= review.is_flagged,
-                                                            rev.is_deleted= review.is_deleted,
-                                                            rev.upvotes= review.upvotes,
-                                                            rev.downvotes= review.downvotes,
-                                                            rev.user= authenticatedUser.id
+                                                    ?
+                                                    <>
+                                                        <IconButton
+                                                            colorScheme='blue'
+                                                            size='sm'
+                                                            variant="outline"
+                                                            aria-label='Search database'
+                                                            icon={<AiOutlineEdit color='grey' />}
+                                                            onClick={() => onEditReview(review)}
+                                                        />
 
+                                                        <IconButton
+                                                            colorScheme='blue'
+                                                            size='sm'
+                                                            variant="outline"
+                                                            aria-label='Search database'
+                                                            icon={<AiOutlineDelete color='red' />}
+                                                            onClick={async () => {
+                                                                const deletedReview = {
+                                                                    ...review,
+                                                                    user: review.user,
+                                                                    amenity_type: selectedAmenity
+                                                                };
+                                                                await deleteReview(deletedReview)
 
-                                                        })
-                                                    }}
-                                                />
+                                                            }}
 
-                                                <IconButton
-                                                    colorScheme='blue'
-                                                    size='sm'
-                                                    variant="outline"
-                                                    aria-label='Search database'
-                                                    icon={<AiOutlineDelete color='black' />}
-                                                    onClick={async () => {
-                                                        const deletedReview = {
-                                                            ...review,
-                                                            user: review.user,
-                                                            amenity_type: selectedAmenity
-                                                        };
-                                                        await deleteReview(deletedReview)
-
-                                                    }}
-                                                    
-                                                />
-                                                </>
-                                                :null}
+                                                        />
+                                                    </>
+                                                    : null}
                                             </Stack>
                                         </Flex>
                                         : null}
 
-                                    {review.review}
+                                    <div className='fw-bold'>{review.review}</div>
 
                                     <br></br>
                                     <div style={{ color: 'grey' }}>
-                                        Likes: {review.upvotes} | Dislikes: {review.downvotes} | Flagged: {String(review.is_flagged)}
+                                        Likes: {review.upvotes} | Dislikes: {review.downvotes}
 
                                     </div>
 
@@ -213,19 +195,6 @@ export const ReviewList = (props) => {
                 : <div className='AverageRating'>
                     No Reviews Yet
                 </div>}
-                <ReviewModal
-                    selectedAmenity={selectedAmenity}
-                    selectedAmenityId={selectedAmenityId}
-                    authenticatedUser={authenticatedUser}
-                    setShowReviewModal={setShowReviewModal}
-                    showReviewModal={showReviewModal}
-                    getReviews={getReviews}
-                    newReviewCheck={newReviewCheck}
-                    reviewId={reviewId}
-                    likes={likes}
-                    dislikes={dislikes}
-                    review={review}
-                />
         </>
     )
 
