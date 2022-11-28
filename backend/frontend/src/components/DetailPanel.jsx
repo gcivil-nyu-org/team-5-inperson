@@ -7,7 +7,7 @@ import { Badge, Text } from '@chakra-ui/react'
 
 export const DetailPanel = (props) => {
 
-    const { selectedAmenity, authenticatedUser, showDetailPanel, setShowDetailPanel,
+    const { selectedAmenityType, authenticatedUser, showDetailPanel, setShowDetailPanel,
         calculateRoute, mapCenter, destLat, destLng, selectedAmenityId } = props;
 
     const [showReviewModal, setShowReviewModal] = useState(false);
@@ -15,9 +15,9 @@ export const DetailPanel = (props) => {
     const [selectedReview, setSelectedReview] = useState({});
 
     const getReviews = async () => {
-        if (selectedAmenity && selectedAmenityId) {
+        if (selectedAmenityType && selectedAmenityId) {
             const apiService = new ApiService();
-            const reviewData = await apiService.getReview(selectedAmenity, selectedAmenityId);
+            const reviewData = await apiService.getReview(selectedAmenityType, selectedAmenityId);
             setReviews(reviewData);
         }
     }
@@ -25,7 +25,7 @@ export const DetailPanel = (props) => {
 
     useEffect(() => {
         getReviews();
-    }, [selectedAmenity, selectedAmenityId]);
+    }, [selectedAmenityType, selectedAmenityId]);
 
     return (
         <>
@@ -35,7 +35,7 @@ export const DetailPanel = (props) => {
                     <Offcanvas.Title style={{ width: "100%", textAlign: "center" }}>
                         <Text fontSize='xl' fontWeight='bold'>
                             <Badge variant='subtle' ml='1' fontSize='2em' colorScheme='green'>
-                                {selectedAmenity.toUpperCase()}
+                                {selectedAmenityType.toUpperCase()}
                             </Badge>
                         </Text>
                         <Text fontSize='sm' style={{color:'grey'}}>
@@ -71,7 +71,7 @@ export const DetailPanel = (props) => {
 
                     <ReviewList
                         reviews={reviews}
-                        selectedAmenity={selectedAmenity}
+                        selectedAmenityType={selectedAmenityType}
                         authenticatedUser={authenticatedUser}
                         getReviews={getReviews}
                         onEditReview={(review) => {
@@ -84,7 +84,7 @@ export const DetailPanel = (props) => {
             </Offcanvas>
 
             <ReviewModal
-                selectedAmenity={selectedAmenity}
+                selectedAmenityType={selectedAmenityType}
                 selectedAmenityId={selectedAmenityId}
                 authenticatedUser={authenticatedUser}
                 onModalClose={() => {
