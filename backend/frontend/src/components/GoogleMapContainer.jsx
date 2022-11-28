@@ -51,7 +51,6 @@ export const GoogleMapContainer = (props) => {
     const [destLat, setDestLat] = useState('')
     const [destLng, setDestLng] = useState('')
     const [showDetailPanel, setShowDetailPanel] = useState(false);
-
     const [selectedAmenityType, setSelectedAmenityType] = useState("");
     const [selectedAmenityId, setSelectedAmenityId] = useState("");
 
@@ -76,7 +75,6 @@ export const GoogleMapContainer = (props) => {
             console.log('Autocomplete is not loaded yet!')
         }
     }
-
 
     function clearRoute() {
         setDirectionsResponse(null)
@@ -214,16 +212,24 @@ export const GoogleMapContainer = (props) => {
                 <Spacer />
 
                 <Filters
-                    waterOn={waterOn}
-                    wifiOn={wifiOn}
-                    benchOn={benchOn}
-                    parkingOn={parkingOn}
-                    toiletOn={toiletOn}
-                    setWaterOn={setWaterOn}
-                    setWifiOn={setWifiOn}
-                    setBenchOn={setBenchOn}
-                    setParkingOn={setParkingOn}
-                    setToiletOn={setToiletOn}
+                    markerDataMapping={markerDataMapping}
+                    onFilterToggle={(amenityType) => {
+                        if (amenityType == 'toilet'){
+                            setToiletOn(!toiletOn)
+                        }
+                        if (amenityType == 'water'){
+                            setWaterOn(!waterOn)
+                        }
+                        if (amenityType == 'parking'){
+                            setParkingOn(!parkingOn)
+                        }
+                        if (amenityType == 'wifi'){
+                            setWifiOn(!wifiOn)
+                        }
+                        if (amenityType == 'bench'){
+                            setBenchOn(!benchOn)
+                        }
+                    }}
                 />
                 <Spacer />
 
