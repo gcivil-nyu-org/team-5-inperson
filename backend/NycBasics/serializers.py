@@ -155,7 +155,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
         data["username"] = user.username
         data["id"] = user.id
 
-        # secs = 3600 
+        # secs = 3600
         # def logintimeout():
         #    user.ifLogged = False
         #    user.token = ""
