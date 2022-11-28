@@ -155,13 +155,13 @@ class UserLoginSerializer(serializers.ModelSerializer):
         data["username"] = user.username
         data["id"] = user.id
 
-        #secs = 3600
-        #def logintimeout():
+        # secs = 3600
+        # def logintimeout():
         #    user.ifLogged = False
         #    user.token = ""
 
-        #t = Timer(secs, logintimeout)
-        #t.start()
+        # t = Timer(secs, logintimeout)
+        # t.start()
         return data
 
     class Meta:
