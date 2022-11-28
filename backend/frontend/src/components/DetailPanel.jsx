@@ -73,11 +73,11 @@ export const DetailPanel = (props) => {
                         reviews={reviews}
                         selectedAmenityType={selectedAmenityType}
                         authenticatedUser={authenticatedUser}
-                        getReviews={getReviews}
                         onEditReview={(review) => {
                             setSelectedReview(review);
                             setShowReviewModal(true);
                         }}
+                        onUpdateReview={getReviews}
                     />
 
                 </Offcanvas.Body>
