@@ -177,22 +177,29 @@ export const GoogleMapContainer = (props) => {
                         </Marker>
                     </div>
 
+                    {/* AmenitiesMapping = {
+                        'water'= waterAmenities,
+                    } */}
+
+                    {/* <AmenityMarker amenityType={'water'} amenity /> */}
+
                     {waterOn ?
-                        waterAmenities.map((waterAmenity) => (
+                        waterAmenities.map((amenity) => (
                             <Marker
-                                key={waterAmenity.id}
+                                key={amenity.id}
+                                
                                 label={{
                                     text: codepoints.water,
                                     fontFamily: "Material Icons",
-                                    color: "#ffffff",
+                                    color: selectedAmenity === 'water' && selectedAmenityId === amenity.id ? "black" : "white",
                                     fontSize: "16px",
                                 }}
-                                position={{ lat: waterAmenity.water_latitude, lng: waterAmenity.water_longitude }}
+                                position={{ lat: amenity.water_latitude, lng: amenity.water_longitude }}
                                 onClick={async () => {
-                                    setDestLat(waterAmenity.water_latitude);
-                                    setDestLng(waterAmenity.water_longitude);
+                                    setDestLat(amenity.water_latitude);
+                                    setDestLng(amenity.water_longitude);
                                     setSelectedAmenity('water');
-                                    setSelectedAmenityId(waterAmenity.id)
+                                    setSelectedAmenityId(amenity.id)
                                     setShowDetailPanel(true)
                                 }} />
                         ))
@@ -205,7 +212,7 @@ export const GoogleMapContainer = (props) => {
                                 label={{
                                     text: codepoints.toilet,
                                     fontFamily: "Material Icons",
-                                    color: "#ffffff",
+                                    color: selectedAmenity === 'toilet' && selectedAmenityId === toiletAmenity.id ? "black" : "white",
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: toiletAmenity.toilet_latitude, lng: toiletAmenity.toilet_longitude }}
@@ -226,7 +233,7 @@ export const GoogleMapContainer = (props) => {
                                 label={{
                                     text: codepoints.wifi,
                                     fontFamily: "Material Icons",
-                                    color: "#ffffff",
+                                    color: selectedAmenity === 'wifi' && selectedAmenityId === wifiAmenity.id ? "black" : "white",
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: wifiAmenity.wifi_latitude, lng: wifiAmenity.wifi_longitude }}
@@ -247,7 +254,7 @@ export const GoogleMapContainer = (props) => {
                                 label={{
                                     text: codepoints.parking,
                                     fontFamily: "Material Icons",
-                                    color: "#ffffff",
+                                    color: selectedAmenity === 'parking' && selectedAmenityId === parkingAmenity.id ? "black" : "white",
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: parkingAmenity.parking_latitude, lng: parkingAmenity.parking_longitude }}
@@ -268,7 +275,7 @@ export const GoogleMapContainer = (props) => {
                                 label={{
                                     text: codepoints.bench,
                                     fontFamily: "Material Icons",
-                                    color: "#ffffff",
+                                    color: selectedAmenity === 'bench' && selectedAmenityId === benchAmenity.id ? "black" : "white",
                                     fontSize: "16px",
                                 }}
                                 position={{ lat: benchAmenity.bench_latitude, lng: benchAmenity.bench_longitude }}

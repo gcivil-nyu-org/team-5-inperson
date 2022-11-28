@@ -38,6 +38,9 @@ export const DetailPanel = (props) => {
                                 {selectedAmenity.toUpperCase()}
                             </Badge>
                         </Text>
+                        <Text fontSize='sm' style={{color:'grey'}}>
+                            ID: {selectedAmenityId}
+                        </Text>
 
                     </Offcanvas.Title>
                 </Offcanvas.Header>

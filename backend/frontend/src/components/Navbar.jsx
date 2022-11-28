@@ -23,7 +23,7 @@ function BasicsNavbar() {
 
     const logout = async () => {
         const apiService = new ApiService();
-        const logoutResponse = await apiService.logout(authenticatedUser);
+        await apiService.logout(authenticatedUser);
         let authenticatedUserObj = {
             'token': null,
             'id': null,
@@ -42,7 +42,16 @@ function BasicsNavbar() {
         <>
             <Navbar bg="success" variant="dark" expand="lg">
                 <Container>
-                    <Navbar.Brand href="/home">NYC Basics</Navbar.Brand>
+                    <Navbar.Brand href="/home">
+                        {/* <img
+                            alt=""
+                            src="/logo.png"
+                            width="170"
+                            // height="50"
+                            className="d-inline-block align-top"
+                        />{' '} */}
+                        NYC Basics
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="ml-auto">

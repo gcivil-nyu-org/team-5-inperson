@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ApiService } from '../api-service';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react'
+// import { useToast } from '@chakra-ui/react'
 
 function ResetPassword2() {
 
     const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm()
     const [codeError, setCodeError] = useState("");
-    const toast = useToast()
+    // const toast = useToast()
 
     const navigate = useNavigate();
     const location = useLocation();
