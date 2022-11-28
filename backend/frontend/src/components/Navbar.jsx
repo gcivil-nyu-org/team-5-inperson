@@ -61,12 +61,11 @@ function BasicsNavbar() {
                                 <Nav.Link as={Link} to='/login'>Login</Nav.Link>
                             }
                             <Nav.Link as={Link} to='/home'>Home</Nav.Link>
-                            <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                {authenticatedUser?.token?.length > 0 ?
-                                    <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item> :
-                                    null
-                                }
-                            </NavDropdown>
+                            {authenticatedUser?.token?.length > 0 ?
+                                <NavDropdown title="Settings" id="basic-nav-dropdown">
+                                    <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item> 
+                                </NavDropdown>
+                            : null }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { ApiService } from '../api-service';
 import { IconButton, Stack, Flex, Spacer, useToast } from '@chakra-ui/react';
-import { AiOutlineLike, AiOutlineDislike, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 
 const apiService = new ApiService();
 
@@ -10,6 +10,9 @@ export const ReviewRow = (props) => {
 
     const {review, authenticatedUser, selectedAmenityType, onEditReview, onUpdateReview} = props;
     const toast = useToast();
+
+    const [isLiked, setIsLiked] = useState(false);
+    const [isDisliked, setIsDisliked] = useState(false);
 
     const updateReview = async (updatedReview) => {
         try {
@@ -69,15 +72,22 @@ export const ReviewRow = (props) => {
                                 size='sm'
                                 variant="outline"
                                 aria-label='Search database'
-                                icon={<AiOutlineLike color='black' />}
+                                icon={ isLiked ? <AiFillLike color='forestgreen' /> : <AiOutlineLike color='black' />}
                                 onClick={async () => {
+                                    const shouldUndoDislike = isDisliked && !isLiked
+                                    if (shouldUndoDislike){
+                                        setIsDisliked(false);
+                                    }
                                     const updatedReview = {
                                         ...review,
-                                        upvotes: review.upvotes + 1,
+                                        upvotes: isLiked ? (review.upvotes - 1) : (review.upvotes + 1),
+                                        downvotes: shouldUndoDislike ? (review.downvotes - 1) : (review.downvotes),
                                         user: review.user,
                                         amenity_type: selectedAmenityType
                                     };
+                                    setIsLiked(!isLiked)
                                     await updateReview(updatedReview)
+                                    
                                 }}
                             />
                             <IconButton
@@ -85,15 +95,20 @@ export const ReviewRow = (props) => {
                                 size='sm'
                                 variant="outline"
                                 aria-label='Search database'
-                                icon={<AiOutlineDislike color='black' />}
+                                icon={ isDisliked ? <AiFillDislike color='indianred' /> : <AiOutlineDislike color='black' />}
                                 onClick={async () => {
+                                    const shouldUndoLike = isLiked && !isDisliked
+                                    if (shouldUndoLike){
+                                        setIsLiked(false);
+                                    }
                                     const updatedReview = {
                                         ...review,
-                                        downvotes: review.downvotes + 1,
+                                        upvotes: shouldUndoLike ? (review.upvotes - 1) : (review.upvotes),
+                                        downvotes: isDisliked ? (review.downvotes - 1) : (review.downvotes + 1),
                                         user: review.user,
                                         amenity_type: selectedAmenityType
-
                                     };
+                                    setIsDisliked(!isDisliked)
                                     await updateReview(updatedReview)
                                 }}
                             />
