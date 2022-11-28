@@ -3,6 +3,7 @@ import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { ApiService } from '../api-service';
 import { Link } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
+import logo from '../logo.png';
 
 function BasicsNavbar() {
 
@@ -43,24 +44,27 @@ function BasicsNavbar() {
             <Navbar bg="success" variant="dark" expand="lg">
                 <Container>
                     <Navbar.Brand href="/home">
-                        {/* <img
+                        <img
                             alt=""
-                            src="/logo.png"
-                            width="170"
+                            src={logo}
+                            width="180"
                             // height="50"
                             className="d-inline-block align-top"
-                        />{' '} */}
-                        NYC Basics
+                        />{' '}
+                        {/* NYC Basics */}
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="ml-auto">
 
-                            {authenticatedUser?.token?.length > 0 ?
-                                <Nav.Link>Hello, {authenticatedUser.username}!</Nav.Link> :
-                                <Nav.Link as={Link} to='/login'>Login</Nav.Link>
+                            {authenticatedUser?.token?.length > 0 
+                                ? <Nav.Link>Hello, {authenticatedUser.username}!</Nav.Link> 
+                                : <Nav.Link as={Link} to='/login'>Login</Nav.Link>
                             }
+
                             <Nav.Link as={Link} to='/home'>Home</Nav.Link>
+                            <Nav.Link as={Link} to='/about'>About</Nav.Link>
+                
                             {authenticatedUser?.token?.length > 0 ?
                                 <NavDropdown title="Settings" id="basic-nav-dropdown">
                                     <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item> 

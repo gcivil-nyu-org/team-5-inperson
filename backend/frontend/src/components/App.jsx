@@ -10,6 +10,7 @@ import Signup from './Signup';
 import EmailVerification from './EmailVerification';
 import ResetPassword from './ResetPassword';
 import ResetPassword2 from './ResetPassword2';
+import About from './About';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
                         <Route path='/verify' element={<EmailVerification />}></Route>
                         <Route path='/reset-pass' element={<ResetPassword />}></Route>
                         <Route path='/reset-pass-2' element={<ResetPassword2 />}></Route>
+                        <Route path='/about' element={<About />}></Route>
                         <Route path="/" element={<Navigate to="/home" />} />
                     </Routes>
                 </BrowserRouter>
