@@ -15,6 +15,8 @@ from uuid import uuid4
 from django.db.models import Q
 from django.conf import settings
 from django.core.mail import send_mail
+from django.utils import timezone
+from threading import Timer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -152,6 +154,14 @@ class UserLoginSerializer(serializers.ModelSerializer):
         user.save()
         data["username"] = user.username
         data["id"] = user.id
+
+        secs = 3600
+        def logintimeout():
+            user.ifLogged = False
+            user.token = ""
+
+        t = Timer(secs, logintimeout)
+        t.start()
         return data
 
     class Meta:
