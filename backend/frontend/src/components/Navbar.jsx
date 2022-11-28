@@ -66,6 +66,7 @@ function BasicsNavbar() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+            
             <div id="divCheckbox" style={{display: 'none'}}> 
                 {authenticatedUser?.token?.length > 0
                 ? (setTimeout(() => {
