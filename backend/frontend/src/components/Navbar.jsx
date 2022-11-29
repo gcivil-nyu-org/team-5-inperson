@@ -27,7 +27,8 @@ function BasicsNavbar() {
         let authenticatedUserObj = {
             'token': null,
             'id': null,
-            'username': null
+            'username': null,
+            'session_id': null
         }
         localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUserObj));
         window.dispatchEvent(new Event("storage"));

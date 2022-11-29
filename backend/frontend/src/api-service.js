@@ -22,6 +22,7 @@ export class ApiService {
             },
             body: JSON.stringify({
                 token: userData['token'],
+                session_id: userData['session_id']
             })
         });
         const data = await res.json();

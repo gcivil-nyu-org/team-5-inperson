@@ -22,7 +22,8 @@ function Loginform() {
             let authenticatedUserObj = {
                 'token': loginResponse['token'],
                 'id': loginResponse['id'],
-                'username': loginResponse['username']
+                'username': loginResponse['username'],
+                'session_id': loginResponse['session_id']
             }
             localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUserObj));
             window.dispatchEvent(new Event("storage"));
