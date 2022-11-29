@@ -25,7 +25,7 @@ const About = () => {
                 <br></br><br></br>
 
 
-                <Text fontSize='3xl'  color="darkgreen">
+                <Text fontSize='3xl' color="darkgreen">
                     The Team
                 </Text>
 
@@ -36,80 +36,6 @@ const About = () => {
                         <Stack
                             direction={{ base: 'column', md: 'row' }}
                             spacing={2} >
-
-                            {/* Akshat Card */}
-                            <Box
-                                borderWidth='2px'
-                                borderRadius='lg'
-                                overflow='hidden'
-                                _hover={{ boxShadow: "2xl" }}>
-
-
-                                {/* Intro Box */}
-                                <Box p={5}>
-                                    <Flex spacing='4'>
-                                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                            <Avatar name='Akshat Sharma' src='https://media-exp1.licdn.com/dms/image/C4E03AQFLSCoSVxrAGg/profile-displayphoto-shrink_400_400/0/1652409976930?e=1675296000&v=beta&t=RejgqBqRU2nNlpuSEHuaRsqyNFHWxUZs23ieAVJQ0-U' />
-
-                                            <Box>
-                                                <Heading size='sm'>Akshat Sharma</Heading>
-                                                <Text>Developer</Text>
-                                            </Box>
-                                        </Flex>
-                                    </Flex>
-                                </Box>
-                                <hr></hr>
-
-                                {/* Icons box */}
-                                <Center>
-
-                                    <Box
-                                        p={5} >
-                                        <Stack
-                                            direction="row"
-                                            spacing="5px" >
-
-                                            <Link
-                                                href="src"
-                                                target="_blank"
-                                                rel="noopener">
-                                                <IconButton
-                                                    _focus={{ outline: "none" }}
-                                                    _hover={{ color: "black" }}
-                                                    isRound={true}
-                                                    size='md'
-                                                    fontSize='22px'
-                                                    aria-label='Github Btn'
-                                                    icon={<AiFillGithub />}
-                                                    bgColor="green"
-                                                    opacity={.7}
-                                                />
-                                            </Link>
-
-                                            <Link
-                                                href="src"
-                                                target="_blank"
-                                                rel="noopener">
-                                                <IconButton
-                                                    _focus={{ outline: "none" }}
-                                                    _hover={{ color: "black" }}
-                                                    isRound={true}
-                                                    size='md'
-                                                    fontSize='22px'
-                                                    aria-label='Linkedin Btn'
-                                                    icon={<AiFillLinkedin />}
-                                                    bgColor="grey"
-                                                    opacity={.7}
-                                                />
-                                            </Link>
-
-
-
-                                        </Stack>
-
-                                    </Box>
-                                </Center>
-                            </Box>
 
 
                             {/* Adnan Card */}
@@ -145,7 +71,7 @@ const About = () => {
                                             spacing="5px" >
 
                                             <Link
-                                                href="src"
+                                                href="https://github.com/AdnanAhsanNYCity"
                                                 target="_blank"
                                                 rel="noopener">
                                                 <IconButton
@@ -162,7 +88,7 @@ const About = () => {
                                             </Link>
 
                                             <Link
-                                                href="src"
+                                                href="https://www.linkedin.com/in/adnan-ahsan-85924916a/"
                                                 target="_blank"
                                                 rel="noopener">
                                                 <IconButton
@@ -179,6 +105,80 @@ const About = () => {
                                             </Link>
 
                                         </Stack>
+                                    </Box>
+                                </Center>
+                            </Box>
+
+                            {/* Akshat Card */}
+                            <Box
+                                borderWidth='2px'
+                                borderRadius='lg'
+                                overflow='hidden'
+                                _hover={{ boxShadow: "2xl" }}>
+
+
+                                {/* Intro Box */}
+                                <Box p={5}>
+                                    <Flex spacing='4'>
+                                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                                            <Avatar name='Akshat Sharma' src='https://media-exp1.licdn.com/dms/image/C4E03AQFLSCoSVxrAGg/profile-displayphoto-shrink_400_400/0/1652409976930?e=1675296000&v=beta&t=RejgqBqRU2nNlpuSEHuaRsqyNFHWxUZs23ieAVJQ0-U' />
+
+                                            <Box>
+                                                <Heading size='sm'>Akshat Sharma</Heading>
+                                                <Text>Developer</Text>
+                                            </Box>
+                                        </Flex>
+                                    </Flex>
+                                </Box>
+                                <hr></hr>
+
+                                {/* Icons box */}
+                                <Center>
+
+                                    <Box
+                                        p={5} >
+                                        <Stack
+                                            direction="row"
+                                            spacing="5px" >
+
+                                            <Link
+                                                href="https://github.com/as14680"
+                                                target="_blank"
+                                                rel="noopener">
+                                                <IconButton
+                                                    _focus={{ outline: "none" }}
+                                                    _hover={{ color: "black" }}
+                                                    isRound={true}
+                                                    size='md'
+                                                    fontSize='22px'
+                                                    aria-label='Github Btn'
+                                                    icon={<AiFillGithub />}
+                                                    bgColor="green"
+                                                    opacity={.7}
+                                                />
+                                            </Link>
+
+                                            <Link
+                                                href="https://www.linkedin.com/in/akshat-sharma-4a4839104/"
+                                                target="_blank"
+                                                rel="noopener">
+                                                <IconButton
+                                                    _focus={{ outline: "none" }}
+                                                    _hover={{ color: "black" }}
+                                                    isRound={true}
+                                                    size='md'
+                                                    fontSize='22px'
+                                                    aria-label='Linkedin Btn'
+                                                    icon={<AiFillLinkedin />}
+                                                    bgColor="grey"
+                                                    opacity={.7}
+                                                />
+                                            </Link>
+
+
+
+                                        </Stack>
+
                                     </Box>
                                 </Center>
                             </Box>
@@ -218,7 +218,7 @@ const About = () => {
                                             spacing="5px" >
 
                                             <Link
-                                                href="src"
+                                                href="https://github.com/ds6332"
                                                 target="_blank"
                                                 rel="noopener">
                                                 <IconButton
@@ -235,7 +235,7 @@ const About = () => {
                                             </Link>
 
                                             <Link
-                                                href="src"
+                                                href="https://www.linkedin.com/in/dinesh-kumar-saravanan/"
                                                 target="_blank"
                                                 rel="noopener">
                                                 <IconButton
@@ -294,7 +294,7 @@ const About = () => {
                                             spacing="5px" >
 
                                             <Link
-                                                href="src"
+                                                href="https://github.com/TheHarbinger99"
                                                 target="_blank"
                                                 rel="noopener">
                                                 <IconButton
@@ -311,7 +311,7 @@ const About = () => {
                                             </Link>
 
                                             <Link
-                                                href="src"
+                                                href="https://www.linkedin.com/in/suyash-soniminde-3a8225194/"
                                                 target="_blank"
                                                 rel="noopener">
                                                 <IconButton
