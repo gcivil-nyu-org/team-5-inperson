@@ -9,8 +9,8 @@ var Filter = require('bad-words'),
     filter = new Filter();
 
 export const ReviewModal = (props) => {
-    const { selectedAmenity, selectedAmenityId, authenticatedUser, selectedReview, showReviewModal, onModalClose, onReviewSubmit } = props;
-    
+    const { selectedAmenityType, selectedAmenityId, authenticatedUser, selectedReview, showReviewModal, onModalClose, onReviewSubmit } = props;
+
     const [inputs, setInputs] = useState({ rating: "", review: "" });
     const toast = useToast();
 
@@ -46,16 +46,12 @@ export const ReviewModal = (props) => {
             toast({
                 title: 'Review Length Exceeded',
                 description: "Please enter a shorter review",
-                status: 'error',
-                duration: 4000,
-                isClosable: true,
-                position: 'bottom-right',
-                variant: 'left-accent'
+                status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
             })
         } else {
             if (isNewReview) {
                 const newReview = {
-                    amenity_type: selectedAmenity,
+                    amenity_type: selectedAmenityType,
                     amenity_id: selectedAmenityId,
                     rating: inputs.rating,
                     review: filter.clean(inputs.review),
@@ -70,20 +66,12 @@ export const ReviewModal = (props) => {
                     await apiService.addReview(newReview);
                     toast({
                         title: 'Review Successfully Added',
-                        status: 'success',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
+                        status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
                 } catch {
                     toast({
                         title: 'Add Review Failed. Please try again.',
-                        status: 'error',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
+                        status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
                 }
             } else {
@@ -96,20 +84,12 @@ export const ReviewModal = (props) => {
                     await apiService.updateReview(updatedReview);
                     toast({
                         title: 'Review Successfully Edited',
-                        status: 'success',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
+                        status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
                 } catch {
                     toast({
                         title: 'Edit Review Failed. Please try again.',
-                        status: 'error',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
+                        status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
                 }
             }

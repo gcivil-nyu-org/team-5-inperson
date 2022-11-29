@@ -3,11 +3,12 @@ import { IconButton, Box, ButtonGroup, Tooltip } from '@chakra-ui/react'
 import { FaParking, FaRestroom } from 'react-icons/fa'
 import { AiOutlineWifi } from 'react-icons/ai'
 import { MdOutlineChairAlt, MdWaterDrop } from 'react-icons/md'
+import { useToast } from '@chakra-ui/react'
 
 
 export const Filters = (props) => {
-    const { waterOn, wifiOn, benchOn, parkingOn, toiletOn,
-        setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
+    const { markerDataMapping, onFilterToggle } = props;
+    const toast = useToast();
 
     return (
         <div>
@@ -20,10 +21,18 @@ export const Filters = (props) => {
                     <Tooltip hasArrow label='Filter Toilets' placement='bottom' openDelay="750">
                         <IconButton
                             colorScheme='green'
-                            aria-label='Search For Bathrooms'
+                            aria-label='toilet'
                             icon={<FaRestroom />}
-                            isActive={!toiletOn}
-                            onClick={() => setToiletOn(!toiletOn)}
+                            isActive={!markerDataMapping['toilet']['visibilityFilter']}
+                            onClick={() => {
+                                if (markerDataMapping['toilet']['amenities']?.length === 0 && markerDataMapping['toilet']['visibilityFilter'] === false) {
+                                    toast({
+                                        title: 'No toilet data for this area',
+                                        status: 'warning', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
+                                    })
+                                }
+                                onFilterToggle('toilet');
+                            }}
                         />
                     </Tooltip>
 
@@ -31,10 +40,18 @@ export const Filters = (props) => {
                     <Tooltip hasArrow label='Filter Water' placement='bottom' openDelay="750">
                         <IconButton
                             colorScheme='green'
-                            aria-label='Search For Water'
+                            aria-label='water'
                             icon={<MdWaterDrop />}
-                            isActive={!waterOn}
-                            onClick={() => setWaterOn(!waterOn)}
+                            isActive={!markerDataMapping['water']['visibilityFilter']}
+                            onClick={() => {
+                                if (markerDataMapping['water']['amenities']?.length === 0 && markerDataMapping['water']['visibilityFilter'] === false) {
+                                    toast({
+                                        title: 'No water data for this area',
+                                        status: 'warning', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
+                                    })
+                                }
+                                onFilterToggle('water');
+                            }}
                         />
                     </Tooltip>
 
@@ -42,10 +59,18 @@ export const Filters = (props) => {
                     <Tooltip hasArrow label='Filter Parking' placement='bottom' openDelay="750">
                         <IconButton
                             colorScheme='green'
-                            aria-label='Search For Parking'
+                            aria-label='parking'
                             icon={<FaParking />}
-                            isActive={!parkingOn}
-                            onClick={() => setParkingOn(!parkingOn)}
+                            isActive={!markerDataMapping['parking']['visibilityFilter']}
+                            onClick={() => {
+                                if (markerDataMapping['parking']['amenities']?.length === 0 && markerDataMapping['parking']['visibilityFilter'] === false) {
+                                    toast({
+                                        title: 'No parking data for this area',
+                                        status: 'warning', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
+                                    })
+                                }
+                                onFilterToggle('parking');
+                            }}
                         />
                     </Tooltip>
 
@@ -53,10 +78,18 @@ export const Filters = (props) => {
                     <Tooltip hasArrow label='Filter Benches' placement='bottom' openDelay="750">
                         <IconButton
                             colorScheme='green'
-                            aria-label='Search for Benches'
+                            aria-label='bench'
                             icon={<MdOutlineChairAlt />}
-                            isActive={!benchOn}
-                            onClick={() => setBenchOn(!benchOn)}
+                            isActive={!markerDataMapping['bench']['visibilityFilter']}
+                            onClick={() => {
+                                if (markerDataMapping['bench']['amenities']?.length === 0 && markerDataMapping['bench']['visibilityFilter'] === false) {
+                                    toast({
+                                        title: 'No bench data for this area',
+                                        status: 'warning', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
+                                    })
+                                }
+                                onFilterToggle('bench');
+                            }}
                         />
                     </Tooltip>
 
@@ -64,10 +97,18 @@ export const Filters = (props) => {
                     <Tooltip hasArrow label='Filter Wifi' placement='bottom' openDelay="750">
                         <IconButton
                             colorScheme='green'
-                            aria-label='Search for Wifi'
+                            aria-label='wifi'
                             icon={<AiOutlineWifi />}
-                            isActive={!wifiOn}
-                            onClick={() => setWifiOn(!wifiOn)}
+                            isActive={!markerDataMapping['wifi']['visibilityFilter']}
+                            onClick={() => {
+                                if (markerDataMapping['wifi']['amenities']?.length === 0 && markerDataMapping['wifi']['visibilityFilter'] === false) {
+                                    toast({
+                                        title: 'No wifi data for this area',
+                                        status: 'warning', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
+                                    })
+                                }
+                                onFilterToggle('wifi');
+                            }}
                         />
                     </Tooltip>
                 </ButtonGroup>

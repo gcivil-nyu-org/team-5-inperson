@@ -8,17 +8,15 @@ import {
     IconButton, Flex, Stack, Box, ButtonGroup, Spacer, Tooltip
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
-import { ApiService } from '../api-service';
 import { Filters } from './Filters';
 
 import { DetailPanel } from './DetailPanel';
+import { AmenityMarkers } from './AmenityMarkers';
 
 const containerStyle = {
     width: '100vw',
     height: '92vh'
 };
-
-const apiService = new ApiService();
 
 export const GoogleMapContainer = (props) => {
 
@@ -37,7 +35,7 @@ export const GoogleMapContainer = (props) => {
     }, [])
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
-        mapCenter, setMapCenter, userLocation, setUserLocation, searchLocation, setSearchLocation,
+        mapCenter, setMapCenter, userLocation, searchLocation, setSearchLocation,
         waterOn, wifiOn, benchOn, parkingOn, toiletOn,
         setWaterOn, setWifiOn, setBenchOn, setParkingOn, setToiletOn } = props;
 
@@ -46,28 +44,19 @@ export const GoogleMapContainer = (props) => {
     setTimeout(() => {
         setIsReallyLoaded(true);
     }, 200);
-    
+
     const [autocomplete, setAutocomplete] = useState(null);
     const [map, setMap] = useState(/** @type google.maps.Map */(null))
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [destLat, setDestLat] = useState('')
     const [destLng, setDestLng] = useState('')
     const [showDetailPanel, setShowDetailPanel] = useState(false);
-
-    const [selectedAmenity, setSelectedAmenity] = useState("");
+    const [selectedAmenityType, setSelectedAmenityType] = useState("");
     const [selectedAmenityId, setSelectedAmenityId] = useState("");
 
     useEffect(() => {
         map?.panTo(mapCenter)
     }, [mapCenter])
-
-    const codepoints = {
-        water: "\ue798",
-        wifi: "\ue63e",
-        bench: "\uefee",
-        toilet: "\ue63d",
-        parking: "\ue54f"
-    }
 
     const onLoad = (autocomplete) => {
         setAutocomplete(autocomplete)
@@ -86,7 +75,6 @@ export const GoogleMapContainer = (props) => {
             console.log('Autocomplete is not loaded yet!')
         }
     }
-    
 
     function clearRoute() {
         setDirectionsResponse(null)
@@ -112,9 +100,38 @@ export const GoogleMapContainer = (props) => {
         setDirectionsResponse(results)
     }
 
-    return (
+    const onMarkerClick = (amenity, amenityType) => {
+        setDestLat(amenity[`${amenityType}_latitude`]);
+        setDestLng(amenity[`${amenityType}_longitude`]);
+        setSelectedAmenityType(amenityType);
+        setSelectedAmenityId(amenity.id);
+        setShowDetailPanel(true);
+    };
 
-        
+    const markerDataMapping = {
+        'water': {
+            visibilityFilter: waterOn,
+            amenities: waterAmenities,
+        },
+        'wifi': {
+            visibilityFilter: wifiOn,
+            amenities: wifiAmenities,
+        },
+        'parking': {
+            visibilityFilter: parkingOn,
+            amenities: parkingAmenities,
+        },
+        'bench': {
+            visibilityFilter: benchOn,
+            amenities: benchAmenities,
+        },
+        'toilet': {
+            visibilityFilter: toiletOn,
+            amenities: toiletAmenities,
+        },
+    };
+
+    return (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={mapCenter}
@@ -154,23 +171,21 @@ export const GoogleMapContainer = (props) => {
                 />
             </Autocomplete>
 
-            <DetailPanel 
-                selectedAmenity = {selectedAmenity}
-                authenticatedUser = {authenticatedUser}
-                showDetailPanel = {showDetailPanel}
-                setShowDetailPanel = {setShowDetailPanel}
-                calculateRoute = {calculateRoute}
-                mapCenter = {mapCenter}
-                destLat = {destLat}
-                destLng = {destLng}
-                selectedAmenityId = {selectedAmenityId}
+            <DetailPanel
+                selectedAmenityType={selectedAmenityType}
+                authenticatedUser={authenticatedUser}
+                showDetailPanel={showDetailPanel}
+                setShowDetailPanel={setShowDetailPanel}
+                calculateRoute={calculateRoute}
+                mapCenter={mapCenter}
+                destLat={destLat}
+                destLng={destLng}
+                selectedAmenityId={selectedAmenityId}
             />
 
             {isReallyLoaded ?
                 <>
-
                     <Marker position={searchLocation} />
-
                     {/* user location marker */}
                     <div style={{ borderRadius: "50%", border: '2px solid teal' }}>
                         <Marker
@@ -180,110 +195,16 @@ export const GoogleMapContainer = (props) => {
                         </Marker>
                     </div>
 
-                    {waterOn ?
-                        waterAmenities.map((waterAmenity) => (
-                            <Marker
-                                key={waterAmenity.id}
-                                label={{
-                                    text: codepoints.water,
-                                    fontFamily: "Material Icons",
-                                    color: "#ffffff",
-                                    fontSize: "16px",
-                                }}
-                                position={{ lat: waterAmenity.water_latitude, lng: waterAmenity.water_longitude }}
-                                onClick={async () => {
-                                    setDestLat(waterAmenity.water_latitude);
-                                    setDestLng(waterAmenity.water_longitude);
-                                    setSelectedAmenity('water');
-                                    setSelectedAmenityId(waterAmenity.id)
-                                    setShowDetailPanel(true)
-                                }} />
-                        ))
-                        : null}
-
-                    {toiletOn ?
-                        toiletAmenities.map((toiletAmenity) => (
-                            <Marker
-                                key={toiletAmenity.id}
-                                label={{
-                                    text: codepoints.toilet,
-                                    fontFamily: "Material Icons",
-                                    color: "#ffffff",
-                                    fontSize: "16px",
-                                }}
-                                position={{ lat: toiletAmenity.toilet_latitude, lng: toiletAmenity.toilet_longitude }}
-                                onClick={async () => {
-                                    setDestLat(toiletAmenity.toilet_latitude)
-                                    setDestLng(toiletAmenity.toilet_longitude)
-                                    setSelectedAmenity('toilet');
-                                    setSelectedAmenityId(toiletAmenity.id)
-                                    setShowDetailPanel(true)
-                                }} />
-                        ))
-                        : null}
-
-                    {wifiOn ?
-                        wifiAmenities.map((wifiAmenity) => (
-                            <Marker
-                                key={wifiAmenity.id}
-                                label={{
-                                    text: codepoints.wifi,
-                                    fontFamily: "Material Icons",
-                                    color: "#ffffff",
-                                    fontSize: "16px",
-                                }}
-                                position={{ lat: wifiAmenity.wifi_latitude, lng: wifiAmenity.wifi_longitude }}
-                                onClick={async () => {
-                                    setDestLat(wifiAmenity.wifi_latitude)
-                                    setDestLng(wifiAmenity.wifi_longitude)
-                                    setSelectedAmenity('wifi');
-                                    setSelectedAmenityId(wifiAmenity.id)
-                                    setShowDetailPanel(true)
-                                }} />
-                        ))
-                        : null}
-
-                    {parkingOn ?
-                        parkingAmenities.map((parkingAmenity) => (
-                            <Marker
-                                key={parkingAmenity.id}
-                                label={{
-                                    text: codepoints.parking,
-                                    fontFamily: "Material Icons",
-                                    color: "#ffffff",
-                                    fontSize: "16px",
-                                }}
-                                position={{ lat: parkingAmenity.parking_latitude, lng: parkingAmenity.parking_longitude }}
-                                onClick={async () => {
-                                    setDestLat(parkingAmenity.parking_latitude)
-                                    setDestLng(parkingAmenity.parking_longitude)
-                                    setSelectedAmenity('parking');
-                                    setSelectedAmenityId(parkingAmenity.id)
-                                    setShowDetailPanel(true)
-                                }} />
-                        ))
-                        : null}
-
-                    {benchOn ?
-                        benchAmenities.map((benchAmenity) => (
-                            <Marker
-                                key={benchAmenity.id}
-                                label={{
-                                    text: codepoints.bench,
-                                    fontFamily: "Material Icons",
-                                    color: "#ffffff",
-                                    fontSize: "16px",
-                                }}
-                                position={{ lat: benchAmenity.bench_latitude, lng: benchAmenity.bench_longitude }}
-                                onClick={async () => {
-                                    setDestLat(benchAmenity.bench_latitude)
-                                    setDestLng(benchAmenity.bench_longitude)
-                                    setSelectedAmenity('bench');
-                                    setSelectedAmenityId(benchAmenity.id)
-                                    setShowDetailPanel(true)
-                                }} />
-                        ))
-                        : null}
+                    {Object.keys(markerDataMapping).map((amenityType) => (
+                        <AmenityMarkers
+                            amenityType={amenityType}
+                            visibilityFilter={markerDataMapping[amenityType].visibilityFilter}
+                            amenities={markerDataMapping[amenityType].amenities}
+                            selectedAmenityId={selectedAmenityId}
+                            selectedAmenityType={selectedAmenityType}
+                            onMarkerClick={onMarkerClick}
+                        />
+                    ))}
                 </>
                 : null}
 
@@ -291,16 +212,24 @@ export const GoogleMapContainer = (props) => {
                 <Spacer />
 
                 <Filters
-                    waterOn={waterOn}
-                    wifiOn={wifiOn}
-                    benchOn={benchOn}
-                    parkingOn={parkingOn}
-                    toiletOn={toiletOn}
-                    setWaterOn={setWaterOn}
-                    setWifiOn={setWifiOn}
-                    setBenchOn={setBenchOn}
-                    setParkingOn={setParkingOn}
-                    setToiletOn={setToiletOn}
+                    markerDataMapping={markerDataMapping}
+                    onFilterToggle={(amenityType) => {
+                        if (amenityType === 'toilet') {
+                            setToiletOn(!toiletOn)
+                        }
+                        if (amenityType === 'water') {
+                            setWaterOn(!waterOn)
+                        }
+                        if (amenityType === 'parking') {
+                            setParkingOn(!parkingOn)
+                        }
+                        if (amenityType === 'wifi') {
+                            setWifiOn(!wifiOn)
+                        }
+                        if (amenityType === 'bench') {
+                            setBenchOn(!benchOn)
+                        }
+                    }}
                 />
                 <Spacer />
 
@@ -340,6 +269,4 @@ export const GoogleMapContainer = (props) => {
             </Flex >
         </GoogleMap>
     )
-
 }
-
