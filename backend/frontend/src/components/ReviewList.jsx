@@ -90,7 +90,7 @@ export const ReviewList = (props) => {
                                         ? <Flex>
                                             <div>
                                                 <div>
-                                                    User ID: {review.user}
+                                                    User: {review.xyz}
 
                                                 </div>
                                                 <div>

@@ -16,6 +16,9 @@ from django.db.models import Q
 from django.conf import settings
 from django.core.mail import send_mail
 
+# from django.utils import timezone
+# from threading import Timer
+
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -24,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
         required=True, validators=[UniqueValidator(queryset=User.objects.all())]
     )
-    password = serializers.CharField(max_length=8)
+    password = serializers.CharField(max_length=25)
     system_otp = serializers.IntegerField(required=True)
 
     class Meta:
@@ -46,7 +49,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
     username = serializers.CharField(
         required=True,
     )
-    password = serializers.CharField(max_length=8)
+    password = serializers.CharField(max_length=25)
     system_otp = serializers.IntegerField(required=True)
 
     class Meta:
@@ -152,6 +155,14 @@ class UserLoginSerializer(serializers.ModelSerializer):
         user.save()
         data["username"] = user.username
         data["id"] = user.id
+
+        # secs = 3600
+        # def logintimeout():
+        #    user.ifLogged = False
+        #    user.token = ""
+
+        # t = Timer(secs, logintimeout)
+        # t.start()
         return data
 
     class Meta:
