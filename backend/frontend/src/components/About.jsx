@@ -5,24 +5,17 @@ import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
 const About = () => {
     return (
         <>
-
-
-            <Box p={'10px 50px 10px 50px'}>
+            <Box p={'10px 60px 10px 60px'}>
 
                 <br></br><br></br>
-
-                <Text fontSize='3xl'>
-                    The Vision
+                <Text fontSize='3xl' color="darkgreen">
+                    About
                 </Text>
-
                 <br></br>
 
-                <Box p={'10px 50px 10px 50px'}>
-
-
-                    <Text fontSize='xl'>
-                        NYC Basics was born out of an academic project by 5 students at NYU Tandon
-                        with the vision of helping New Yorkers find and navigate to free basic amenities
+                <Box p={'0px 100px 0px 100px'}>
+                    <Text fontSize='xl' align="left">
+                        NYC Basics is a tool to help New Yorkers find and navigate to free basic amenities
                         like water fountains, toilets, benches, wifi spots and parking lots.
                     </Text>
 
@@ -32,8 +25,8 @@ const About = () => {
                 <br></br><br></br>
 
 
-                <Text fontSize='3xl'>
-                    Meet the Team
+                <Text fontSize='3xl'  color="darkgreen">
+                    The Team
                 </Text>
 
                 <br></br>
@@ -42,11 +35,11 @@ const About = () => {
                     <Box>
                         <Stack
                             direction={{ base: 'column', md: 'row' }}
-                            spacing={4} >
+                            spacing={2} >
 
                             {/* Akshat Card */}
                             <Box
-                                borderWidth='1px'
+                                borderWidth='2px'
                                 borderRadius='lg'
                                 overflow='hidden'
                                 _hover={{ boxShadow: "2xl" }}>
@@ -88,7 +81,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Github Btn'
                                                     icon={<AiFillGithub />}
-                                                    bgColor="mediumpurple"
+                                                    bgColor="green"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -105,7 +98,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Linkedin Btn'
                                                     icon={<AiFillLinkedin />}
-                                                    bgColor="royalblue"
+                                                    bgColor="grey"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -121,7 +114,7 @@ const About = () => {
 
                             {/* Adnan Card */}
                             <Box
-                                borderWidth='1px'
+                                borderWidth='2px'
                                 borderRadius='lg'
                                 overflow='hidden'
                                 _hover={{ boxShadow: "2xl" }}>
@@ -163,7 +156,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Github Btn'
                                                     icon={<AiFillGithub />}
-                                                    bgColor="mediumpurple"
+                                                    bgColor="green"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -180,7 +173,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Linkedin Btn'
                                                     icon={<AiFillLinkedin />}
-                                                    bgColor="royalblue"
+                                                    bgColor="grey"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -194,7 +187,7 @@ const About = () => {
 
                             {/* Dinesh Card */}
                             <Box
-                                borderWidth='1px'
+                                borderWidth='2px'
                                 borderRadius='lg'
                                 overflow='hidden'
                                 _hover={{ boxShadow: "2xl" }}>
@@ -236,7 +229,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Github Btn'
                                                     icon={<AiFillGithub />}
-                                                    bgColor="mediumpurple"
+                                                    bgColor="green"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -253,7 +246,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Linkedin Btn'
                                                     icon={<AiFillLinkedin />}
-                                                    bgColor="royalblue"
+                                                    bgColor="grey"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -270,7 +263,7 @@ const About = () => {
 
                             {/* Suyash Card */}
                             <Box
-                                borderWidth='1px'
+                                borderWidth='2px'
                                 borderRadius='lg'
                                 overflow='hidden'
                                 _hover={{ boxShadow: "2xl" }}>
@@ -312,7 +305,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Github Btn'
                                                     icon={<AiFillGithub />}
-                                                    bgColor="mediumpurple"
+                                                    bgColor="green"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -329,7 +322,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Linkedin Btn'
                                                     icon={<AiFillLinkedin />}
-                                                    bgColor="royalblue"
+                                                    bgColor="grey"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -346,7 +339,7 @@ const About = () => {
 
                             {/* Viha Card */}
                             <Box
-                                borderWidth='1px'
+                                borderWidth='2px'
                                 borderRadius='lg'
                                 overflow='hidden'
                                 _hover={{ boxShadow: "2xl" }}>
@@ -388,7 +381,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Github Btn'
                                                     icon={<AiFillGithub />}
-                                                    bgColor="mediumpurple"
+                                                    bgColor="green"
                                                     opacity={.7}
                                                 />
                                             </Link>
@@ -405,7 +398,7 @@ const About = () => {
                                                     fontSize='22px'
                                                     aria-label='Linkedin Btn'
                                                     icon={<AiFillLinkedin />}
-                                                    bgColor="royalblue"
+                                                    bgColor="grey"
                                                     opacity={.7}
                                                 />
                                             </Link>
