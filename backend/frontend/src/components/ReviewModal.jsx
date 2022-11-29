@@ -10,7 +10,7 @@ var Filter = require('bad-words'),
 
 export const ReviewModal = (props) => {
     const { selectedAmenityType, selectedAmenityId, authenticatedUser, selectedReview, showReviewModal, onModalClose, onReviewSubmit } = props;
-    
+
     const [inputs, setInputs] = useState({ rating: "", review: "" });
     const toast = useToast();
 

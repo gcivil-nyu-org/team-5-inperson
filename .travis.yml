@@ -11,8 +11,8 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - python -m black . --check
-  - python -m flake8 .
+  - python -m black . --check 
+  - python -m flake8 . 
   - python -m coverage run manage.py test --noinput
 
 after_script:
@@ -37,8 +37,8 @@ deploy:
    access_key_id: $NYCBASICKEY2
    secret_access_key: $NYCBASICSSECRETSKEY2
    region: 'us-west-2'
-   app: 'nycbasics-prod'
-   env: 'nycbasics-prod-env'
-   bucket_name: 'travis-prod-bucket'
+   app: 'prod-nycbasics'
+   env: 'prod-nycbasics-env'
+   bucket_name: 'elasticbeanstalk-us-west-2-176854219775'
    on:
      branch: master

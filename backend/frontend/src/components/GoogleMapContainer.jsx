@@ -214,19 +214,19 @@ export const GoogleMapContainer = (props) => {
                 <Filters
                     markerDataMapping={markerDataMapping}
                     onFilterToggle={(amenityType) => {
-                        if (amenityType === 'toilet'){
+                        if (amenityType === 'toilet') {
                             setToiletOn(!toiletOn)
                         }
-                        if (amenityType === 'water'){
+                        if (amenityType === 'water') {
                             setWaterOn(!waterOn)
                         }
-                        if (amenityType === 'parking'){
+                        if (amenityType === 'parking') {
                             setParkingOn(!parkingOn)
                         }
-                        if (amenityType === 'wifi'){
+                        if (amenityType === 'wifi') {
                             setWifiOn(!wifiOn)
                         }
-                        if (amenityType === 'bench'){
+                        if (amenityType === 'bench') {
                             setBenchOn(!benchOn)
                         }
                     }}

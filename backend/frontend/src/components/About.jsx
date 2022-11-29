@@ -19,12 +19,12 @@ const About = () => {
 
                 <Box p={'10px 50px 10px 50px'}>
 
-                
-                <Text fontSize='xl'>
-                    NYC Basics was born out of an academic project by 5 students at NYU Tandon
-                    with the vision of helping New Yorkers find and navigate to free basic amenities
-                    like water fountains, toilets, benches, wifi spots and parking lots.
-                </Text>
+
+                    <Text fontSize='xl'>
+                        NYC Basics was born out of an academic project by 5 students at NYU Tandon
+                        with the vision of helping New Yorkers find and navigate to free basic amenities
+                        like water fountains, toilets, benches, wifi spots and parking lots.
+                    </Text>
 
                 </Box>
 

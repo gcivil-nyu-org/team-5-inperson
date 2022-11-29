@@ -8,7 +8,7 @@ const apiService = new ApiService();
 
 export const ReviewRow = (props) => {
 
-    const {review, authenticatedUser, selectedAmenityType, onEditReview, onUpdateReview} = props;
+    const { review, authenticatedUser, selectedAmenityType, onEditReview, onUpdateReview } = props;
     const toast = useToast();
 
     const [isLiked, setIsLiked] = useState(false);
@@ -57,7 +57,7 @@ export const ReviewRow = (props) => {
                     ? <Flex>
                         <div>
                             <div>
-                                User ID: {review.user}
+                                User: {review.xyz}
                             </div>
                             <div>
                                 Rating: {review.rating}
@@ -72,10 +72,10 @@ export const ReviewRow = (props) => {
                                 size='sm'
                                 variant="outline"
                                 aria-label='Search database'
-                                icon={ isLiked ? <AiFillLike color='forestgreen' /> : <AiOutlineLike color='black' />}
+                                icon={isLiked ? <AiFillLike color='forestgreen' /> : <AiOutlineLike color='black' />}
                                 onClick={async () => {
                                     const shouldUndoDislike = isDisliked && !isLiked
-                                    if (shouldUndoDislike){
+                                    if (shouldUndoDislike) {
                                         setIsDisliked(false);
                                     }
                                     const updatedReview = {
@@ -87,7 +87,7 @@ export const ReviewRow = (props) => {
                                     };
                                     setIsLiked(!isLiked)
                                     await updateReview(updatedReview)
-                                    
+
                                 }}
                             />
                             <IconButton
@@ -95,10 +95,10 @@ export const ReviewRow = (props) => {
                                 size='sm'
                                 variant="outline"
                                 aria-label='Search database'
-                                icon={ isDisliked ? <AiFillDislike color='indianred' /> : <AiOutlineDislike color='black' />}
+                                icon={isDisliked ? <AiFillDislike color='indianred' /> : <AiOutlineDislike color='black' />}
                                 onClick={async () => {
                                     const shouldUndoLike = isLiked && !isDisliked
-                                    if (shouldUndoLike){
+                                    if (shouldUndoLike) {
                                         setIsLiked(false);
                                     }
                                     const updatedReview = {

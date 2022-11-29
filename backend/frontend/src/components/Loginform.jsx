@@ -70,9 +70,9 @@ function Loginform() {
                 <br /><br />
                 <p className="signup-prompt">New user?
                     <Link to='/signup'>
-                            <Badge variant='outline' ml='1' fontSize='.8em' colorScheme='green'>
-                                Sign up here
-                            </Badge>
+                        <Badge variant='outline' ml='1' fontSize='.8em' colorScheme='green'>
+                            Sign up here
+                        </Badge>
                     </Link>
                 </p>
 
@@ -80,9 +80,9 @@ function Loginform() {
 
                 <p className="signup-prompt">Forgot password?
                     <Link to='/reset-pass'>
-                            <Badge variant='outline' ml='1' fontSize='.8em' colorScheme='green'>
-                                Reset here
-                            </Badge>
+                        <Badge variant='outline' ml='1' fontSize='.8em' colorScheme='green'>
+                            Reset here
+                        </Badge>
                     </Link>
                 </p>
             </div>

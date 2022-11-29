@@ -23,6 +23,25 @@ class rating_List(generics.ListAPIView):
             amenity_id=pk2,
         ).select_related("user")
 
+        print("relevant_ratings.count", relevant_ratings.count())
+
+        count = relevant_ratings.count()
+
+        for i in range(count):
+            print("i", i)
+            user_all = User.objects.all()
+            relevant_user = user_all.filter(id=relevant_ratings[i].user_id)
+
+            username = relevant_user[0].username
+            print("relevant_user[0].username:", username)
+
+            relevant_rt = rating_all.filter(
+                amenity_type=pk1, amenity_id=pk2, user_id=relevant_ratings[i].user_id
+            ).select_related("user")
+
+            relevant_rt.update(xyz=username)
+            print("relevant_ratings[0].xyz:", relevant_ratings[i].xyz)
+
         return relevant_ratings
 
     serializer_class = rating_modelSerializer

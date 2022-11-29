@@ -7,7 +7,7 @@ import { useToast } from '@chakra-ui/react'
 
 function ResetPassword2() {
 
-    const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm({mode:"onChange"})
+    const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm({ mode: "onChange" })
     const [codeError, setCodeError] = useState("");
     const toast = useToast()
 
@@ -35,7 +35,7 @@ function ResetPassword2() {
                         description: "Login with the new password.",
                         status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
-                    
+
                     navigate("/login");
                 }
                 else {
@@ -63,12 +63,12 @@ function ResetPassword2() {
                     <label>Please enter the 6-digit verification code sent to your email.</label>
 
                     <label>Code:</label>
-                    <input type='number' {...register("code", { required: true })} placeholder='' />
+                    <input htmlFor="code" type='number' {...register("code", { required: true })} placeholder='' />
                     {(errors.code?.type === "required") ? (<div className="warning">Code is Required</div>) : ""}
                     {(codeError !== "") ? (<div className="warning">{codeError}</div>) : ""}
 
-                    <label htmlFor="password">New Password: </label>
-                    <input type='password' {...register("password", { required: true, minLength:{value:8, message:"Password must be 8 characters"}, maxLength:{value:25, message:"Password cannot be more than 25 characters"}, pattern:{value:/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, message: "Password must have: 1 Uppercase, 1 Lowercase, 1 Number and 1 Special Character."} })} placeholder='' />
+                    <label>New Password: </label>
+                    <input htmlFor="password" type='password' {...register("password", { required: true, minLength: { value: 8, message: "Password must be 8 characters" }, maxLength: { value: 25, message: "Password cannot be more than 25 characters" }, pattern: { value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, message: "Password must have: 1 Uppercase, 1 Lowercase, 1 Number and 1 Special Character." } })} placeholder='' />
                     {(errors.password?.type === "required") ? (<div className="warning">Password is Required</div>) : ""}
                     {errors.password && <div className="warning"><span>{errors.password.message}</span></div>}
 

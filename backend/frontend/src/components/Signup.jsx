@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Signup() {
 
-    const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm()
+    const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm({ mode: "onChange" })
     const navigate = useNavigate();
     const [usernameError, setUsernameError] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -51,19 +51,20 @@ function Signup() {
                 <form id='form' className='form-inner' onSubmit={handleSubmit(onSubmit)}>
                     <h2>Signup Form</h2>
 
-                    <label>Username: </label>
-                    <input type='text' {...register("username", { required: true })} placeholder='' />
-                    {(errors.username?.type === "required") ? (<div className="warning">Username is Required</div>) : ""}
-                    {(usernameError !== "") ? (<div className="warning">{usernameError}</div>) : ""}
-
-                    <label htmlFor="email">Email: </label>
-                    <input type='text' {...register("email", { required: true })} placeholder='' />
+                    <label>Email: </label>
+                    <input htmlFor="email" type='email' {...register("email", { required: true })} placeholder='' />
                     {(errors.email?.type === "required") ? (<div className="warning">Email is Required</div>) : ""}
                     {(emailError !== "") ? (<div className="warning">{emailError}</div>) : ""}
 
+                    <label>Username: </label>
+                    <input htmlFor="username" type='text' {...register("username", { required: true })} placeholder='' />
+                    {(errors.username?.type === "required") ? (<div className="warning">Username is Required</div>) : ""}
+                    {(usernameError !== "") ? (<div className="warning">{usernameError}</div>) : ""}
+
                     <label htmlFor="password">Password: </label>
-                    <input type='password' {...register("password", { required: true })} placeholder='' />
+                    <input type='password' {...register("password", { required: true, minLength: { value: 8, message: "Password must be 8 characters" }, maxLength: { value: 25, message: "Password cannot be more than 25 characters" }, pattern: { value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, message: "Password must have: 1 Uppercase, 1 Lowercase, 1 Number and 1 Special Character." } })} placeholder='' />
                     {(errors.password?.type === "required") ? (<div className="warning">Password is Required</div>) : ""}
+                    {errors.password && <div className="warning"><span>{errors.password.message}</span></div>}
 
                     <label>Confirm Password: </label>
                     <input type='password' {...register("confirmpwd", { required: true })} placeholder='' />

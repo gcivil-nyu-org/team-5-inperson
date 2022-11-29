@@ -57,23 +57,31 @@ function BasicsNavbar() {
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="ml-auto">
 
-                            {authenticatedUser?.token?.length > 0 
-                                ? <Nav.Link>Hello, {authenticatedUser.username}!</Nav.Link> 
+                            {authenticatedUser?.token?.length > 0
+                                ? <Nav.Link>Hello, {authenticatedUser.username}!</Nav.Link>
                                 : <Nav.Link as={Link} to='/login'>Login</Nav.Link>
                             }
 
                             <Nav.Link as={Link} to='/home'>Home</Nav.Link>
                             <Nav.Link as={Link} to='/about'>About</Nav.Link>
-                
+
                             {authenticatedUser?.token?.length > 0 ?
                                 <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                    <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item> 
+                                    <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                                 </NavDropdown>
-                            : null }
+                                : null}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+
+            <div id="divCheckbox" style={{ display: 'none' }}>
+                {authenticatedUser?.token?.length > 0
+                    ? (setTimeout(() => {
+                        logout()
+                    }, 3600000))
+                    : null}
+            </div>
         </>
     );
 }

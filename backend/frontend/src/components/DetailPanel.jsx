@@ -34,11 +34,11 @@ export const DetailPanel = (props) => {
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title style={{ width: "100%", textAlign: "center" }}>
                         <Text fontSize='xl' fontWeight='bold'>
-                            <Badge variant='subtle' ml='1' fontSize='2em' colorScheme='green'>
+                            <Badge variant='subtle' ml='1' fontSize='2em'>
                                 {selectedAmenityType.toUpperCase()}
                             </Badge>
                         </Text>
-                        <Text fontSize='sm' style={{color:'grey'}}>
+                        <Text fontSize='sm' style={{ color: 'grey' }}>
                             ID: {selectedAmenityId}
                         </Text>
 
