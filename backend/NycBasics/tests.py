@@ -150,6 +150,80 @@ class ApiTests(TestCase):
         self.assertTrue(isValidStatus)
         self.assertEqual(response.data[0]["review"], "This fountain is nice.")
 
+    def test_login_logout(self):
+        view = Login.as_view()
+        factory = APIRequestFactory()
+        self.client = APIClient()
+
+        User.objects.create(
+            username="user1", email="user1@test.com", password="testpass"
+        )
+
+        request = factory.post(
+            "/NycBasics/api/login/",
+            {"user_id": "user1@test.com", "password": "testpass"},
+        )
+        response = view(request)        
+        isValidStatus = 200 <= response.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        tokenExists = response.data.get("token", False)
+        self.assertTrue(tokenExists)
+        print("response.data[0][\"session_id\"]:",response.data[0]["session_id"])
+        self.assertEqual(response.data[0]["session_id"], "1")
+
+        #2nd session test
+        request1 = factory.post(
+            "/NycBasics/api/login/",
+            {"user_id": "user1@test.com", "password": "testpass"},
+        )
+        response1 = view(request1)        
+        isValidStatus = 200 <= response1.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        tokenExists = response1.data.get("token", False)
+        self.assertTrue(tokenExists)
+
+        self.assertEqual(response1.data[0]["session_id"], "2")
+
+        #3rd session test
+        request2 = factory.post(
+            "/NycBasics/api/login/",
+            {"user_id": "user1@test.com", "password": "testpass"},
+        )
+        response2 = view(request2)        
+        isValidStatus = 200 <= response2.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        tokenExists = response2.data.get("token", False)
+        self.assertTrue(tokenExists)
+
+        self.assertEqual(response2.data[0]["session_id"], "3")
+        
+        #4th session test-out of limit
+        request5 = factory.post(
+            "/NycBasics/api/login/",
+            {"user_id": "user1@test.com", "password": "testpass"},
+        )
+        response5 = view(request5)        
+        isValidStatus = 200 <= response5.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        tokenExists = response5.data.get("token", False)
+        self.assertFalse(tokenExists)
+
+        #logout out of third
+        request3 = factory.post(
+            "/NycBasics/api/logout/",
+            {"token": response2.data[0]["token"], "session_id": response2.data[0]["session_id"]},
+        )
+        response3 = view(request3)        
+        isValidStatus = 200 <= response3.status_code < 300
+        self.assertTrue(isValidStatus)
+
+        self.assertEqual(response3.data[0]["status"], "User is logged out.")
+
+    """
     def test_valid_login(self):
         view = Login.as_view()
         factory = APIRequestFactory()
@@ -315,7 +389,7 @@ class ApiTests(TestCase):
             logout_res.data["non_field_errors"][0],
             "User matching query does not exist.",
         )
-
+    """
     def test_water_api(self):
         view = water_List.as_view()
         factory = APIRequestFactory()
