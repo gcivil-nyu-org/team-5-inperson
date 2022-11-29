@@ -51,7 +51,7 @@ class water_List(generics.ListAPIView):
             if bottom_left_lng <= e.water_longitude <= top_right_lng
             and bottom_left_lat <= e.water_latitude <= top_right_lat  # noqa: W503
         ]
-        print("\nNumber of water resources : " + str(len(narrowed_list)) + "\n")
+        # print("\nNumber of water resources : " + str(len(narrowed_list)) + "\n")
 
         # Build your filtered queryset
         narrowed_queryset = water_all.filter(
@@ -85,7 +85,7 @@ class wifi_List(generics.ListAPIView):
             if bottom_left_lng <= e.wifi_longitude <= top_right_lng
             and bottom_left_lat <= e.wifi_latitude <= top_right_lat  # noqa: W503
         ]
-        print("\nNumber of wifi resources : " + str(len(narrowed_list)) + "\n")
+        # print("\nNumber of wifi resources : " + str(len(narrowed_list)) + "\n")
 
         # Build your filtered queryset
         narrowed_queryset = wifi_all.filter(
@@ -119,7 +119,7 @@ class parking_List(generics.ListAPIView):
             if bottom_left_lng <= e.parking_longitude <= top_right_lng
             and bottom_left_lat <= e.parking_latitude <= top_right_lat  # noqa: W503
         ]
-        print("\nNumber of parking resources : " + str(len(narrowed_list)) + "\n")
+        # print("\nNumber of parking resources : " + str(len(narrowed_list)) + "\n")
 
         # Build your filtered queryset
         narrowed_queryset = parking_all.filter(
@@ -153,7 +153,7 @@ class bench_List(generics.ListAPIView):
             if bottom_left_lng <= e.bench_longitude <= top_right_lng
             and bottom_left_lat <= e.bench_latitude <= top_right_lat  # noqa: W503
         ]
-        print("\nNumber of bench resources : " + str(len(narrowed_list)) + "\n")
+        # print("\nNumber of bench resources : " + str(len(narrowed_list)) + "\n")
 
         # Build your filtered queryset
         narrowed_queryset = bench_all.filter(
@@ -187,7 +187,7 @@ class toilet_List(generics.ListAPIView):
             if bottom_left_lng <= e.toilet_longitude <= top_right_lng
             and bottom_left_lat <= e.toilet_latitude <= top_right_lat  # noqa: W503
         ]
-        print("\nNumber of restroom resources : " + str(len(narrowed_list)) + "\n")
+        # print("\nNumber of restroom resources : " + str(len(narrowed_list)) + "\n")
 
         # Build your filtered queryset
         narrowed_queryset = toilet_all.filter(

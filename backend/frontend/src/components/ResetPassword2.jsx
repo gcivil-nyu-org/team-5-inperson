@@ -27,7 +27,6 @@ function ResetPassword2() {
             setCodeError("")
             try {
                 const resetPasswordUpdateResponse = await apiService.resetPasswordUpdate(data);
-                console.log("resetPasswordUpdateResponse", resetPasswordUpdateResponse)
 
                 if (resetPasswordUpdateResponse[0]) {
                     toast({

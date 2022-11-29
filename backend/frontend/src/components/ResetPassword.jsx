@@ -17,11 +17,8 @@ function ResetPassword() {
         data['code'] = Math.floor(100000 + Math.random() * 900000)
 
         try {
-            const resetPasswordResponse = await apiService.resetPassword(data);
-            console.log("resetPasswordResponse", resetPasswordResponse)
-
-            const resetPasswordSendEmailResponse = await apiService.resetPasswordSendEmail(data);
-            console.log("resetPasswordSendEmailResponse", resetPasswordSendEmailResponse)
+            await apiService.resetPassword(data);
+            await apiService.resetPasswordSendEmail(data);
 
             navigate("/reset-pass-2", { state: { email: data['email'] } });
         } catch (error) {

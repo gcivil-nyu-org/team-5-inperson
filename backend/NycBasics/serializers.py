@@ -66,7 +66,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
             email,
         ]
         send_mail(subject, message, from_email, recipient_list)
-        print("mail sent")
+        # print("mail sent")
 
 
 class EmailSerializer(serializers.ModelSerializer):
@@ -113,7 +113,7 @@ class ResetSerializer_SendEmail(serializers.ModelSerializer):
             email,
         ]
         send_mail(subject, message, from_email, recipient_list)
-        print("password reset mail sent")
+        # print("password reset mail sent")
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
@@ -178,7 +178,7 @@ class UserLogoutSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         token = data.get("token", None)
-        print(token)
+        # print(token)
         user = None
         try:
             user = User.objects.get(token=token)

@@ -37,7 +37,7 @@ export const ReviewRow = (props) => {
             }
         }
         catch (error) {
-            console.log(error);
+            console.log("error", error);
             toast({
                 title: 'Review Delete Failed',
                 status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
