@@ -102,7 +102,7 @@ urlpatterns = [
         name="reset_password_SendEmail",
     ),
     path(
-        "api/reset_password_verification/<str:pk1>/<int:pk2>/<str:pk3>",
+        "api/reset_password_verification/<str:pk1>/<int:pk2>/<str:pk3>/",
         userviews.Reset_Password_Verification.as_view(),
         name="reset_password_verification",
     ),

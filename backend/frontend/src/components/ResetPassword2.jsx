@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ApiService } from '../api-service';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import { useToast } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 
 function ResetPassword2() {
 
-    const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm()
+    const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm({mode:"onChange"})
     const [codeError, setCodeError] = useState("");
-    // const toast = useToast()
+    const toast = useToast()
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,22 +29,22 @@ function ResetPassword2() {
                 const resetPasswordUpdateResponse = await apiService.resetPasswordUpdate(data);
                 console.log("resetPasswordUpdateResponse", resetPasswordUpdateResponse)
 
-                // if (verifyResponse[0]?.is_email_verified) {
-                //     toast({
-                //         title: 'Email Verified.',
-                //         description: "Verification Successful. Please login.",
-                //         status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
-                //     })
-                //     navigate("/login");
-                // }
-                // else {
-                //     toast({
-                //         title: 'Email Not Verified.',
-                //         description: "Verification Unsuccessful. Please signup again.",
-                //         status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
-                //     })
-                //     navigate("/signup");
-                // }
+                if (resetPasswordUpdateResponse[0]) {
+                    toast({
+                        title: 'Reset Password Success',
+                        description: "Login with the new password.",
+                        status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
+                    })
+                    
+                    navigate("/login");
+                }
+                else {
+                    toast({
+                        title: 'Reset Password Failed.',
+                        description: "Wrong code entered. Please try again.",
+                        status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
+                    })
+                }
 
             } catch (error) {
                 console.log("error", error)
@@ -68,8 +68,9 @@ function ResetPassword2() {
                     {(codeError !== "") ? (<div className="warning">{codeError}</div>) : ""}
 
                     <label htmlFor="password">New Password: </label>
-                    <input type='password' {...register("password", { required: true })} placeholder='' />
+                    <input type='password' {...register("password", { required: true, minLength:{value:8, message:"Password must be 8 characters"}, maxLength:{value:25, message:"Password cannot be more than 25 characters"}, pattern:{value:/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, message: "Password must have: 1 Uppercase, 1 Lowercase, 1 Number and 1 Special Character."} })} placeholder='' />
                     {(errors.password?.type === "required") ? (<div className="warning">Password is Required</div>) : ""}
+                    {errors.password && <div className="warning"><span>{errors.password.message}</span></div>}
 
                     <label>Confirm New Password: </label>
                     <input type='password' {...register("confirmpwd", { required: true })} placeholder='' />
