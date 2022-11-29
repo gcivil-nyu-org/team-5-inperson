@@ -106,7 +106,7 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-"""
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -114,18 +114,18 @@ DATABASES = {
     }
 }
 
-"""
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("dbname"),
-        "USER": config("dbuser"),
-        "PASSWORD": config("dbpassword"),
-        "HOST": config("dbhost"),
-        "PORT": config("dbport"),
-    }
-}
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": config("dbname"),
+#         "USER": config("dbuser"),
+#         "PASSWORD": config("dbpassword"),
+#         "HOST": config("dbhost"),
+#         "PORT": config("dbport"),
+#     }
+# }
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
