@@ -6,62 +6,62 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('NycBasics', '0004_auto_20221127_2103'),
+        ("NycBasics", "0004_auto_20221127_2103"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='user',
-            old_name='ifLogged',
-            new_name='ifLogged1',
+            model_name="user",
+            old_name="ifLogged",
+            new_name="ifLogged1",
         ),
         migrations.RemoveField(
-            model_name='user',
-            name='token_timestamp',
+            model_name="user",
+            name="token_timestamp",
         ),
         migrations.AddField(
-            model_name='user',
-            name='ifLogged2',
+            model_name="user",
+            name="ifLogged2",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='user',
-            name='ifLogged3',
+            model_name="user",
+            name="ifLogged3",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='user',
-            name='session_id',
+            model_name="user",
+            name="session_id",
             field=models.IntegerField(null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='token1',
-            field=models.CharField(default='', max_length=500, null=True),
+            model_name="user",
+            name="token1",
+            field=models.CharField(default="", max_length=500, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='token2',
-            field=models.CharField(default='', max_length=500, null=True),
+            model_name="user",
+            name="token2",
+            field=models.CharField(default="", max_length=500, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='token3',
-            field=models.CharField(default='', max_length=500, null=True),
+            model_name="user",
+            name="token3",
+            field=models.CharField(default="", max_length=500, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='token_timestamp1',
+            model_name="user",
+            name="token_timestamp1",
             field=models.DateTimeField(null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='token_timestamp2',
+            model_name="user",
+            name="token_timestamp2",
             field=models.DateTimeField(null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='token_timestamp3',
+            model_name="user",
+            name="token_timestamp3",
             field=models.DateTimeField(null=True),
         ),
     ]
