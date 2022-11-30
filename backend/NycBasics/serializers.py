@@ -15,6 +15,9 @@ from uuid import uuid4
 from django.db.models import Q
 from django.conf import settings
 from django.core.mail import send_mail
+from django.utils import timezone
+
+# from threading import Timer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
         required=True, validators=[UniqueValidator(queryset=User.objects.all())]
     )
-    password = serializers.CharField(max_length=8)
+    password = serializers.CharField(max_length=25)
     system_otp = serializers.IntegerField(required=True)
 
     class Meta:
@@ -46,7 +49,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
     username = serializers.CharField(
         required=True,
     )
-    password = serializers.CharField(max_length=8)
+    password = serializers.CharField(max_length=25)
     system_otp = serializers.IntegerField(required=True)
 
     class Meta:
@@ -63,7 +66,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
             email,
         ]
         send_mail(subject, message, from_email, recipient_list)
-        print("mail sent")
+        # print("mail sent")
 
 
 class EmailSerializer(serializers.ModelSerializer):
@@ -110,14 +113,16 @@ class ResetSerializer_SendEmail(serializers.ModelSerializer):
             email,
         ]
         send_mail(subject, message, from_email, recipient_list)
-        print("password reset mail sent")
+        # print("password reset mail sent")
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
-    # to accept either username or email
     user_id = serializers.CharField()
     password = serializers.CharField()
     token = serializers.CharField(required=False, read_only=True)
+    token1 = serializers.CharField(required=False, read_only=True)
+    token2 = serializers.CharField(required=False, read_only=True)
+    token3 = serializers.CharField(required=False, read_only=True)
     username = serializers.CharField(required=False, read_only=True)
 
     def validate(self, data):
@@ -144,48 +149,135 @@ class UserLoginSerializer(serializers.ModelSerializer):
             if not user.exists():
                 raise ValidationError("User credentials are not correct.")
             user = User.objects.get(username=user_id)
-        if user.ifLogged:
-            raise ValidationError("User already logged in.")
-        user.ifLogged = True
-        data["token"] = uuid4()
-        user.token = data["token"]
-        user.save()
-        data["username"] = user.username
-        data["id"] = user.id
-        return data
+
+        user.session_id = 0
+        if user.ifLogged1 is False:
+            user.ifLogged1 = True
+            data["token"] = uuid4()
+            user.token1 = data["token"]
+            user.token_timestamp1 = timezone.now()
+            user.session_id = 1
+            user.save()
+            data["username"] = user.username
+            data["id"] = user.id
+            data["session_id"] = user.session_id
+            data["ifLogged1"] = user.ifLogged1
+            return data
+
+        if user.ifLogged2 is False:
+            user.ifLogged2 = True
+            data["token"] = uuid4()
+            user.token2 = data["token"]
+            user.token_timestamp2 = timezone.now()
+            user.session_id = 2
+            user.save()
+            data["username"] = user.username
+            data["id"] = user.id
+            data["session_id"] = user.session_id
+            data["ifLogged2"] = user.ifLogged2
+            return data
+
+        if user.ifLogged3 is False:
+            user.ifLogged3 = True
+            data["token"] = uuid4()
+            user.token3 = data["token"]
+            user.token_timestamp3 = timezone.now()
+            user.session_id = 3
+            user.save()
+            data["username"] = user.username
+            data["id"] = user.id
+            data["session_id"] = user.session_id
+            data["ifLogged3"] = user.ifLogged3
+            return data
+        """
+        x=datetime.today()
+        #y=x.replace(day=x.day, hour=1, minute=0, second=0, microsecond=0)
+        #delta_t=y-x
+
+        secs=20
+        print("user login status:",user.ifLogged)
+        def hello_world():
+            user.ifLogged = False
+            user.token = ""
+            y = timezone.now()
+            delta = y-user.token_timestamp
+            print("delta",delta.total_seconds)
+            print("user logs out:",user.ifLogged)
+            print("user name:",user.username)
+
+        t = Timer(secs, hello_world)
+        t.start()
+        """
+        raise ValidationError(
+            "User already logged in/max multiple login limit exceeded"
+        )
 
     class Meta:
         model = User
-        fields = ("user_id", "password", "token", "username", "id")
+        fields = (
+            "token",
+            "user_id",
+            "password",
+            "username",
+            "id",
+            "session_id",
+            "token1",
+            "token2",
+            "token3",
+        )
 
-        read_only_fields = ("token", "username")
+        read_only_fields = ("token", "token1", "token2", "token3", "username")
 
 
 class UserLogoutSerializer(serializers.ModelSerializer):
     token = serializers.CharField()
     status = serializers.CharField(required=False, read_only=True)
+    session_id = serializers.IntegerField()
 
     def validate(self, data):
         token = data.get("token", None)
-        print(token)
+        session_id = data.get("session_id", None)
+        # print(token)
+        # print(session_id)
         user = None
         try:
-            user = User.objects.get(token=token)
-            if not user.ifLogged:
-                raise ValidationError("User is not logged in.")
+            if session_id == 1:
+                user = User.objects.get(token1=token)
+                user.ifLogged1 = False
+                user.token1 = ""
+                user.token_timestamp1 = None
+                user.save()
+                data["status"] = "User is logged out."
+                return data
+
+            if session_id == 2:
+                user = User.objects.get(token2=token)
+                user.ifLogged2 = False
+                user.token2 = ""
+                user.token_timestamp2 = None
+                user.save()
+                data["status"] = "User is logged out."
+                return data
+
+            if session_id == 3:
+                user = User.objects.get(token3=token)
+                user.ifLogged3 = False
+                user.token3 = ""
+                user.token_timestamp3 = None
+                user.save()
+                data["status"] = "User is logged out."
+                return data
+
+            raise ValidationError("User is not logged in.")
         except Exception as e:
             raise ValidationError(str(e))
-        user.ifLogged = False
-        user.token = ""
-        user.save()
-        data["status"] = "User is logged out."
-        return data
 
     class Meta:
         model = User
         fields = (
             "token",
             "status",
+            "session_id",
         )
 
 

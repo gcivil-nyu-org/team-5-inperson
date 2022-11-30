@@ -85,23 +85,22 @@ class Email_Verification(generics.ListAPIView):
         relevant_user_q = user_all.filter(
             email=pk1,
         )
-        print("relevant_user_q count: ", relevant_user_q.count())
+        # print("relevant_user_q count: ", relevant_user_q.count())
 
         if relevant_user_q.count() != 0:
-            print("inside if exists relevant_user_q: ", relevant_user_q)
+            # print("inside if exists relevant_user_q: ", relevant_user_q)
             relevant_user = list(relevant_user_q)
             now_aware = timezone.now()
-            """
-            print(" relevant_user[0].emailveri: ",relevant_user[0].is_email_verified)
-            print(" relevant_user[0].email: ",relevant_user[0].email)
-            print(" relevant_user[0].sysotp: ",relevant_user[0].system_otp)
-            print(" relevant_user[0].systime: ",relevant_user[0].system_timestamp)
-            print(" datetime now: ", now_aware)
-            """
+
+            # print(" relevant_user[0].emailveri: ",relevant_user[0].is_email_verified)
+            # print(" relevant_user[0].email: ",relevant_user[0].email)
+            # print(" relevant_user[0].sysotp: ",relevant_user[0].system_otp)
+            # print(" relevant_user[0].systime: ",relevant_user[0].system_timestamp)
+            # print(" datetime now: ", now_aware)
 
             if pk2 == relevant_user[0].system_otp:
                 timediff = now_aware - relevant_user[0].system_timestamp
-                print(timediff.total_seconds())
+                # print(timediff.total_seconds())
                 if timediff.total_seconds() <= 3600:
                     # print("in time")
                     relevant_user_q.update(is_email_verified=True)
@@ -137,23 +136,22 @@ class Reset_Password_Verification(generics.ListAPIView):
         relevant_user_q = user_all.filter(
             email=pk1,
         )
-        print("pass_reset relevant_user_q count: ", relevant_user_q.count())
+        # print("pass_reset relevant_user_q count: ", relevant_user_q.count())
 
         if relevant_user_q.count() != 0:
             # print("inside if exists relevant_user_q: ", relevant_user_q)
             relevant_user = list(relevant_user_q)
             now_aware = timezone.now()
-            """
-            print(" relevant_user[0].emailveri: ",relevant_user[0].is_email_verified)
-            print(" relevant_user[0].email: ",relevant_user[0].email)
-            print(" relevant_user[0].sysotp: ",relevant_user[0].system_otp)
-            print(" relevant_user[0].systime: ",relevant_user[0].system_timestamp)
-            print(" datetime now: ", now_aware)
-            """
+
+            # print(" relevant_user[0].emailveri: ",relevant_user[0].is_email_verified)
+            # print(" relevant_user[0].email: ",relevant_user[0].email)
+            # print(" relevant_user[0].sysotp: ",relevant_user[0].system_otp)
+            # print(" relevant_user[0].systime: ",relevant_user[0].system_timestamp)
+            # print(" datetime now: ", now_aware)
 
             if pk2 == relevant_user[0].password_otp:
                 timediff = now_aware - relevant_user[0].password_otp_timestamp
-                print(timediff.total_seconds())
+                # print(timediff.total_seconds())
                 if timediff.total_seconds() <= 3600:
                     # print("in time, update password")
                     relevant_user_q.update(password=pk3)

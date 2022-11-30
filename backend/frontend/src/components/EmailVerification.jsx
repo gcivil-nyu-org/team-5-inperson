@@ -22,7 +22,7 @@ function EmailVerification() {
         data['email'] = location.state.email
 
         if (data['code'].length !== 6) {
-            setCodeError("The code must be 6-digits.")
+            setCodeError("The code must be 6 digits")
         }
         else {
             setCodeError("")
@@ -33,11 +33,7 @@ function EmailVerification() {
                     toast({
                         title: 'Email Verified.',
                         description: "Verification Successful. Please login.",
-                        status: 'success',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
+                        status: 'success', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
                     navigate("/login");
                 }
@@ -45,11 +41,7 @@ function EmailVerification() {
                     toast({
                         title: 'Email Not Verified.',
                         description: "Verification Unsuccessful. Please signup again.",
-                        status: 'error',
-                        duration: 4000,
-                        isClosable: true,
-                        position: 'bottom-right',
-                        variant: 'left-accent'
+                        status: 'error', duration: 4000, isClosable: true, position: 'bottom-right', variant: 'left-accent'
                     })
                     navigate("/signup");
                 }
@@ -68,10 +60,12 @@ function EmailVerification() {
                 <form id='form' className='form-inner' onSubmit={handleSubmit(onSubmit)}>
                     <h2>Email Verification</h2>
 
-                    <label>Please enter the 6-digit verification
-                        code sent to your email.</label>
+                    <label>Please enter the 6-digit verification code sent to your email.</label>
+
+                    <label>Code:</label>
                     <input type='number' {...register("code", { required: true })} placeholder='' />
-                    {errors.code?.type === "required" && "Code is Required"}
+                    {/* {errors.code?.type === "required" && "Code is Required"} */}
+                    {(errors.code?.type === "required") ? (<div className="warning">Code is Required</div>) : ""}
                     {(codeError !== "") ? (<div className="warning">{codeError}</div>) : ""}
 
                     <br></br>

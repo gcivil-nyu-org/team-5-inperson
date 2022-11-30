@@ -2,12 +2,20 @@ from django.db import models
 
 
 class User(models.Model):
-    username = models.CharField(max_length=255, null=False)
+    username = models.CharField(max_length=255, null=False, unique=True)
     email = models.EmailField(max_length=255, null=False)
     password = models.CharField(max_length=50)
-    ifLogged = models.BooleanField(default=False)
+    session_id = models.IntegerField(null=True)
+    ifLogged1 = models.BooleanField(default=False)
     token = models.CharField(max_length=500, null=True, default="")
-    token_timestamp = models.DateTimeField(auto_now=True)
+    token1 = models.CharField(max_length=500, null=True, default="")
+    token_timestamp1 = models.DateTimeField(null=True)
+    ifLogged2 = models.BooleanField(default=False)
+    token2 = models.CharField(max_length=500, null=True, default="")
+    token_timestamp2 = models.DateTimeField(null=True)
+    ifLogged3 = models.BooleanField(default=False)
+    token3 = models.CharField(max_length=500, null=True, default="")
+    token_timestamp3 = models.DateTimeField(null=True)
     is_email_verified = models.BooleanField(null=True, default=False)
     # when object is first created->auto_now_add
     system_timestamp = models.DateTimeField(auto_now_add=True)
@@ -42,7 +50,16 @@ class bench_model(models.Model):
 
 
 class Rating_Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="usermodel_userid_set"
+    )
+    xyz = models.ForeignKey(
+        User,
+        to_field="username",
+        on_delete=models.CASCADE,
+        related_name="usermodel_username_set",
+        null=True,
+    )
     amenity_type = models.CharField(max_length=10, null=False)
     amenity_id = models.IntegerField(null=False, default=0)
     # water_id = models.ForeignKey(water_model, on_delete=models.CASCADE)

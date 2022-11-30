@@ -22,6 +22,7 @@ export class ApiService {
             },
             body: JSON.stringify({
                 token: userData['token'],
+                session_id: userData['session_id']
             })
         });
         const data = await res.json();
@@ -179,6 +180,56 @@ export class ApiService {
         return data
 
     }
+
+
+
+    async resetPassword(userData) {
+        const res = await fetch(`${this.baseUrl}/reset_password/${userData.email}/${userData.code}/`, this.requestConfig);
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+    async resetPasswordSendEmail(userData) {
+        const res = await fetch(`${this.baseUrl}/reset_password_SendEmail/`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: userData['email'],
+                password_otp: userData['code'],
+            })
+        });
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+    async resetPasswordUpdate(userData) {
+        const res = await fetch(`${this.baseUrl}/reset_password_verification/${userData.email}/${userData.code}/${userData.password}/`, this.requestConfig);
+        const data = await res.json();
+
+        if (res.status >= 200 && res.status < 300) {
+            return data;
+        }
+        else {
+            return Promise.reject(data);
+        }
+    }
+
+
 
     async deleteReview(deletedReview) {
         const res = await fetch (`${this.baseUrl}/review/${deletedReview.id}/` , {
