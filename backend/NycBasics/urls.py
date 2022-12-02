@@ -65,7 +65,11 @@ urlpatterns = [
         userviews.Login.as_view(),
         name="login",
     ),
-    path("api/logout/", userviews.Logout.as_view(), name="logout"),
+    path(
+        "api/logout/", 
+        userviews.Logout.as_view(), 
+        name="logout"
+    ),
     path(
         "api/rating_review/<str:pk1>/<int:pk2>/",
         ratingviews.rating_List.as_view(),
