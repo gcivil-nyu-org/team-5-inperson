@@ -101,7 +101,7 @@ class Email_Verification(generics.ListAPIView):
             if pk2 == relevant_user[0].system_otp:
                 timediff = now_aware - relevant_user[0].system_timestamp
                 # print(timediff.total_seconds())
-                if timediff.total_seconds() <= 3600:
+                if timediff.total_seconds() <= 600:
                     # print("in time")
                     relevant_user_q.update(is_email_verified=True)
                 else:

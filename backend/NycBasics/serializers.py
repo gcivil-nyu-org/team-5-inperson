@@ -16,8 +16,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
-
-# from threading import Timer
+from threading import Timer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -67,6 +66,21 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
         ]
         send_mail(subject, message, from_email, recipient_list)
         # print("mail sent")
+
+        secs = 600
+
+        def delete_if_not_verified():
+            user = User.objects.get(email=email)
+            # print("hello world")
+            # print("user.is_email_verified", user.is_email_verified)
+
+            if user.is_email_verified is False:
+                user.delete()
+
+        t = Timer(secs, delete_if_not_verified)
+        # print("timer started")
+        t.start()
+        # print("timer ends")
 
 
 class EmailSerializer(serializers.ModelSerializer):
