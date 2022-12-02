@@ -22,6 +22,7 @@ from NycBasics.views.userviews import (
 )
 from NycBasics.views.ratingviews import rating_List, Rating_Review
 from rest_framework.test import APIClient
+from django.contrib.auth.hashers import make_password
 
 """
 wsp
@@ -157,14 +158,14 @@ class ApiTests(TestCase):
         self.client = APIClient()
 
         User.objects.create(
-            username="user1", email="user1@test.com", password="testpass"
+            username="user1", email="user1@test.com", password=make_password("testpass")
         )
 
         request = factory.post(
             "/NycBasics/api/login/",
             {"user_id": "user1@test.com", "password": "testpass"},
         )
-        response = viewLogin(request)
+        response = viewLogin(request)        
         isValidStatus = 200 <= response.status_code < 300
         self.assertTrue(isValidStatus)
 
