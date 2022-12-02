@@ -17,6 +17,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 from threading import Timer
+from django.contrib.auth.hashers import make_password, check_password
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -66,6 +67,11 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
         ]
         send_mail(subject, message, from_email, recipient_list)
         # print("mail sent")
+
+        #hash password
+        user = User.objects.get(email=email)
+        user.password = make_password(user.password)
+        user.save()
 
         secs = 600
 
@@ -143,7 +149,9 @@ class UserLoginSerializer(serializers.ModelSerializer):
 
         # user,email,password validator
         user_id = data.get("user_id", None)
-        password = data.get("password", None)
+        password = data.get("password", None)        
+        
+        print("")
         if not user_id and not password:
             raise ValidationError("Details not entered.")
         user = None
@@ -151,18 +159,37 @@ class UserLoginSerializer(serializers.ModelSerializer):
         # if the email has been passed
         if "@" in user_id:
             user = User.objects.filter(
-                Q(email=user_id) & Q(password=password)
+                Q(email=user_id)
             ).distinct()
-            if not user.exists():
+            
+            if not user.exists():                
                 raise ValidationError("User credentials are not correct.")
             user = User.objects.get(email=user_id)
+            userpass = user.password
+            checkpass = check_password(password,userpass)
+            if checkpass is False:
+                raise ValidationError("Incorrect password.")
+            print("")
+            print("")
+            print("check pass:",checkpass)
+            print("")
+            print("")
         else:
             user = User.objects.filter(
-                Q(username=user_id) & Q(password=password)
+                Q(username=user_id)
             ).distinct()
             if not user.exists():
                 raise ValidationError("User credentials are not correct.")
             user = User.objects.get(username=user_id)
+            userpass = user.password
+            checkpass = check_password(password,userpass)
+            if checkpass is False:
+                raise ValidationError("Incorrect password.")
+            print("")
+            print("")
+            print("check pass:",checkpass)
+            print("")
+            print("")
 
         user.session_id = 0
         if user.ifLogged1 is False:
