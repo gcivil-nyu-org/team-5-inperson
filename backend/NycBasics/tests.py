@@ -1,4 +1,4 @@
-from django.test import TestCase, TransactionTestCase
+from django.test import TransactionTestCase
 from rest_framework.test import APIRequestFactory
 from NycBasics.views.listviews import (
     water_List,
@@ -20,7 +20,7 @@ from NycBasics.views.userviews import (
     Email_Verification,
     Reset_Password_Verification,
     Record,
-    Record_SendEmail
+    Record_SendEmail,
 )
 from NycBasics.views.ratingviews import rating_List, Rating_Review
 from rest_framework.test import APIClient
@@ -47,19 +47,21 @@ class ApiTests(TransactionTestCase):
         view2 = Record_SendEmail.as_view()
         view3 = Email_Verification.as_view()
         factory = APIRequestFactory()
-        self.client = APIClient()        
+        self.client = APIClient()
 
         request = factory.post(
             "/NycBasics/api/addUser/",
-            {"username": "user1",
-            "email": "user1@test.com",
-            "password": "testpass",
-            "system_otp": "123456"},
+            {
+                "username": "user1",
+                "email": "user1@test.com",
+                "password": "testpass",
+                "system_otp": "123456",
+            },
         )
         response11 = view(request)
         print("")
         print("")
-        print("response11.data",response11.data)
+        print("response11.data", response11.data)
         print("")
         print("")
         isValidStatus = 200 <= response11.status_code < 300
@@ -67,61 +69,68 @@ class ApiTests(TransactionTestCase):
 
         request = factory.post(
             "/NycBasics/api/addUser/",
-            {"username": "user2",
-            "email": "user2@test.com",
-            "password": "testpass",
-            "system_otp": "123456"},
+            {
+                "username": "user2",
+                "email": "user2@test.com",
+                "password": "testpass",
+                "system_otp": "123456",
+            },
         )
         response22 = view(request)
         print("")
         print("")
-        print("response22.data",response22.data)
+        print("response22.data", response22.data)
         print("")
         print("")
         isValidStatus = 200 <= response22.status_code < 300
         self.assertTrue(isValidStatus)
-        #send email
+        # send email
         request2 = factory.post(
             "/NycBasics/api/addUser_SendEmail/",
-            {"username": "user1",
-            "email": "user1@test.com",
-            "password": "testpass",
-            "system_otp": "123456"},
+            {
+                "username": "user1",
+                "email": "user1@test.com",
+                "password": "testpass",
+                "system_otp": "123456",
+            },
         )
         response2 = view2(request2)
         sleep(20)
         request3 = factory.get("/NycBasics/api/verification/user1@test.com/123456/")
         response3 = view3(request3, pk1="user1@test.com", pk2="123456")
+        isValidStatus = 200 <= response3.status_code < 300
+        self.assertTrue(isValidStatus)
         sleep(101)
         print("")
         print("")
-        print("response2.data",response2.data)
+        print("response2.data", response2.data)
         print("")
         print("")
         isValidStatus = 200 <= response2.status_code < 300
         self.assertTrue(isValidStatus)
-        useruser1= User.objects.get(username=response11.data["username"])
-        print("useruser1.is_email_verified:",useruser1.is_email_verified)
+        useruser1 = User.objects.get(username=response11.data["username"])
+        print("useruser1.is_email_verified:", useruser1.is_email_verified)
         self.assertEqual(useruser1.is_email_verified, True)
 
         # email verified false
         request3 = factory.post(
             "/NycBasics/api/addUser_SendEmail/",
-            {"username": "user2",
-            "email": "user2@test.com",
-            "password": "testpass",
-            "system_otp": "123456"},
+            {
+                "username": "user2",
+                "email": "user2@test.com",
+                "password": "testpass",
+                "system_otp": "123456",
+            },
         )
-        response4 = view2(request3)      
+        response4 = view2(request3)
         sleep(101)
         print("")
         print("")
-        print("response4.data",response4.data)
+        print("response4.data", response4.data)
         print("")
         print("")
         isValidStatus = 200 <= response4.status_code < 300
-        self.assertTrue(isValidStatus)        
-
+        self.assertTrue(isValidStatus)
 
     def test_reset_password(self):
         view = Reset_Password.as_view()
@@ -249,7 +258,7 @@ class ApiTests(TransactionTestCase):
             "/NycBasics/api/login/",
             {"user_id": "user1@test.com", "password": "testpass"},
         )
-        response = viewLogin(request)        
+        response = viewLogin(request)
         isValidStatus = 200 <= response.status_code < 300
         self.assertTrue(isValidStatus)
 

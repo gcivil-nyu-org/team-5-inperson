@@ -74,16 +74,16 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
         user.save()
         print("")
         print("")
-        print("user.email",user.email)
-        print("user.password",user.password)
+        print("user.email", user.email)
+        print("user.password", user.password)
         print("")
         print("")
 
         secs = 100
 
-        def delete_if_not_verified():            
+        def delete_if_not_verified():
             user = User.objects.get(email=email)
-            
+
             print("user.is_email_verified", user.is_email_verified)
 
             if user.is_email_verified is False:
