@@ -52,16 +52,14 @@ export const ReviewRow = (props) => {
 
                 <hr />
                 <br></br>
-
+                
                 {authenticatedUser?.token?.length > 0
                     ? <Flex>
                         <div>
                             <div>
                                 User: {review.xyz}
                             </div>
-                            <div>
-                                Rating: {review.rating}
-                            </div>
+                            
                         </div>
 
                         <Spacer />
@@ -146,7 +144,10 @@ export const ReviewRow = (props) => {
                     : null}
 
                 <div className='fw-bold'>{review.review}</div>
-
+                <br></br>
+                <div>
+                    <b>Rating:</b> {review.rating}
+                </div>
                 <br></br>
                 <div style={{ color: 'grey' }}>
                     Likes: {review.upvotes} | Dislikes: {review.downvotes}
