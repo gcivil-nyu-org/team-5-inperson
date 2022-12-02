@@ -69,7 +69,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
 
         secs = 600
 
-        def hello_world():
+        def delete_if_not_verified():
             user = User.objects.get(email=email)
             # print("hello world")
             # print("user.is_email_verified", user.is_email_verified)
@@ -77,7 +77,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
             if user.is_email_verified is False:
                 user.delete()
 
-        t = Timer(secs, hello_world)
+        t = Timer(secs, delete_if_not_verified)
         # print("timer started")
         t.start()
         # print("timer ends")
