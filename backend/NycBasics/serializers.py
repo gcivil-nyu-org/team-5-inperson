@@ -49,7 +49,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
     username = serializers.CharField(
         required=True,
     )
-    password = serializers.CharField(max_length=25)
+    password = serializers.CharField(max_length=500)
     system_otp = serializers.IntegerField(required=True)
 
     class Meta:
@@ -66,27 +66,34 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
             email,
         ]
         send_mail(subject, message, from_email, recipient_list)
-        # print("mail sent")
+        print("mail sent")
 
         # hash password
         user = User.objects.get(email=email)
         user.password = make_password(user.password)
         user.save()
+        print("")
+        print("")
+        print("user.email",user.email)
+        print("user.password",user.password)
+        print("")
+        print("")
 
-        secs = 600
+        secs = 100
 
-        def delete_if_not_verified():
+        def delete_if_not_verified():            
             user = User.objects.get(email=email)
-            # print("hello world")
-            # print("user.is_email_verified", user.is_email_verified)
+            
+            print("user.is_email_verified", user.is_email_verified)
 
             if user.is_email_verified is False:
                 user.delete()
+                print("user deleted")
 
         t = Timer(secs, delete_if_not_verified)
-        # print("timer started")
+        print("timer started")
         t.start()
-        # print("timer ends")
+        print("timer ends")
 
 
 class EmailSerializer(serializers.ModelSerializer):
