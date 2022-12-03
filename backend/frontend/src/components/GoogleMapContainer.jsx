@@ -170,7 +170,7 @@ export const GoogleMapContainer = (props) => {
                     }}
                 />
             </Autocomplete>
-
+            
             <DetailPanel
                 selectedAmenityType={selectedAmenityType}
                 authenticatedUser={authenticatedUser}

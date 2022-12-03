@@ -29,3 +29,7 @@ button {
   border: none;
   outline: none;
 }
+
+.offcanvas{
+  margin-top: 56px;
+}
