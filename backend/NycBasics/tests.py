@@ -203,7 +203,7 @@ class ApiTests(TransactionTestCase):
         isValidStatus = 200 <= response.status_code < 300
         self.assertTrue(isValidStatus)
 
-        #self.assertEqual(response.data[0]["password"], "newpassword")
+        # self.assertEqual(response.data[0]["password"], "newpassword")
 
         # otp doesnt match case
 
