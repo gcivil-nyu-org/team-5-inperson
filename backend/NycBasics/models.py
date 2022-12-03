@@ -4,7 +4,7 @@ from django.db import models
 class User(models.Model):
     username = models.CharField(max_length=255, null=False, unique=True)
     email = models.EmailField(max_length=255, null=False)
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=500)
     session_id = models.IntegerField(null=True)
     ifLogged1 = models.BooleanField(default=False)
     token = models.CharField(max_length=500, null=True, default="")

@@ -17,6 +17,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 from threading import Timer
+from django.contrib.auth.hashers import make_password, check_password
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,7 +49,7 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
     username = serializers.CharField(
         required=True,
     )
-    password = serializers.CharField(max_length=25)
+    password = serializers.CharField(max_length=500)
     system_otp = serializers.IntegerField(required=True)
 
     class Meta:
@@ -65,22 +66,34 @@ class UserSerializer_SendEmail(serializers.ModelSerializer):
             email,
         ]
         send_mail(subject, message, from_email, recipient_list)
-        # print("mail sent")
+        print("mail sent")
 
-        secs = 600
+        # hash password
+        user = User.objects.get(email=email)
+        user.password = make_password(user.password)
+        user.save()
+        print("")
+        print("")
+        print("user.email", user.email)
+        print("user.password", user.password)
+        print("")
+        print("")
+
+        secs = 100
 
         def delete_if_not_verified():
             user = User.objects.get(email=email)
-            # print("hello world")
-            # print("user.is_email_verified", user.is_email_verified)
+
+            print("user.is_email_verified", user.is_email_verified)
 
             if user.is_email_verified is False:
                 user.delete()
+                print("user deleted")
 
         t = Timer(secs, delete_if_not_verified)
-        # print("timer started")
+        print("timer started")
         t.start()
-        # print("timer ends")
+        print("timer ends")
 
 
 class EmailSerializer(serializers.ModelSerializer):
@@ -144,25 +157,42 @@ class UserLoginSerializer(serializers.ModelSerializer):
         # user,email,password validator
         user_id = data.get("user_id", None)
         password = data.get("password", None)
+
+        print("")
         if not user_id and not password:
             raise ValidationError("Details not entered.")
         user = None
 
         # if the email has been passed
         if "@" in user_id:
-            user = User.objects.filter(
-                Q(email=user_id) & Q(password=password)
-            ).distinct()
+            user = User.objects.filter(Q(email=user_id)).distinct()
+
             if not user.exists():
                 raise ValidationError("User credentials are not correct.")
             user = User.objects.get(email=user_id)
+            userpass = user.password
+            checkpass = check_password(password, userpass)
+            if checkpass is False:
+                raise ValidationError("Incorrect password.")
+            print("")
+            print("")
+            print("check pass:", checkpass)
+            print("")
+            print("")
         else:
-            user = User.objects.filter(
-                Q(username=user_id) & Q(password=password)
-            ).distinct()
+            user = User.objects.filter(Q(username=user_id)).distinct()
             if not user.exists():
                 raise ValidationError("User credentials are not correct.")
             user = User.objects.get(username=user_id)
+            userpass = user.password
+            checkpass = check_password(password, userpass)
+            if checkpass is False:
+                raise ValidationError("Incorrect password.")
+            print("")
+            print("")
+            print("check pass:", checkpass)
+            print("")
+            print("")
 
         user.session_id = 0
         if user.ifLogged1 is False:
