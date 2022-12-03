@@ -12,6 +12,7 @@ from ..serializers import (
     ResetSerializer_SendEmail,
 )
 from django.utils import timezone
+from django.contrib.auth.hashers import make_password
 
 
 class Record(generics.ListCreateAPIView):
@@ -154,7 +155,7 @@ class Reset_Password_Verification(generics.ListAPIView):
                 # print(timediff.total_seconds())
                 if timediff.total_seconds() <= 3600:
                     # print("in time, update password")
-                    relevant_user_q.update(password=pk3)
+                    relevant_user_q.update(password=make_password(pk3))
                 else:
                     # print("not in time, no update to password")
 
