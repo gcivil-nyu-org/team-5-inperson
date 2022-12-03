@@ -101,11 +101,16 @@ export const GoogleMapContainer = (props) => {
     }
 
     const onMarkerClick = (amenity, amenityType) => {
+        if (!showDetailPanel){
         setDestLat(amenity[`${amenityType}_latitude`]);
         setDestLng(amenity[`${amenityType}_longitude`]);
         setSelectedAmenityType(amenityType);
         setSelectedAmenityId(amenity.id);
         setShowDetailPanel(true);
+        }
+        else{
+            setShowDetailPanel(false)
+        }
     };
 
     const markerDataMapping = {
@@ -203,6 +208,7 @@ export const GoogleMapContainer = (props) => {
                             selectedAmenityId={selectedAmenityId}
                             selectedAmenityType={selectedAmenityType}
                             onMarkerClick={onMarkerClick}
+                            showDetailPanel={showDetailPanel}
                         />
                     ))}
                 </>
