@@ -42,7 +42,7 @@ function BasicsNavbar() {
 
     return (
         <>
-            <Navbar bg="success" variant="dark" expand="lg">
+            <Navbar bg="success" variant="dark">
                 <Container>
                     <Navbar.Brand href="/home">
                         <img

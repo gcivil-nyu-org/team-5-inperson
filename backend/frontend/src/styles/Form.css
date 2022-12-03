@@ -234,3 +234,7 @@ button {
 .max-width {
   width: 100%;
 }
+
+.offcanvas{
+  margin-top: 56px;
+}
