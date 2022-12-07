@@ -1,5 +1,5 @@
 .wrapper .content{
-  max-width: 1130px;
+  max-width: 1000px;
   padding: 26px;
   margin-right: 5px;
   font-size: auto;
@@ -24,7 +24,7 @@ h2, h3, h4{
 
     padding: 30px;
     background: #f5fffa;
-    width: 280px;
+    width: auto;
     height: auto;
     align-self: auto;
     position: fixed;
@@ -33,6 +33,7 @@ h2, h3, h4{
     margin-bottom: 15px;
     margin-left: 10px;
     text-align: left;
+
 }
 .wrapper {
     margin: auto;

@@ -1,5 +1,6 @@
 import '../styles/content.css'
 import TableOfContent from './TableOfContent';
+import '../styles/tableOfContent.css'
 
 const MainContent = () => {
 
