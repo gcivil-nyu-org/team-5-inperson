@@ -11,6 +11,7 @@ import EmailVerification from './EmailVerification';
 import ResetPassword from './ResetPassword';
 import ResetPassword2 from './ResetPassword2';
 import About from './About';
+import Content from './Content';
 
 function App() {
 
@@ -27,7 +28,9 @@ function App() {
                         <Route path='/reset-pass' element={<ResetPassword />}></Route>
                         <Route path='/reset-pass-2' element={<ResetPassword2 />}></Route>
                         <Route path='/about' element={<About />}></Route>
+                        <Route path='/Content' element={<Content />}></Route>
                         <Route path="/" element={<Navigate to="/home" />} />
+                        
                     </Routes>
                 </BrowserRouter>
             </ChakraProvider>

@@ -21,12 +21,11 @@ const About = () => {
 
                 </Box>
 
-
                 <br></br><br></br>
 
 
                 <Text fontSize='3xl' color="darkgreen">
-                    The Team
+                    Meet The Team
                 </Text>
 
                 <br></br>

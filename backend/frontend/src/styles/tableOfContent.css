@@ -1,0 +1,27 @@
+// src/styles/tableOfContent.css
+nav {
+  width: 20px;
+  min-width: 220px;
+  padding: 20px;
+  align-self: flex-start;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 48px;
+  max-height: calc(100vh - 70px);
+  overflow: auto;
+  margin-top: 150px;
+  text-align: left;
+}
+
+nav ul li {
+  margin-bottom: 15px;
+}
+.head3{
+  margin-left: 10px;
+  list-style-type: circle;
+}
+
+.head4{
+  margin-left: 40px;
+  list-style-type: square;
+}
