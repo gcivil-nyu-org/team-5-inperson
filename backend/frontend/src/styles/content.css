@@ -1,0 +1,47 @@
+.wrapper .content{
+  max-width: 1130px;
+  padding: 26px;
+  margin-right: 5px;
+  font-size: auto;
+  float: right;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-weight: 100;
+  font-size: 20px;
+}
+
+h2, h3, h4{
+  margin-top: 50px;
+  font-size: auto;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+
+.wrapper .content2 {
+
+    padding: 30px;
+    background: #f5fffa;
+    width: 280px;
+    height: auto;
+    align-self: auto;
+    position: fixed;
+    top: auto;
+    overflow: auto;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    text-align: left;
+}
+.wrapper {
+    margin: auto;
+    width: auto;
+}
+
+.columnphoto{
+  display:inline-flex;
+  padding: 8px;
+  width:auto;
+  height:auto;
+}
