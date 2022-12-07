@@ -30,4 +30,5 @@ urlpatterns = [
     path("verify", TemplateView.as_view(template_name="index.html")),
     path("reset-pass", TemplateView.as_view(template_name="index.html")),
     path("about", TemplateView.as_view(template_name="index.html")),
+    path("content", TemplateView.as_view(template_name="index.html")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

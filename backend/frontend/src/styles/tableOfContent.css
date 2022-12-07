@@ -1,0 +1,12 @@
+nav ul li {
+  margin-bottom: 15px;
+}
+.head3{
+  margin-left: 10px;
+  list-style-type: circle;
+}
+
+.head4{
+  margin-left: 40px;
+  list-style-type: square;
+}

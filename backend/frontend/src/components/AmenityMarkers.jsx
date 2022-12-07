@@ -10,7 +10,7 @@ const codepoints = {
 };
 
 export const AmenityMarkers = (props) => {
-    const { amenityType, visibilityFilter, amenities, onMarkerClick, selectedAmenityType, selectedAmenityId } = props;
+    const { amenityType, visibilityFilter, amenities, onMarkerClick, selectedAmenityType, selectedAmenityId, showDetailPanel } = props;
 
     return (
         <>
@@ -21,7 +21,7 @@ export const AmenityMarkers = (props) => {
                         label={{
                             text: codepoints[amenityType],
                             fontFamily: "Material Icons",
-                            color: selectedAmenityType === amenityType && selectedAmenityId === amenity.id ? "black" : "white",
+                            color: selectedAmenityType === amenityType && selectedAmenityId === amenity.id && showDetailPanel ? "black" : "white",
                             fontSize: "16px",
                             border: '3px solid white'
                         }}

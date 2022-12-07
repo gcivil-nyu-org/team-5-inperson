@@ -42,7 +42,7 @@ function BasicsNavbar() {
 
     return (
         <>
-            <Navbar bg="success" variant="dark" expand="lg">
+            <Navbar bg="success" variant="dark">
                 <Container>
                     <Navbar.Brand href="/home">
                         <img
@@ -65,7 +65,8 @@ function BasicsNavbar() {
 
                             <Nav.Link as={Link} to='/home'>Home</Nav.Link>
                             <Nav.Link as={Link} to='/about'>About</Nav.Link>
-
+                            <Nav.Link as={Link} to='/content'>Overview</Nav.Link>
+                
                             {authenticatedUser?.token?.length > 0 ?
                                 <NavDropdown title="Settings" id="basic-nav-dropdown">
                                     <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>

@@ -23,9 +23,9 @@ function Signup() {
         data['system_otp'] = Math.floor(100000 + Math.random() * 900000)
         const apiService = new ApiService();
 
-        try {
-            await apiService.addUserSendEmail(data);
+        try {            
             await apiService.addUser(data);
+            await apiService.addUserSendEmail(data);
             navigate("/verify", { state: { email: data['email'] } });
         } catch (error) {
             console.log("error", error)
