@@ -12,6 +12,8 @@ import { Filters } from './Filters';
 
 import { DetailPanel } from './DetailPanel';
 import { AmenityMarkers } from './AmenityMarkers';
+import { MdLogout } from 'react-icons/md';
+
 
 const containerStyle = {
     width: '100vw',
@@ -29,10 +31,16 @@ export const GoogleMapContainer = (props) => {
 
         window.addEventListener('storage', onStorage);
 
+
         return () => {
             window.removeEventListener('storage', onStorage);
         };
     }, [])
+
+    window.addEventListener('unload', function () {
+        //Logout();
+    });
+
 
     const { waterAmenities, toiletAmenities, wifiAmenities, benchAmenities, parkingAmenities,
         mapCenter, setMapCenter, userLocation, searchLocation, setSearchLocation,

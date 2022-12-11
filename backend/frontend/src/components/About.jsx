@@ -49,7 +49,7 @@ const About = () => {
                                 <Box p={5}>
                                     <Flex spacing='4'>
                                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                            <Avatar name='Adnan Ahsan' src='https://media-exp1.licdn.com/dms/image/D4D35AQG2U9kmYG1Z8g/profile-framedphoto-shrink_400_400/0/1638043936719?e=1670220000&v=beta&t=PQKFg3YecDnVGQfJigG2WcWNys5-T1qVF8yyrcaPGac' />
+                                            <Avatar name='Adnan Ahsan' src='https://scontent-lga3-2.xx.fbcdn.net/v/t1.6435-1/74626965_759597307825120_2611851930040795136_n.jpg?stp=dst-jpg_p160x160&_nc_cat=102&ccb=1-7&_nc_sid=dbb9e7&_nc_ohc=cglfpaBlSkYAX8J9P9h&_nc_ht=scontent-lga3-2.xx&oh=00_AfAAzLn-wjcY7WLSxfHDDcx_owZmafzYuhGFFjqGOZcp_Q&oe=63BCC691' />
 
                                             <Box>
                                                 <Heading size='sm'>Adnan Ahsan</Heading>
@@ -196,7 +196,7 @@ const About = () => {
                                 <Box p={5}>
                                     <Flex spacing='4'>
                                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                            <Avatar name='Dinesh Kumar' src='https://media-exp1.licdn.com/dms/image/D4D35AQEl20kSlCHorA/profile-framedphoto-shrink_400_400/0/1633484913595?e=1670220000&v=beta&t=QG3Voz3WF62kyuovqXqnEDZAmX2f7z6W01lgDTVpBy8' />
+                                            <Avatar name='Dinesh Kumar' src='https://media-exp1.licdn.com/dms/image/D4D35AQEl20kSlCHorA/profile-framedphoto-shrink_400_400/0/1633484913595?e=1671336000&v=beta&t=s2KoQ4Xw0tDzSmXj3KXCP0ixzpEJAPmSUpI8bYKjVXM' />
 
                                             <Box>
                                                 <Heading size='sm'>Dinesh Kumar</Heading>
