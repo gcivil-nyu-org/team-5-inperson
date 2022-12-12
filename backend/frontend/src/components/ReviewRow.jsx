@@ -13,7 +13,8 @@ export const ReviewRow = (props) => {
 
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
-
+    const [isLikeDisabled, setIsLikeDisabled] = useState(false)
+    const [isDislikeDisabled, setIsDislikeDisabled] = useState(false)
     const updateReview = async (updatedReview) => {
         try {
             await apiService.updateReview(updatedReview);
@@ -72,20 +73,26 @@ export const ReviewRow = (props) => {
                                 aria-label='Search database'
                                 icon={isLiked ? <AiFillLike color='forestgreen' /> : <AiOutlineLike color='black' />}
                                 onClick={async () => {
-                                    const shouldUndoDislike = isDisliked && !isLiked
-                                    if (shouldUndoDislike) {
-                                        setIsDisliked(false);
+                                    
+                                    if(!isLikeDisabled)
+                                    {
+                                        setIsLikeDisabled(true)
+                                        const shouldUndoDislike = isDisliked && !isLiked
+                                        if (shouldUndoDislike) {
+                                            setIsDisliked(false);
+                                        }
+                                        const updatedReview = {
+                                            ...review,
+                                            upvotes: isLiked ? (review.upvotes - 1) : (review.upvotes + 1),
+                                            downvotes: shouldUndoDislike ? (review.downvotes - 1) : (review.downvotes),
+                                            user: review.user,
+                                            amenity_type: selectedAmenityType
+                                        };
+                                        setIsLiked(!isLiked)
+                                        await updateReview(updatedReview)
+                                        setTimeout(()=> setIsLikeDisabled(false),5000);
                                     }
-                                    const updatedReview = {
-                                        ...review,
-                                        upvotes: isLiked ? (review.upvotes - 1) : (review.upvotes + 1),
-                                        downvotes: shouldUndoDislike ? (review.downvotes - 1) : (review.downvotes),
-                                        user: review.user,
-                                        amenity_type: selectedAmenityType
-                                    };
-                                    setIsLiked(!isLiked)
-                                    await updateReview(updatedReview)
-
+                                    
                                 }}
                             />
                             <IconButton
@@ -95,19 +102,24 @@ export const ReviewRow = (props) => {
                                 aria-label='Search database'
                                 icon={isDisliked ? <AiFillDislike color='indianred' /> : <AiOutlineDislike color='black' />}
                                 onClick={async () => {
-                                    const shouldUndoLike = isLiked && !isDisliked
-                                    if (shouldUndoLike) {
-                                        setIsLiked(false);
+                                    if(!isDislikeDisabled)
+                                    {
+                                        setIsDislikeDisabled(true)
+                                        const shouldUndoLike = isLiked && !isDisliked
+                                        if (shouldUndoLike) {
+                                            setIsLiked(false);
+                                        }
+                                        const updatedReview = {
+                                            ...review,
+                                            upvotes: shouldUndoLike ? (review.upvotes - 1) : (review.upvotes),
+                                            downvotes: isDisliked ? (review.downvotes - 1) : (review.downvotes + 1),
+                                            user: review.user,
+                                            amenity_type: selectedAmenityType
+                                        };
+                                        setIsDisliked(!isDisliked)
+                                        await updateReview(updatedReview)
+                                        setTimeout(()=> setIsDislikeDisabled(false),5000);
                                     }
-                                    const updatedReview = {
-                                        ...review,
-                                        upvotes: shouldUndoLike ? (review.upvotes - 1) : (review.upvotes),
-                                        downvotes: isDisliked ? (review.downvotes - 1) : (review.downvotes + 1),
-                                        user: review.user,
-                                        amenity_type: selectedAmenityType
-                                    };
-                                    setIsDisliked(!isDisliked)
-                                    await updateReview(updatedReview)
                                 }}
                             />
                             {authenticatedUser?.id === review.user
