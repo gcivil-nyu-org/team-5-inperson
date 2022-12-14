@@ -60,7 +60,6 @@ class Rating_Review(models.Model):
         related_name="usermodel_username_set",
         null=True,
     )
-    
 
     amenity_type = models.CharField(max_length=10, null=False)
     amenity_id = models.IntegerField(null=False, default=0)
@@ -70,9 +69,7 @@ class Rating_Review(models.Model):
     # parking_id = models.ForeignKey(parking_model, on_delete=models.CASCADE)
     # toilet_id = models.ForeignKey(toilet_model, on_delete=models.CASCADE)
     rating = models.IntegerField(
-        null=False, 
-        choices=[(i,i) for i in range(1,6)], 
-        default=0
+        null=False, choices=[(i, i) for i in range(1, 6)], default=0
     )
     review = models.CharField(max_length=255, null=False)
     is_flagged = models.BooleanField(null=True, default=False)
